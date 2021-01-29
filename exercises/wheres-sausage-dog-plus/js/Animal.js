@@ -3,8 +3,8 @@ class Animal{
     this.x = x;
     this.y = y;
     this.image = image;
-
-    this.angle = 0;
+    angleMode(DEGREES)
+    this.angle = random(0,180);
   }
 
   update() {
@@ -21,10 +21,10 @@ class Animal{
   }
 
   overlap(x,y){
-    if (mouseX > this.x - this.image.width/2 &&
-        mouseX < this.x + this.image.width/2 &&
-        mouseY > this.y - this.image.height / 2 &&
-        mouseY < this.y + this.image.height / 2) {
+    if (x > this.x - this.image.width/2 &&
+        x < this.x + this.image.width/2 &&
+        y > this.y - this.image.height / 2 &&
+        y < this.y + this.image.height / 2) {
 
         this.found = true;
     }

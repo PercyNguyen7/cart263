@@ -3,6 +3,8 @@
 const NUM_ANIMAL_IMAGES = 10;
 const NUM_ANIMALS = 100;
 
+let state = `title`;
+
 let animalImages = [];
 let animals = [];
 
@@ -39,6 +41,33 @@ function setup() {
 function draw() {
   background (255,255,0);
 
+  if (state === `title`) {
+    title();
+  }
+
+  if (state === `gameplay`) {
+   gameplay();
+
+ }
+
+
+}
+function title(){
+  background(0,19,36);
+
+    push();
+    noStroke();
+    fill(220, 212, 69);
+    textAlign(CENTER, CENTER);
+    textSize(100);
+    text(`Sausage Dog`, width / 2, height/2 - 100);
+    textSize(80);
+    text(`Press Enter to begin`, width / 2, height/2 +50);
+
+    pop();
+}
+
+function gameplay(){
   for (let i =0; i <animals.length; i++){
     animals[i].update();
   }
@@ -48,4 +77,10 @@ function draw() {
 
 function mousePressed(){
   sausageDog.mousePressed();
+}
+
+function keyPressed(){
+  if (state ===`title` && keyCode == 32){
+     state = `gameplay`;
+   }
 }

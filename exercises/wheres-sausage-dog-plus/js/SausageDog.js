@@ -3,14 +3,18 @@ class SausageDog extends Animal {
     super(x,y,image);
 
     this.found = false;
-    this.rotationSpeed = 0.25;
+    this.rotationSpeed = 10;
+
   }
 
   update(){
     super.update();
 
+
     if(this.found){
       this.angle += this.rotationSpeed;
+      this.rotationSpeed +=0.1;
+      this.x += 1;
     }
   }
 
