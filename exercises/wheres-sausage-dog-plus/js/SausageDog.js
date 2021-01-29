@@ -21,27 +21,34 @@ class SausageDog extends Animal {
     if(this.found){
       this.angle += this.rotationSpeed;
       this.rotationSpeed +=0.1;
-      // this.x += 1;
+      if (this.rotationSpeed >= 100) {
+        state = `end`
+      }
       this.x += this.vx;
       this.y += this.vy;
+      this.image.width += 0.5;
+     this.image.height += 0.5;
+
     }
   }
 
   bounce(){
      if (this.x  < 0 || this.x  >width){
        this.vx = -this.vx;
-
+         barkSFX.play();
      }
-
      if (this.y  < 0 || this.y  >height){
        this.vy = -this.vy;
+         barkSFX.play();
      }
    }
 
 
   mousePressed(){
     if (this.overlap(mouseX,mouseY)) {
+
         this.found = true;
+
     }
   }
 }

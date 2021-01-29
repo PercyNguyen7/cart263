@@ -5,6 +5,9 @@ const NUM_ANIMALS = 100;
 
 let state = `title`;
 
+let r = 3.0;
+let barkSFX;
+
 let animalImages = [];
 let animals = [];
 
@@ -17,8 +20,8 @@ function preload() {
     animalImages.push(animalImage);
   }
 
-
   sausageDogImage = loadImage(`assets/images/sausage-dog.png`);
+  barkSFX = loadSound(`assets/sounds/bark.wav`);
 }
 
 
@@ -44,13 +47,12 @@ function draw() {
   if (state === `title`) {
     title();
   }
-
   if (state === `gameplay`) {
    gameplay();
-
- }
-
-
+  }
+  if (state === `end`) {
+  end();
+  }
 }
 function title(){
   background(0,19,36);
@@ -60,10 +62,11 @@ function title(){
     fill(220, 212, 69);
     textAlign(CENTER, CENTER);
     textSize(100);
-    text(`Sausage Dog`, width / 2, height/2 - 100);
-    textSize(80);
-    text(`Press Enter to begin`, width / 2, height/2 +50);
-
+    text(`Sausage Dog`, width / 2, height/2 -50);
+    textSize(50);
+    text(`Find and click Doggo`, width / 2, height/2 +50);
+    textSize(30);
+    text(`Press Space to begin`, width / 2, height/2 +150);
     pop();
 }
 
@@ -81,8 +84,29 @@ function mousePressed(){
   sausageDog.mousePressed();
 }
 
+function end(){
+  background(0,19,36);
+
+    push();
+    noStroke();
+    fill(220, 212, 69);
+    translate(width / 2, height / 2);
+    rotate(r / 20);
+    r+=50;
+    textSize(100);
+    text(`Helicopter Dog`, 0,0);
+    textSize(40);
+    text(`Press Space to reload the page`, 0,100);
+
+    pop();
+}
+
+
 function keyPressed(){
   if (state ===`title` && keyCode == 32){
      state = `gameplay`;
    }
+  if (state ===`state` && keyCode == 32){
+      location.reload();
+    }
 }
