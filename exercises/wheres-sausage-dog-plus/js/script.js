@@ -73,6 +73,8 @@ function gameplay(){
   }
 
   sausageDog.update();
+
+  sausageDog.bounce();
 }
 
 function mousePressed(){
