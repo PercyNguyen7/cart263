@@ -21,7 +21,7 @@ class SausageDog extends Animal {
     if(this.found){
       this.angle += this.rotationSpeed;
       this.rotationSpeed +=0.1;
-      if (this.rotationSpeed >= 100) {
+      if (this.rotationSpeed >= 150) {
         state = `end`
       }
       this.x += this.vx;

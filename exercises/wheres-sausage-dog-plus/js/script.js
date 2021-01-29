@@ -42,7 +42,7 @@ function setup() {
 }
 
 function draw() {
-  background (255,255,0);
+  background (60,170,240);
 
   if (state === `title`) {
     title();
@@ -106,7 +106,7 @@ function keyPressed(){
   if (state ===`title` && keyCode == 32){
      state = `gameplay`;
    }
-  if (state ===`state` && keyCode == 32){
+  if (state ===`end` && keyCode == 32){
       location.reload();
     }
 }
