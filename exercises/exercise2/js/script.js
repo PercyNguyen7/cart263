@@ -26,7 +26,7 @@ let robotChoice = ``;
 let currentAnswer = ``;
 let currentCheatResponse = ``;
 
-let state = 'menu'; // menu, start, win, lose, tie, cheat, wingame, losegame
+let state = 'menu'; // menu, start, win, lose, tie, cheat
 
 //image
 let robotImage;
@@ -50,28 +50,19 @@ function setup() {
 
 function draw() {
   background(0);
-  if (state === `menu`){
-    menu();
-    return;
-  }
 
   display()
-  counterdisplay();
-
-  if (state === `wingame`){
-   wingame();}
-
-  else if (state === `losegame`){
-   losegame();
- }
 
 }
 
 function display() {
   textSize(32);
   //                HIDE TEXT BEGINNING
-
-   if (state === `start`) {
+  if (state === `menu`){
+    menu();
+    return;
+  }
+   else if (state === `start`) {
     push();
     fill(255);
     textAlign(CENTER,CENTER);
@@ -116,17 +107,21 @@ function display() {
     text('CHEATING DETECTED', 1 * width / 5, height / 2)
     pop();
   }
-  if (wincounter >= 2){
-    (state =`wingame`)
+  if (wincounter >= 3){
+    wingame();
+    return;
   }
-  else if (losecounter >= 2){
-    (state =`losegame`)
+  else if (losecounter >= 3){
+    losegame();
+    return;
   }
 
   text('Your Pick:', width / 5, height / 3);
   text('Their Pick:', width / 5, 2 * height / 3);
   text(currentAnswer, width / 3, height / 3)
   text(robotChoice, width / 3, 2 * height / 3)
+
+  counterdisplay();
 }
 
 function counterdisplay() {
@@ -140,10 +135,12 @@ function menu(){
   textAlign(CENTER,CENTER);
   fill(20);
   textSize(100);
-  text('Rock, Paper, Scissors!',width/2,height/2 - 100);
-  textSize(60);
-  text('Yell "Go Rock, Go Paper or Go Scissors!"',width/2,height/2 );
-  text('Click to Begin"',width/2,height/2 + 100);
+  text('Rock, Paper, Scissors!',width/2,height/2 - 150);
+  textSize(70);
+  text('Yell "Go Rock, Go Paper or Go Scissors!"',width/2,height/2 -50 );
+  textSize(50);
+  text('First to 3 Win',width/2,height/2 + 100);
+  text('Click to Begin',width/2,height/2 + 180);
   pop();
 }
 
