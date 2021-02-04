@@ -1,21 +1,32 @@
 "use strict";
-
+//choices for robot to pick from
 const choices = [
   "rock",
   "paper",
   "scissors",
     ];
+// responses to user's irregular answer
 const cheatresponses = [
   "Stop trying to cheat you lil bastard",
-  "You dare...cross me?",
+  "You dare cross me, human?",
   "Are you ducking with me?",
-  "If you don't stop cheating I am going to crawl out of the sewer grate in your basement"
+  "If you don't stop cheating I am going to crawl out of the sewer grate in your basement",
+  "How dare you challenge me, mere mortal?",
+  "Don't make me hunt you down over a game of rock paper scissors",
+  "Here's ...... someone. much. worse. than Johnny",
+  "Respect the rules... or... I'm coming for you...",
 ];
 
 let currentChoice = ``;
 let currentAnswer = ``;
 let currentCheatResponse = ``;
 
+//image
+let robotImage;
+
+function preload(){
+  robotImage = loadImage(`assets/images/robot.jpg`)
+}
 function setup() {
   createCanvas(windowWidth,windowHeight);
 
@@ -31,45 +42,65 @@ function setup() {
 
 function draw() {
   background(0);
+
   display();
 }
 
 function display(){
-
-  if (currentChoice === currentAnswer){
+  textSize(32);
+  //                HIDE TEXT BEGINNING
+  if (currentChoice ===``){
+    fill(0);
+  }
+  //                  TIE
+  else if (currentChoice === currentAnswer){
+    push();
+    textSize(90);
     text('TIE', width/2,height/2)
+    pop();
     fill(140);
   }
+  //                  WON
   else if (currentChoice === 'scissors' && currentAnswer === 'rock'
       || currentChoice === 'rock' && currentAnswer === 'paper'
       || currentChoice === 'paper' && currentAnswer === 'scissors'){
-
+    push();
+    textSize(90);
     text('You Won', width/2,height/2)
+    pop();
     fill(0,255,0);
   }
+  //                    LOST
   else if (currentChoice === 'rock' && currentAnswer ==='scissors'
   || currentChoice === 'paper' && currentAnswer === 'rock'
   || currentChoice === 'scissors' && currentAnswer === 'paper') {
+    push();
+    textSize(90);
     text('You Lost', width/2,height/2)
+    pop();
     fill(255,0,0);
-
   }
+  //                    CHEAT
   else {
-    text(currentCheatResponse, width/2,height/2)
-    text('Your Pick:', width/4, height/3);
-    text('Their Pick:', width/4, 2*height/3);
-    fill(0,0,255);
+    fill(240);
+    textSize(26);
+    background(165,21,3);
+    image(robotImage,width/5 - 50,0,);
+    push();
+    textStyle(BOLD);
+    textSize(80);
+    text('CHEATING DETECTED.', 1*width/5,height/2)
+    pop();
   }
-  text('Your Pick:', width/4, height/3);
-  text('Their Pick:', width/4, 2*height/3);
-  text(currentAnswer,width/2,height/3)
-  text(currentChoice, width/2,2*height/3)
 
+
+  text('Your Pick:', width/5, height/3);
+  text('Their Pick:', width/5, 2*height/3);
+  text(currentAnswer,width/3,height/3)
+  text(currentChoice, width/3,2*height/3)
 }
 function playRandom(choice) {
-  textSize(32);
-  textStyle(BOLD);
-  textAlign(CENTER,CENTER);
+
   currentAnswer = choice.toLowerCase();
   console.log(currentAnswer);
 
@@ -88,8 +119,8 @@ function playRandom(choice) {
   currentChoice =random(cheatresponses);
   responsiveVoice.speak(currentChoice, "UK English Male",{
     pitch:0.7,
-    rate:0.5,
-    volume:3,
+    rate:0.7,
+    volume:6,
   });
   }
 
