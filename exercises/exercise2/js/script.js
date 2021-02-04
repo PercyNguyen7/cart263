@@ -1,4 +1,8 @@
 "use strict";
+//counter
+let wincounter = 0;
+let losecounter = 0;
+
 //choices for robot to pick from
 const choices = [
   "rock",
@@ -32,7 +36,7 @@ function setup() {
 
   if (annyang) {
     let commands = {
-      'Go *choice':playRandom
+      'Go *choice':playRandom,display
     };
     annyang.addCommands(commands);
     annyang.start();
@@ -43,7 +47,8 @@ function setup() {
 function draw() {
   background(0);
 
-  display();
+ display();
+  counterdisplay();
 }
 
 function display(){
@@ -64,9 +69,11 @@ function display(){
   else if (currentChoice === 'scissors' && currentAnswer === 'rock'
       || currentChoice === 'rock' && currentAnswer === 'paper'
       || currentChoice === 'paper' && currentAnswer === 'scissors'){
+    wincounter ++ ;
+
     push();
     textSize(90);
-    text('You Won', width/2,height/2)
+    text('You Won', width/2,height/2);
     pop();
     fill(0,255,0);
   }
@@ -74,9 +81,10 @@ function display(){
   else if (currentChoice === 'rock' && currentAnswer ==='scissors'
   || currentChoice === 'paper' && currentAnswer === 'rock'
   || currentChoice === 'scissors' && currentAnswer === 'paper') {
+    losecounter ++ ;
     push();
     textSize(90);
-    text('You Lost', width/2,height/2)
+    text('You Lost', width/2,height/2);
     pop();
     fill(255,0,0);
   }
@@ -93,19 +101,23 @@ function display(){
     pop();
   }
 
-
   text('Your Pick:', width/5, height/3);
   text('Their Pick:', width/5, 2*height/3);
   text(currentAnswer,width/3,height/3)
   text(currentChoice, width/3,2*height/3)
 }
+
+function counterdisplay(){
+  text('Win:' + wincounter,width/4,100);
+  text('Loss:' + losecounter,3*width/4,100);
+}
+
 function playRandom(choice) {
 
   currentAnswer = choice.toLowerCase();
   console.log(currentAnswer);
 
-
-
+  // IF RIGHT ANSWER
   if (currentAnswer === 'rock' || currentAnswer ==='scissors' || currentAnswer === 'paper'){
     currentChoice = random(choices);
   responsiveVoice.speak(currentChoice,"US English Male",{
@@ -114,7 +126,7 @@ function playRandom(choice) {
     volume:1,
   });
   }
-
+  // IF CHEAT
   else {
   currentChoice =random(cheatresponses);
   responsiveVoice.speak(currentChoice, "UK English Male",{
