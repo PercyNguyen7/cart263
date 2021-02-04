@@ -47,7 +47,7 @@ function setup() {
 function draw() {
   background(0);
 
- display();
+ display()
   counterdisplay();
 }
 
