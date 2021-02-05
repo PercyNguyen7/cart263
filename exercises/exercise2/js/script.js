@@ -28,11 +28,17 @@ let currentCheatResponse = ``;
 
 let state = 'menu'; // menu, start, win, lose, tie, cheat
 
-//image
+//images
 let robotImage;
+
+//sound
+let winSFX;
+let loseSFX;
 
 function preload() {
   robotImage = loadImage(`assets/images/robot.jpg`)
+  winSFX = loadSound(`assets/sounds/winSFX.mp3`)
+  loseSFX = loadSound(`assets/sounds/loseSFX.mp3`)
 }
 
 function setup() {
@@ -107,11 +113,12 @@ function display() {
     text('CHEATING DETECTED', 1 * width / 5, height / 2)
     pop();
   }
-  if (wincounter >= 3){
+  if (state === `wingame`){
     wingame();
     return;
   }
-  else if (losecounter >= 3){
+
+  else if (state === `losegame`){
     losegame();
     return;
   }
@@ -193,6 +200,16 @@ function playRandom(choice) {
       losecounter++;
       state = `lose`;
     }
+
+    //ENDING STATES
+    if (wincounter >= 2){
+      state = `wingame`;
+      winSFX.play()
+    }
+    else if (losecounter >= 2){
+      state = `losegame`;
+      loseSFX.play()
+    }
   }
   // IF CHEAT
   else {
@@ -210,5 +227,6 @@ function playRandom(choice) {
 function mousePressed() {
   if (state === `menu`) {
     state = `start`;
+
   }
 }
