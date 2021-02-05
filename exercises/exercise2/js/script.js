@@ -152,21 +152,23 @@ function menu(){
 }
 
 function wingame(){
-  background(0,150,0);
+  background(240);
   annyang.abort();
   textAlign(CENTER,CENTER);
-  fill(255);
+  fill(0);
   textSize(80);
   text('You win... for now',width/2,height/2 );
+  counterdisplay();
 }
 
 function losegame(){
-  background (160,0,0);
+  background (15);
   annyang.abort();
   textAlign(CENTER,CENTER);
-  fill(255);
+  fill(160,20,5);
   textSize(60);
   text("Just another human defeated by the likes of machine",width/2,height/2);
+  counterdisplay();
 }
 
 // FUNCTION ALLOWING ROBOT TO RESPOND TO PLAYER
@@ -202,11 +204,11 @@ function playRandom(choice) {
     }
 
     //ENDING STATES
-    if (wincounter >= 2){
+    if (wincounter >= 3){
       state = `wingame`;
       winSFX.play()
     }
-    else if (losecounter >= 2){
+    else if (losecounter >= 3){
       state = `losegame`;
       loseSFX.play()
     }
@@ -227,6 +229,5 @@ function playRandom(choice) {
 function mousePressed() {
   if (state === `menu`) {
     state = `start`;
-
   }
 }
