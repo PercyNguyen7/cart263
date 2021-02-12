@@ -123,7 +123,6 @@ function access(){
   pop();
 }
 
-
 function infopage(){
   let profile = `** SPY PROFILE! DO NOT DISTRIBUTE! **
 Name: ${spyProfile.name}
