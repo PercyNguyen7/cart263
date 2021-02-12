@@ -56,7 +56,7 @@ function generateSpyProfile(){
   spyProfile.secretWeapon = random(objectData.objects);
     spyProfile.catchphrase = random(personalitytestData.personality_test);
   let card = random(tarotData.tarot_interpretations);
-  spyProfile.password = (card.names);
+  spyProfile.password = card.name;
 
 
 
