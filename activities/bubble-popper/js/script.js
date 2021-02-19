@@ -17,12 +17,9 @@ let bubble = undefined;
 function setup() {
   createCanvas(640,480);
 
-
-
 // access user's webcam
   video = createCapture(VIDEO);
   video.hide();
-
 
 // load the handpose model
   handpose = ml5.handpose(video, {
@@ -43,13 +40,10 @@ function setup() {
     x:random(width),
     y: height,
     size:100,
-    vx:random(-2,2),
+    vx:0,
     vy:-10
   }
-
 }
-
-
 
 function draw() {
 background(0);
@@ -137,16 +131,28 @@ function gameplay(){
   bubble.x += bubble.vx;
   bubble.y += bubble.vy;
 
-  if (bubble.y + bubble.size/2 < 0 || bubble.x + bubble.size < 0 || bubble.x - bubble.size > width){
-    bubble.x = random(width);
-    bubble.y = height;
+    let change = random(0,1);
+  if (change < 0.1){
+    bubble.vx = random(-5,5)
   }
 
+  resetBubble();
+  displayBubble();
+}
+
+function displayBubble(){
   push();
   fill(0,100,200);
   noStroke();
   ellipse(bubble.x, bubble.y, bubble.size);
   pop();
+}
+
+function resetBubble(){
+  if (bubble.y + bubble.size/2 < 0 || bubble.x + bubble.size < 0 || bubble.x - bubble.size > width){
+    bubble.x = random(width);
+    bubble.y = height;
+  }
 }
 
 function keyPressed(){
