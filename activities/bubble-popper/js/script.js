@@ -2,25 +2,34 @@
 
 let state = `loading`
 let video = undefined;
-let modelName = `Handpose`;
+let modelName = `Portal to Hogwarts`;
 let handpose = undefined;
 let predictions = [];
-let bubble = undefined;
-let bubblecounter = 0;
+let servant = undefined;
+let servantcounter = 0;
 
 let fireSFX;
 let waterSFX;
 let toxicSFX;
 let lightningSFX;
 let iceSFX;
+let killspellSFX;
+
+let menuImage;
+let bgImage;
+let himGif;
 
 function preload(){
+    bgImage = loadImage(`assets/images/bg.jpg`);
+    himGif = loadImage(`assets/images/him.gif`)
+    menuImage =loadImage(`assets/images/forest.png`)
+
     fireSFX = loadSound(`assets/sounds/fire.mp3`);
     waterSFX = loadSound(`assets/sounds/water.mp3`);
     toxicSFX = loadSound(`assets/sounds/toxic.mp3`);
     lightningSFX = loadSound(`assets/sounds/lightning.mp3`);
     iceSFX = loadSound(`assets/sounds/ice.mp3`);
-
+    killspellSFX = loadSound(`assets/sounds/killspell.mp3`)
 }
 
 function setup() {
@@ -44,8 +53,8 @@ function setup() {
     predictions = results;
   });
 
-  // our bubble
-  bubble = {
+  // our servant
+  servant = {
     x:random(width),
     y: height,
     size:0,
@@ -69,6 +78,9 @@ background(0);
   else if (state === `gameplay`){
   gameplay();
   }
+  else if (state === `ending`){
+  ending();
+  }
 }
 function loading(){
   background (255);
@@ -82,16 +94,18 @@ function loading(){
 }
 
 function title(){
-  background (10,30,130);
+  imageMode(CENTER);
+  image(menuImage,width/2,height/2)
+
+
 
   push();
-  fill(255);
-  textSize(50);
-  textStyle(BOLD);
+  fill(230);
+  textSize(30);
   textAlign(CENTER, CENTER);
-  text(`Bubble Pop`, width/2,height/2 -50);
-    textSize(30);
-  text(`Press any key...`, width/2,height/2);
+  text(`Fend off the Death Eaters`, width/2,height/2 -20);
+  textSize(20);
+  text(`Press any key...`, width/2,height/2 +20);
   pop();
 }
 
@@ -99,13 +113,18 @@ function instructions(){
   background(255);
   push();
   textSize(50);
-  textStyle(BOLD);
   textAlign(CENTER, CENTER);
   text(`Instructions`, width/2,height/4);
+  textSize(20);
+  text(`Cast spell by raising your hand`, width/2,height/2-25);
+  text(`Spell casted when fingertip connects to a Death Eater`, width/2,height/2+25);
   pop();
 }
 
 function gameplay(){
+  image(bgImage,width/2,height/2);
+  imageMode(CENTER)
+
   if (predictions.length > 0){
     let hand = predictions[0];
 
@@ -138,11 +157,7 @@ function gameplay(){
     line(baseX, baseY, tipX, tipY);
     pop();
 
-    // push()
-    // noStroke();
-    // fill(255,0,0);
-    // ellipse(baseX, baseY, 20);
-    // pop();
+
 
     let middle = hand.annotations.middleFinger;
     let tip2 = middle[3];
@@ -186,87 +201,138 @@ function gameplay(){
     line(base4X, base4Y, tip4X, tip4Y);
     pop();
 
-    // check bubble popping
-    let d0 = dist(tip0X, tip0Y, bubble.x, bubble.y);
-    let d = dist(tipX,tipY, bubble.x, bubble.y);
-    let d2 = dist(tip2X, tip2Y, bubble.x, bubble.y);
-    let d3 = dist(tip3X, tip3Y, bubble.x, bubble.y);
-    let d4 = dist(tip4X, tip4Y, bubble.x, bubble.y);
-      if (d < bubble.size /2){
-      bubble.x = random(width);
-      bubble.y = height;
+    // check servant popping
+    let d0 = dist(tip0X, tip0Y, servant.x, servant.y);
+    let d = dist(tipX,tipY, servant.x, servant.y);
+    let d2 = dist(tip2X, tip2Y, servant.x, servant.y);
+    let d3 = dist(tip3X, tip3Y, servant.x, servant.y);
+    let d4 = dist(tip4X, tip4Y, servant.x, servant.y);
+      if (d < servant.size /2){
+      servant.x = random(width);
+      servant.y = height;
       fireSFX.play();
-      bubblecounter++;
+      servantcounter++;
+
+      push()
+      noStroke();
+      fill(255);
+      ellipse(tipX, tipY, 30);
+      pop();
       }
-      else if (d2 < bubble.size /2){
-      bubble.x = random(width);
-      bubble.y = height;
-      waterSFX.play();
-      bubblecounter++;
-      }
-      else if (d3 < bubble.size /2){
-      bubble.x = random(width);
-      bubble.y = height;
+      else if (d2 < servant.size /2){
+      servant.x = random(width);
+      servant.y = height;
       iceSFX.play();
-      bubblecounter++;
+      servantcounter++;
+
+      push()
+      noStroke();
+      fill(255);
+      ellipse(tip2X, tip2Y, 30);
+      pop();
       }
-      else if (d4 < bubble.size /2){
-      bubble.x = random(width);
-      bubble.y = height;
+      else if (d3 < servant.size /2){
+      servant.x = random(width);
+      servant.y = height;
+      waterSFX.play();
+      servantcounter++;
+      push()
+      noStroke();
+      fill(255);
+      ellipse(tip3X, tip3Y, 30);
+      pop();
+      }
+      else if (d4 < servant.size /2){
+      servant.x = random(width);
+      servant.y = height;
       lightningSFX.play();
-      bubblecounter++;
+      servantcounter++;
+      push()
+      noStroke();
+      fill(255);
+      ellipse(tip4X, tip4Y, 30);
+      pop();
       }
-      else if (d0 < bubble.size /2){
-      bubble.x = random(width);
-      bubble.y = height;
+      else if (d0 < servant.size /2){
+      servant.x = random(width);
+      servant.y = height;
       toxicSFX.play();
-      bubblecounter++;
+      servantcounter++;
+      push()
+      noStroke();
+      fill(255);
+      ellipse(tip0X, tip0Y, 30);
+      pop();
       }
   }
-  resetBubble();
-  displayBubble();
+  resetservant();
+  displayservant();
+  moveservant();
+
   displaycounter();
-  moveBubble();
+  endingtrigger();
+
+}
+function ending(){
+  background(0);
+  imageMode(CENTER);
+  image(himGif,width/2,height/2,600,245);
+  push();
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(`You Angered Lord Voldemort...`, width/2,7*height/8);
+  pop();
+
 }
 
-function displayBubble(){
+
+
+
+function displayservant(){
   push();
   let r = random(0,160);
   let g = random(0,10);
   let b = random(0,160);
   fill(r,g,b);
   noStroke();
-  bubble.size = random(50,100);
-  ellipse(bubble.x, bubble.y, bubble.size);
+  servant.size = random(100,150);
+  ellipse(servant.x, servant.y, servant.size);
   pop();
 }
 
-function moveBubble(){
-    bubble.x += bubble.vx;
-    bubble.y += bubble.vy;
+function moveservant(){
+    servant.x += servant.vx;
+    servant.y += servant.vy;
 
       let change = random(0,1);
     if (change < 0.1){
-      bubble.vx = random(-5,5)
+      servant.vx = random(-7,7)
     }
 }
 
-function resetBubble(){
-  if (bubble.y + bubble.size/2 < 0 || bubble.x + bubble.size < 0 || bubble.x - bubble.size > width){
-    bubble.x = random(width);
-    bubble.y = height;
+function resetservant(){
+  if (servant.y + servant.size/2 < 0 || servant.x + servant.size < 0 || servant.x - servant.size > width){
+    servant.x = random(width);
+    servant.y = height;
   }
 }
 
 function displaycounter(){
   push();
   fill(255);
-  textSize(10);
+  textSize(20);
   textStyle(BOLD);
   textAlign(CENTER, CENTER);
-  text(`Horcruses destroyed: ${bubblecounter} `, width/2,height/8);
-
+  text(`Death Eater killed: ${servantcounter} `, width/2, height/10);
   pop();
+}
+
+function endingtrigger(){
+  if(servantcounter >= 12){
+    state = `ending`
+    killspellSFX.play();
+  }
 }
 
 function keyPressed(){
