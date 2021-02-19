@@ -296,7 +296,7 @@ function displayservant(){
   let b = random(0,160);
   fill(r,g,b);
   noStroke();
-  servant.size = random(100,150);
+  servant.size = random(80,120);
   ellipse(servant.x, servant.y, servant.size);
   pop();
 }
