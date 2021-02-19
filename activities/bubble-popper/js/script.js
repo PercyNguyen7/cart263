@@ -43,8 +43,8 @@ function setup() {
     x:random(width),
     y: height,
     size:100,
-    vx:0,
-    vy:-2
+    vx:random(-2,2),
+    vy:-10
   }
 
 }
@@ -60,19 +60,51 @@ background(0);
   else if (state === `title`){
   title();
   }
+  else if (state === `instructions`){
+  instructions();
+  }
+  else if (state === `gameplay`){
+  gameplay();
+  }
 }
 function loading(){
-  background (50);
+  background (255);
 
   push();
   textSize(20);
   textStyle(BOLD);
-  textAlign(CENTER, CENTER);
-  text(`Loading ${modelName}...`, width/2,height/2);
+  textAlign(LEFT,TOP);
+  text(`Loading ${modelName}...`, 20,20);
   pop();
 }
 
 function title(){
+  background (10,30,130);
+
+  push();
+  fill(255);
+  textSize(50);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text(`Bubble Pop`, width/2,height/2 -50);
+    textSize(30);
+  text(`Press any key...`, width/2,height/2);
+  pop();
+}
+
+function instructions(){
+  background(255);
+  push();
+  textSize(50);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text(`Instructions`, width/2,height/4);
+  text(``)
+
+  pop();
+}
+
+function gameplay(){
   if (predictions.length > 0){
     let hand = predictions[0];
     let index = hand.annotations.indexFinger;
@@ -105,7 +137,7 @@ function title(){
   bubble.x += bubble.vx;
   bubble.y += bubble.vy;
 
-  if (bubble.y < 0){
+  if (bubble.y + bubble.size/2 < 0 || bubble.x + bubble.size < 0 || bubble.x - bubble.size > width){
     bubble.x = random(width);
     bubble.y = height;
   }
@@ -115,4 +147,13 @@ function title(){
   noStroke();
   ellipse(bubble.x, bubble.y, bubble.size);
   pop();
+}
+
+function keyPressed(){
+  if (state === `title`){
+    state = `instructions`;
+  }
+  else if (state === `instructions`){
+    state = `gameplay`;
+  }
 }
