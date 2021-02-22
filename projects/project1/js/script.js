@@ -19,14 +19,20 @@ let predictions = [];
 // User Webcam
 let video = undefined;
 
-// images variable
-let hogwartsbg;
+// The Golden Snitch for Intro phase
+let snitch;
+
+// Images variable
+let hogwartsbgImage;
+let snitchImage;
 
 /**
 Description of preload
 */
 function preload() {
-  hogwartsbg = loadImage(`assets/images/hogwartsbg.jpg`)
+  hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
+  snitchImage = loadImage(`assets/images/snitch.png`);
+
 }
 
 /**
@@ -34,6 +40,9 @@ Description of setup
 */
 function setup() {
 createCanvas(640,480);
+
+  // Declare classes
+  snitch = new Snitch(snitchImage);
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -100,7 +109,7 @@ function menu(){
   push();
   imageMode(CENTER);
   tint(255,200);
-  image(hogwartsbg, width/2, height/2,850,480);
+  image(hogwartsbgImage, width/2, height/2,850,480);
   displayText(`Battle of Hogwarts`,30, width/2, height/2, 255);
   pop();
 }
@@ -113,6 +122,9 @@ function instructions(){
 }
 
 function intro(){
+     snitch.display();
+     snitch.move();
+     
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -134,8 +146,9 @@ function intro(){
         ellipse(width/2,height/2,50);
       }
     }
-    displaySpell();
+    // image(snitchImage, width/2, height/2, 200,200);
 
+    displaySpell();
 }
 
 function gameplay(){
