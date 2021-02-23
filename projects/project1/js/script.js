@@ -16,15 +16,24 @@ let currentSpell = ``;
 // predictions array
 let predictions = [];
 
+// tipX and tipY variables for the tip of my finger!
+let tipX;
+let tipY;
+
 // User Webcam
 let video = undefined;
 
 // The Golden Snitch for Intro phase
 let snitch;
+let introspells =[];
 
 // Images variable
 let hogwartsbgImage;
 let snitchImage;
+let snitch2Image;
+let quidditchbgImage;
+let wandlightImage;
+let introspellImage;
 
 /**
 Description of preload
@@ -32,6 +41,11 @@ Description of preload
 function preload() {
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
   snitchImage = loadImage(`assets/images/snitch.png`);
+  snitch2Image = loadImage(`assets/images/snitch2.png`);
+  quidditchbgImage = loadImage(`assets/images/quidditchbg.jpg`)
+  wandlightImage = loadImage(`assets/images/wandlight.png`)
+  introspellImage = loadImage(`assets/images/introspell.png`)
+
 
 }
 
@@ -43,6 +57,9 @@ createCanvas(640,480);
 
   // Declare classes
   snitch = new Snitch(snitchImage);
+
+
+
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -122,33 +139,48 @@ function instructions(){
 }
 
 function intro(){
+  push();
+  imageMode(CENTER);
+  image(quidditchbgImage, width/2, height/2, 680, 480)
+  pop();
+
      snitch.display();
      snitch.move();
-     
+
+
+
   if (predictions.length > 0){
      let hand = predictions[0];
 
   let index = hand.annotations.indexFinger;
       let tip = index[3];
       let base = index[0];
-      let tipX = tip[0];
-      let tipY = tip[1];
+      tipX = tip[0];
+      tipY = tip[1];
       let baseX = base[0];
       let baseY = base[1];
+
+// Wand display
       push();
+      imageMode(CENTER);
+      image(wandlightImage,tipX,tipY,50,50);
       noFill();
       strokeWeight(3);
-      stroke(255);
+      stroke(0);
       line(baseX, baseY, tipX, tipY);
       pop();
 
-      if (currentSpell === `Expelliarmus`){
-        ellipse(width/2,height/2,50);
+      for (let i = 0; i < introspells.length; i++){
+        let introspell = introspells[i];
+        // introspell.x = tipX;
+        // introspell.y = tipY;
+        introspell.display();
+        introspell.move();
       }
     }
-    // image(snitchImage, width/2, height/2, 200,200);
 
-    displaySpell();
+// display Spell up top
+    displaySpellName();
 }
 
 function gameplay(){
@@ -166,30 +198,36 @@ function gameplay(){
       push();
       noFill();
       strokeWeight(3);
+      fill(0);
       stroke(255);
       line(baseX, baseY, tipX, tipY);
       pop();
 
-      if (currentSpell === `Expelliarmus`){
-        ellipse(0,0,50);
-      }
     }
-    displaySpell();
+    displaySpellName();
 
 
 }
-function displaySpell(){
+function displaySpellName(){
   displayText(currentSpell + `!`, 20, width / 2, height / 8);
 }
+
 
 
 function castSpell(spell){
 
   currentSpell = spell[0].toUpperCase() + spell.substring(1);
   console.log(currentSpell);
+
+  if (currentSpell === `Hi`){
+      createSpell(tipX,tipY);
+  }
     }
 
-
+function createSpell(x,y){
+    let introspell = new IntroSpell(x,y, introspellImage);
+    introspells.push(introspell);
+}
 
 // Display text easier
 function displayText(string, size, x, y, r, g, b) {

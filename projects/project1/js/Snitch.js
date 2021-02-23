@@ -1,5 +1,5 @@
 class Snitch{
-    constructor(snitchImage){
+    constructor(snitchImage,snitch2Image){
       this.x = width/2;
       this.y = height/2;
 
@@ -12,14 +12,22 @@ class Snitch{
       this.deform = 1;
       this.image = snitchImage;
       this.shrink = false;
+
     }
-// Display the object!
+// Display the Golden Snitch!
     display(){
       push();
       imageMode(CENTER);
       image(this.image,this.x, this.y, this.size, this.size);
 
+      if (this.image === snitchImage){
+        this.image = snitch2Image;
+      }
+      else if (this.image ===snitch2Image){
+        this.image = snitchImage;
+      }
 
+// If size is less than 270 then shrink, if not grow!
       if (this.size >= 270){
         this.shrink = true;
       }
@@ -34,7 +42,7 @@ class Snitch{
       else if(this.shrink === false){
         this.deform = random(2,6);
       }
-
+// Constrain Golden Snitch's size to 120 min and 270 max
       this.size = constrain (this.size, 120,270);
       pop();
 
@@ -47,6 +55,7 @@ class Snitch{
       this.y += this.vy;
 
       this.size += this.deform;
+// shrinking and growing gets progressively faster
       this.deform += 0.5;
 
 // Low chance of changing direction
