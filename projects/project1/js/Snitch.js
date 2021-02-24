@@ -3,38 +3,42 @@ class Snitch{
       this.x = width/2;
       this.y = height/2;
 
-      this.speed = 20;
+      this.speed = 45;
       this.vy = random(-5,5);
       this.vx = random(-5,5);
-      // this.ax = 0;
-      // this.ay = 0;
       this.size = 200;
-      this.deform = 1;
+      this.deform = 0;
       this.image = snitchImage;
       this.shrink = false;
-
+      this.frozen = false;
     }
-// Display the Golden Snitch!
+// Display the Golden Snitch! Snitch switches between two images and stay on one if frozen!
     display(){
       push();
       imageMode(CENTER);
       image(this.image,this.x, this.y, this.size, this.size);
 
-      if (this.image === snitchImage){
+      if (this.frozen === false){
+      this.size += this.deform;
+      }
+
+      if (this.image === snitchImage && this.frozen === false){
         this.image = snitch2Image;
       }
-      else if (this.image ===snitch2Image){
+      else if (this.image ===snitch2Image && this.frozen === false){
         this.image = snitchImage;
       }
-
+// if frozen then it stays on one image!
+      if (this.frozen === true){
+        this.image = snitch2Image;
+      }
 // If size is less than 270 then shrink, if not grow!
-      if (this.size >= 270){
+      if (this.size >= 300){
         this.shrink = true;
       }
-      else if (this.size <= 120){
+      else if (this.size <= 100){
         this.shrink = false;
       }
-
 
       if (this.shrink === true){
         this.deform = random(-2,-6);
@@ -43,20 +47,15 @@ class Snitch{
         this.deform = random(2,6);
       }
 // Constrain Golden Snitch's size to 120 min and 270 max
-      this.size = constrain (this.size, 120,270);
+      this.size = constrain (this.size, 100,300);
       pop();
-
-
     }
-
-// Move function
+// Move function: Only move if not frozen
     move(){
+      if (this.frozen === false){
       this.x += this.vx;
       this.y += this.vy;
-
-      this.size += this.deform;
-// shrinking and growing gets progressively faster
-      this.deform += 0.5;
+    }
 
 // Low chance of changing direction
       let change = random(0, 0.1);
@@ -64,7 +63,6 @@ class Snitch{
       this.vx = random(-this.speed,this.speed);
       this.vy = random(-this.speed,this.speed);
     }
-
 
 // Snitch's bounce against horizontal walls and goes opposite direction
       if (this.x  - this.size/2 < 0 || this.x + this.size/2 >width){
@@ -77,5 +75,5 @@ class Snitch{
 // Cage the Snitch to only move inside the Canvas
       this.x = constrain(this.x, this.size/2, width -this.size/2);
       this.y = constrain(this.y, this.size/4, height - this.size/4);
-    }
   }
+}

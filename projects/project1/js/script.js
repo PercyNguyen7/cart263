@@ -4,10 +4,10 @@
 Harry Potter - Spellcaster
 Percy Vinh TUan Dat Nguyen
 
-Description
+This is
 */
 //
-// First state is game menu
+// First state is Loading screen
 let state = `loading`;
 
 // Word string for current spell being casted
@@ -23,9 +23,13 @@ let tipY;
 // User Webcam
 let video = undefined;
 
+//                        CLASSES VARIABLES
 // The Golden Snitch for Intro phase
 let snitch;
+// Intro spell (Immobulus) for intro phase;
 let introspells =[];
+// TreeTrunk Image;
+let treetrunk;
 
 // Images variable
 let hogwartsbgImage;
@@ -34,19 +38,27 @@ let snitch2Image;
 let quidditchbgImage;
 let wandlightImage;
 let introspellImage;
+let forestbgImage;
+let treetrunkImage;
 
+//Sound variables
+let trainSFX;
 /**
 Description of preload
 */
 function preload() {
+// Image load
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
   snitchImage = loadImage(`assets/images/snitch.png`);
   snitch2Image = loadImage(`assets/images/snitch2.png`);
-  quidditchbgImage = loadImage(`assets/images/quidditchbg.jpg`)
-  wandlightImage = loadImage(`assets/images/wandlight.png`)
-  introspellImage = loadImage(`assets/images/introspell.png`)
+  quidditchbgImage = loadImage(`assets/images/quidditchbg.jpg`);
+  wandlightImage = loadImage(`assets/images/wandlight.png`);
+  introspellImage = loadImage(`assets/images/introspell.png`);
+  forestbgImage = loadImage(`assets/images/forestbg.jpg`);
+  treetrunkImage = loadImage(`assets/images/treetrunk.png`);
 
-
+// Sound load
+  trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
 }
 
 /**
@@ -54,12 +66,16 @@ Description of setup
 */
 function setup() {
 createCanvas(640,480);
+imageMode(CENTER);
+
+if (state === `loading`){
+  trainSFX.play();
+}
 
   // Declare classes
   snitch = new Snitch(snitchImage);
 
-
-
+  treetrunk = new TreeTrunk(treetrunkImage)
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -71,6 +87,7 @@ createCanvas(640,480);
   }, function(){
     console.log(`Model loaded.`);
     state = `menu`;
+      trainSFX.stop();
   });
 
   // Listen for predictions
@@ -108,8 +125,11 @@ function draw() {
        case "intro":
            intro();
            break;
-       case "gameplay":
-            gameplay();
+       case "introend":
+               introend();
+               break;
+       case "stage1":
+            stage1();
             break;
 
    }
@@ -124,7 +144,6 @@ function loading(){
 
 function menu(){
   push();
-  imageMode(CENTER);
   tint(255,200);
   image(hogwartsbgImage, width/2, height/2,850,480);
   displayText(`Battle of Hogwarts`,30, width/2, height/2, 255);
@@ -140,13 +159,11 @@ function instructions(){
 
 function intro(){
   push();
-  imageMode(CENTER);
   image(quidditchbgImage, width/2, height/2, 680, 480)
   pop();
 
      snitch.display();
      snitch.move();
-
 
 
   if (predictions.length > 0){
@@ -162,7 +179,6 @@ function intro(){
 
 // Wand display
       push();
-      imageMode(CENTER);
       image(wandlightImage,tipX,tipY,50,50);
       noFill();
       strokeWeight(3);
@@ -172,19 +188,35 @@ function intro(){
 
       for (let i = 0; i < introspells.length; i++){
         let introspell = introspells[i];
-        // introspell.x = tipX;
-        // introspell.y = tipY;
-        introspell.display();
+        introspell.display(snitch);
         introspell.move();
+        introspell.chase(snitch);
+        introspell.collide(snitch);
+        if (snitch.frozen === true){
+          introspells.splice(i,1);
+          break;
       }
     }
-
+  }
 // display Spell up top
     displaySpellName();
+// if snitch frozen, show text
+    if(snitch.frozen ===true){
+      displayText(`Golden Snitch Immobilized!`,30, width/2, height/5,255);
+    }
 }
+function introend(){
+  background(255);
 
-function gameplay(){
-  background(200,100,100);
+}
+function stage1(){
+  push();
+  image(forestbgImage,width/2,height/2);
+  pop();
+
+  treetrunk.display();
+  treetrunk.move();
+
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -219,7 +251,7 @@ function castSpell(spell){
   currentSpell = spell[0].toUpperCase() + spell.substring(1);
   console.log(currentSpell);
 
-  if (currentSpell === `Hi`){
+  if (currentSpell === `Immobulus`){
       createSpell(tipX,tipY);
   }
     }
@@ -246,7 +278,12 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `instructions`){
     state = `intro`;
   }
-  else if (keyCode === ENTER && state === `intro`){
-    state = `gameplay`;
+  else if (keyCode === ENTER && state === `intro`
+    // && snitch.frozen ===true
+  ){
+    state = `introend`;
+  }
+  else if (keyCode === ENTER && state === `introend` ){
+    state = `stage1`;
   }
 }
