@@ -3,7 +3,7 @@ class Snitch{
       this.x = width/2;
       this.y = height/2;
 
-      this.speed = 45;
+      this.speed = 35;
       this.vy = random(-5,5);
       this.vx = random(-5,5);
       this.size = 200;
@@ -21,7 +21,7 @@ class Snitch{
       if (this.frozen === false){
       this.size += this.deform;
       }
-
+// Switch between the 2 snitch images for animation effect
       if (this.image === snitchImage && this.frozen === false){
         this.image = snitch2Image;
       }
@@ -36,7 +36,7 @@ class Snitch{
       if (this.size >= 300){
         this.shrink = true;
       }
-      else if (this.size <= 100){
+      else if (this.size <= 120){
         this.shrink = false;
       }
 
@@ -46,8 +46,8 @@ class Snitch{
       else if(this.shrink === false){
         this.deform = random(2,6);
       }
-// Constrain Golden Snitch's size to 120 min and 270 max
-      this.size = constrain (this.size, 100,300);
+// Constrain Golden Snitch's size to 120 min and 300 max
+      this.size = constrain (this.size, 120,300);
       pop();
     }
 // Move function: Only move if not frozen

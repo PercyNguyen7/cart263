@@ -9,17 +9,20 @@ class IntroSpell{
       this.ax = 0,
       this.ay = 0,
       this.acceleration = 0.9,
-      this.maxSpeed = 10,
+      this.maxSpeed = 12,
       this.deform = 0,
       this.image = introspellImage;
+      this.flash = true;
     }
 // Display spell
     display(snitch){
-      push();
-      imageMode(CENTER);
       image(introspellImage, this.x, this.y, this.size, this.size);
-      map()
-      pop();
+
+      if (this.flash === true){
+        image(this.image,width/2,height/2, 2400, 2400)
+        this.flash = false;
+      }
+
 // Shrink/Grow this spell similar to thee size of the snitch! Size also constrained!
       this.size += this.deform;
       if (snitch.shrink === true){
@@ -39,7 +42,8 @@ class IntroSpell{
       this.vx += this.ax;
       this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
       this.vy += this.ay;
-      this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed)
+      this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
+
     }
 // Chase the golden snitch!
     chase(snitch){
@@ -64,15 +68,11 @@ class IntroSpell{
   }
   collide(snitch){
     let d = dist(this.x, this.y, snitch.x, snitch.y)
-    if (d < 20){
+    if (d < 40){
+      introspellSFX.play();
       this.maxSpeed = 0;
-      push();
-      imageMode(CENTER);
       image(this.image,width/2,height/2, 1400, 1400);
-      pop();
       snitch.frozen = true;
-
-  
     }
   }
 }

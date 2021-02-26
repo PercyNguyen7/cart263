@@ -32,6 +32,7 @@ let introspells =[];
 let treetrunk;
 
 // Images variable
+let trainbgGif;
 let hogwartsbgImage;
 let snitchImage;
 let snitch2Image;
@@ -43,11 +44,17 @@ let treetrunkImage;
 
 //Sound variables
 let trainSFX;
+let firebgSFX;
+let menuSoundtrack;
+let introspellSFX;
+let wleviosaSFX;
+
 /**
 Description of preload
 */
 function preload() {
 // Image load
+  trainbgGif= loadImage(`assets/images/trainbg.gif`);
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
   snitchImage = loadImage(`assets/images/snitch.png`);
   snitch2Image = loadImage(`assets/images/snitch2.png`);
@@ -59,8 +66,11 @@ function preload() {
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
+  firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
+  menuSoundtrack = loadSound(`assets/sounds/menumusic.mp3`);
+  introspellSFX = loadSound(`assets/sounds/immobulus.mp3`);
+  wleviosaSFX = loadSound(`assets/sounds/wleviosa.mp3`);
 }
-
 /**
 Description of setup
 */
@@ -70,6 +80,7 @@ imageMode(CENTER);
 
 if (state === `loading`){
   trainSFX.play();
+
 }
 
   // Declare classes
@@ -87,7 +98,12 @@ if (state === `loading`){
   }, function(){
     console.log(`Model loaded.`);
     state = `menu`;
+
       trainSFX.stop();
+      menuSoundtrack.loop();
+      firebgSFX.loop();
+      firebgSFX.amp(0.4);
+
   });
 
   // Listen for predictions
@@ -95,7 +111,6 @@ if (state === `loading`){
     console.log(results);
     predictions = results;
   });
-
 
   if (annyang) {
      let commands = {
@@ -131,12 +146,11 @@ function draw() {
        case "stage1":
             stage1();
             break;
-
    }
 }
 
 function loading(){
-  background(210);
+  image(trainbgGif,width/2,height/2);
   push();
   displayText(`The Hogwarts Express is reaching its destination`, 20, width/2.5, height/12);
   pop();
@@ -158,9 +172,8 @@ function instructions(){
 }
 
 function intro(){
-  push();
+// background image
   image(quidditchbgImage, width/2, height/2, 680, 480)
-  pop();
 
      snitch.display();
      snitch.move();
@@ -179,8 +192,8 @@ function intro(){
 
 // Wand display
       push();
+      tint(255,100);
       image(wandlightImage,tipX,tipY,50,50);
-      noFill();
       strokeWeight(3);
       stroke(0);
       line(baseX, baseY, tipX, tipY);
@@ -204,7 +217,7 @@ function intro(){
     if(snitch.frozen ===true){
       displayText(`Golden Snitch Immobilized!`,30, width/2, height/5,255);
     }
-}
+  }
 function introend(){
   background(255);
 
@@ -213,10 +226,11 @@ function stage1(){
   push();
   image(forestbgImage,width/2,height/2);
   pop();
-
   treetrunk.display();
-  treetrunk.move();
+  if(currentSpell === `Wingardium Leviosa`){
+      treetrunk.move();
 
+  }
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -238,13 +252,10 @@ function stage1(){
     }
     displaySpellName();
 
-
 }
 function displaySpellName(){
   displayText(currentSpell + `!`, 20, width / 2, height / 8);
 }
-
-
 
 function castSpell(spell){
 
@@ -277,6 +288,8 @@ function keyPressed(){
   }
   else if (keyCode === ENTER && state === `instructions`){
     state = `intro`;
+    menuSoundtrack.stop();
+    firebgSFX.stop();
   }
   else if (keyCode === ENTER && state === `intro`
     // && snitch.frozen ===true
