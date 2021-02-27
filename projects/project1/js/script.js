@@ -20,6 +20,8 @@ let predictions = [];
 let tipX;
 let tipY;
 
+// tintvalue for fade in effect;
+let tintvalue = 0;
 // User Webcam
 let video = undefined;
 
@@ -28,19 +30,24 @@ let video = undefined;
 let snitch;
 // Intro spell (Immobulus) for intro phase;
 let introspells =[];
-// TreeTrunk Image;
+// Tree trunk blocks path of phase 1;
 let treetrunk;
+// lumosspell block vision of phase 2;
+let lumosspell;
 
-// Images variable
+//                        IMAGES VARIABLES
 let trainbgGif;
 let hogwartsbgImage;
 let snitchImage;
 let snitch2Image;
-let quidditchbgImage;
+let introbgImage;
 let wandlightImage;
 let introspellImage;
-let forestbgImage;
+let stage1bgImage;
 let treetrunkImage;
+let stage2bgImage;
+let lumosflareImage;
+let dementorImage;
 
 //Sound variables
 let trainSFX;
@@ -48,6 +55,8 @@ let firebgSFX;
 let menuSoundtrack;
 let introspellSFX;
 let wleviosaSFX;
+let lumosSFX;
+let lumosmaximaSFX;
 
 /**
 Description of preload
@@ -58,11 +67,13 @@ function preload() {
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
   snitchImage = loadImage(`assets/images/snitch.png`);
   snitch2Image = loadImage(`assets/images/snitch2.png`);
-  quidditchbgImage = loadImage(`assets/images/quidditchbg.jpg`);
+  introbgImage = loadImage(`assets/images/quidditchbg.jpg`);
   wandlightImage = loadImage(`assets/images/wandlight.png`);
   introspellImage = loadImage(`assets/images/introspell.png`);
-  forestbgImage = loadImage(`assets/images/forestbg.jpg`);
+  stage1bgImage = loadImage(`assets/images/forestbg.jpg`);
   treetrunkImage = loadImage(`assets/images/treetrunk.png`);
+  lumosflareImage = loadImage(`assets/images/lumosflare.png`);
+  stage2bgImage = loadImage(`assets/images/forest2bg.jpg`);
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
@@ -70,6 +81,8 @@ function preload() {
   menuSoundtrack = loadSound(`assets/sounds/menumusic.mp3`);
   introspellSFX = loadSound(`assets/sounds/immobulus.mp3`);
   wleviosaSFX = loadSound(`assets/sounds/wleviosa.mp3`);
+  lumosSFX = loadSound(`assets/sounds/lumos.mp3`);
+  lumosmaximaSFX = loadSound(`assets/sounds/lumosmaxima.mp3`);
 }
 /**
 Description of setup
@@ -80,13 +93,12 @@ imageMode(CENTER);
 
 if (state === `loading`){
   trainSFX.play();
-
 }
 
   // Declare classes
   snitch = new Snitch(snitchImage);
-
-  treetrunk = new TreeTrunk(treetrunkImage)
+  treetrunk = new TreeTrunk(treetrunkImage);
+  lumosspell = new LumosSpell;
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -102,7 +114,9 @@ if (state === `loading`){
       trainSFX.stop();
       menuSoundtrack.loop();
       firebgSFX.loop();
-      firebgSFX.amp(0.4);
+      menuSoundtrack.amp(0.6);
+      firebgSFX.amp(0.3);
+
 
   });
 
@@ -140,11 +154,17 @@ function draw() {
        case "intro":
            intro();
            break;
-       case "introend":
-               introend();
+       case "introEnd":
+               introEnd();
                break;
        case "stage1":
             stage1();
+            break;
+      case "stage1End":
+            stage1End();
+            break;
+      case "stage2":
+            stage2();
             break;
    }
 }
@@ -158,7 +178,8 @@ function loading(){
 
 function menu(){
   push();
-  tint(255,200);
+  tintvalue = tintvalue +5;
+  tint(255,tintvalue);
   image(hogwartsbgImage, width/2, height/2,850,480);
   displayText(`Battle of Hogwarts`,30, width/2, height/2, 255);
   pop();
@@ -173,12 +194,10 @@ function instructions(){
 
 function intro(){
 // background image
-  image(quidditchbgImage, width/2, height/2, 680, 480)
+  image(introbgImage, width/2, height/2, 680, 480)
 
      snitch.display();
      snitch.move();
-
-
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -192,11 +211,12 @@ function intro(){
 
 // Wand display
       push();
-      tint(255,100);
-      image(wandlightImage,tipX,tipY,50,50);
+      // tintvalue = random(0,150)
+      // tint(255,tintvalue);
       strokeWeight(3);
       stroke(0);
       line(baseX, baseY, tipX, tipY);
+      image(wandlightImage,tipX,tipY,30,30);
       pop();
 
       for (let i = 0; i < introspells.length; i++){
@@ -218,18 +238,18 @@ function intro(){
       displayText(`Golden Snitch Immobilized!`,30, width/2, height/5,255);
     }
   }
-function introend(){
+function introEnd(){
   background(255);
-
 }
+
+// Stage 1 of game: Use spell Wingardium Leviosa to levitate the tree log that blocks the path
 function stage1(){
   push();
-  image(forestbgImage,width/2,height/2);
+  image(stage1bgImage,width/2,height/2, 667,480 );
   pop();
   treetrunk.display();
   if(currentSpell === `Wingardium Leviosa`){
       treetrunk.move();
-
   }
   if (predictions.length > 0){
      let hand = predictions[0];
@@ -248,26 +268,74 @@ function stage1(){
       stroke(255);
       line(baseX, baseY, tipX, tipY);
       pop();
-
     }
     displaySpellName();
-
 }
+
+function stage1End(){
+  background(255);
+  push();
+  fill(0);
+  displayText(`The Hogwarts Express is reaching its destination`, 20, width/2.5, height/12, 0);
+  pop();
+}
+
+function stage2(){
+image(stage2bgImage,width/2,height/2, 853, 480);
+
+      lumosspell.display();
+
+  if (predictions.length > 0){
+     let hand = predictions[0];
+
+  let index = hand.annotations.indexFinger;
+      let tip = index[3];
+      let base = index[0];
+      let tipX = tip[0];
+      let tipY = tip[1];
+      let baseX = base[0];
+      let baseY = base[1];
+      push();
+      strokeWeight(3);
+      fill(150);
+      stroke(150);
+      line(baseX, baseY, tipX, tipY);
+
+      if(currentSpell === `Lumos`){
+        tint(255,200);
+        image(lumosflareImage,tipX,tipY,70,70);
+      }
+      else if(currentSpell === `Lumos Maxima`){
+        tint(255,220);
+        image(lumosflareImage,tipX,tipY,90,90);
+      }
+      pop();
+    }
+    displaySpellName();
+}
+
 function displaySpellName(){
   displayText(currentSpell + `!`, 20, width / 2, height / 8);
 }
 
 function castSpell(spell){
-
-  currentSpell = spell[0].toUpperCase() + spell.substring(1);
+//Capitalize first letter of each word!
+  currentSpell = spell.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
   console.log(currentSpell);
 
   if (currentSpell === `Immobulus`){
-      createSpell(tipX,tipY);
+      createIntroSpell(tipX,tipY);
   }
-    }
+  else if (currentSpell === `Lumos` && state ===`stage2`){
+    lumosSFX.play();
+  }
+  else if (currentSpell === `Lumos Maxima` && state ===`stage2`){
+    lumosmaximaSFX.play();
+  }
+}
 
-function createSpell(x,y){
+// function that create introspell
+function createIntroSpell(x,y){
     let introspell = new IntroSpell(x,y, introspellImage);
     introspells.push(introspell);
 }
@@ -281,8 +349,9 @@ function displayText(string, size, x, y, r, g, b) {
     text(string, x, y);
     pop();
 }
-
+// Keypress function
 function keyPressed(){
+  // Allow to change state if pressed on appropriate keys!
   if (keyCode === ENTER && state ===`menu`){
     state =`instructions`;
   }
@@ -293,10 +362,19 @@ function keyPressed(){
   }
   else if (keyCode === ENTER && state === `intro`
     // && snitch.frozen ===true
-  ){
-    state = `introend`;
+  ){state = `introEnd`;
   }
-  else if (keyCode === ENTER && state === `introend` ){
+  else if (keyCode === ENTER && state === `introEnd` ){
     state = `stage1`;
+  }
+  else if (keyCode === ENTER && state === `stage1` ){
+    state = `stage1End`;
+  }
+  else if (keyCode === ENTER && state === `stage1End` ){
+    state = `stage2`;
+  }
+  // Delete current spell if Backspace is pressed
+  else if (keyCode === 8){
+    currentSpell = ``;
   }
 }

@@ -3,7 +3,7 @@ class Snitch{
       this.x = width/2;
       this.y = height/2;
 
-      this.speed = 35;
+      this.speed = 50;
       this.vy = random(-5,5);
       this.vx = random(-5,5);
       this.size = 200;
@@ -11,11 +11,11 @@ class Snitch{
       this.image = snitchImage;
       this.shrink = false;
       this.frozen = false;
+
     }
 // Display the Golden Snitch! Snitch switches between two images and stay on one if frozen!
     display(){
       push();
-      imageMode(CENTER);
       image(this.image,this.x, this.y, this.size, this.size);
 
       if (this.frozen === false){

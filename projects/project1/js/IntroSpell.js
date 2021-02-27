@@ -9,7 +9,7 @@ class IntroSpell{
       this.ax = 0,
       this.ay = 0,
       this.acceleration = 0.9,
-      this.maxSpeed = 12,
+      this.maxSpeed = 14,
       this.deform = 0,
       this.image = introspellImage;
       this.flash = true;
@@ -68,7 +68,7 @@ class IntroSpell{
   }
   collide(snitch){
     let d = dist(this.x, this.y, snitch.x, snitch.y)
-    if (d < 40){
+    if (d < 30){
       introspellSFX.play();
       this.maxSpeed = 0;
       image(this.image,width/2,height/2, 1400, 1400);
