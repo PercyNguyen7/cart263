@@ -9,10 +9,8 @@ This is
 //
 // First state is Loading screen
 let state = `loading`;
-
 // Word string for current spell being casted
 let currentSpell = ``;
-
 // predictions array
 let predictions = [];
 
@@ -26,14 +24,12 @@ let tintvalue = 0;
 let video = undefined;
 
 //                        CLASSES VARIABLES
-// The Golden Snitch for Intro phase
 let snitch;
-// Intro spell (Immobulus) for intro phase;
 let introspells =[];
-// Tree trunk blocks path of phase 1;
 let treetrunk;
-// lumosspell block vision of phase 2;
-let lumosspell;
+let darkness;
+let dementors;
+let patronuscharm;
 
 //                        IMAGES VARIABLES
 let trainbgGif;
@@ -47,7 +43,10 @@ let stage1bgImage;
 let treetrunkImage;
 let stage2bgImage;
 let lumosflareImage;
+let stage3bgImage;
 let dementorImage;
+let dementor2Image;
+let dementor3Image;
 
 //Sound variables
 let trainSFX;
@@ -72,9 +71,12 @@ function preload() {
   introspellImage = loadImage(`assets/images/introspell.png`);
   stage1bgImage = loadImage(`assets/images/forestbg.jpg`);
   treetrunkImage = loadImage(`assets/images/treetrunk.png`);
-  lumosflareImage = loadImage(`assets/images/lumosflare.png`);
   stage2bgImage = loadImage(`assets/images/forest2bg.jpg`);
-
+  lumosflareImage = loadImage(`assets/images/lumosflare.png`);
+  stage3bgImage = loadImage(`assets/images/dementorbg.jpg`);
+  dementorImage = loadImage(`assets/images/dementor.png`);
+  dementor2Image = loadImage(`assets/images/dementor2.png`);
+  dementor3Image = loadImage(`assets/images/dementor3.png`);
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
   firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
@@ -98,7 +100,9 @@ if (state === `loading`){
   // Declare classes
   snitch = new Snitch(snitchImage);
   treetrunk = new TreeTrunk(treetrunkImage);
-  lumosspell = new LumosSpell;
+  darkness = new Darkness;
+  dementors = new Dementors(dementorImage, dementor2Image);
+  patronuscharm = new PatronusCharm();
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -166,9 +170,23 @@ function draw() {
       case "stage2":
             stage2();
             break;
+      case "stage2End":
+            stage2End();
+            break;
+      case "stage3":
+            stage3();
+            break;
+      case "dementorEnding":
+            dementorEnding();
+            break;
+      case "stage3End":
+            stage3End();
+            break;
+      case "stage4":
+            stage4();
+            break;
    }
 }
-
 function loading(){
   image(trainbgGif,width/2,height/2);
   push();
@@ -178,8 +196,8 @@ function loading(){
 
 function menu(){
   push();
-  tintvalue = tintvalue +5;
-  tint(255,tintvalue);
+  tintvalue = tintvalue +10;
+  // tint(255,tintvalue);
   image(hogwartsbgImage, width/2, height/2,850,480);
   displayText(`Battle of Hogwarts`,30, width/2, height/2, 255);
   pop();
@@ -240,6 +258,10 @@ function intro(){
   }
 function introEnd(){
   background(255);
+  push();
+  fill(0);
+  displayText(`Intro End`, 20, width/2.5, height/12, 0);
+  pop();
 }
 
 // Stage 1 of game: Use spell Wingardium Leviosa to levitate the tree log that blocks the path
@@ -276,14 +298,14 @@ function stage1End(){
   background(255);
   push();
   fill(0);
-  displayText(`The Hogwarts Express is reaching its destination`, 20, width/2.5, height/12, 0);
+  displayText(`Stage 1 End`, 20, width/2.5, height/12, 0);
   pop();
 }
 
 function stage2(){
 image(stage2bgImage,width/2,height/2, 853, 480);
 
-      lumosspell.display();
+      darkness.display();
 
   if (predictions.length > 0){
      let hand = predictions[0];
@@ -306,12 +328,70 @@ image(stage2bgImage,width/2,height/2, 853, 480);
         image(lumosflareImage,tipX,tipY,70,70);
       }
       else if(currentSpell === `Lumos Maxima`){
-        tint(255,220);
+        // tint(255,220);
         image(lumosflareImage,tipX,tipY,90,90);
       }
       pop();
     }
     displaySpellName();
+}
+function stage2End(){
+  background(255);
+  push();
+  fill(0);
+  displayText(`Stage 2 End`, 20, width/2.5, height/12, 0);
+  pop();
+}
+function stage3(){
+  image(stage3bgImage,width/2,height/2, 853, 480);
+
+  dementors.display();
+  dementors.move();
+  dementors.disappear();
+  if (predictions.length > 0){
+     let hand = predictions[0];
+
+  let index = hand.annotations.indexFinger;
+      let tip = index[3];
+      let base = index[0];
+      let tipX = tip[0];
+      let tipY = tip[1];
+      let baseX = base[0];
+      let baseY = base[1];
+      push();
+      noFill();
+      strokeWeight(3);
+      fill(0);
+      stroke(0);
+      line(baseX, baseY, tipX, tipY);
+      pop();
+      patronuscharm.x = tipX;
+      patronuscharm.y = tipY;
+      patronuscharm.x2 = tipX;
+      patronuscharm.y2 = tipY;
+
+      if (currentSpell === `Expecto Patronus`){
+
+      patronuscharm.display();
+      patronuscharm.casted();
+      patronuscharm.collide(dementors);
+      }
+    }
+    displaySpellName();
+}
+
+function stage3End(){
+  background(255);
+  push();
+  displayText(`Stage 3 End`, 20, width/2.5, height/12, 0);
+  pop();
+}
+
+function dementorEnding(){
+  background(0);
+  push();
+  displayText(`DementorEnding`, 20, width/2.5, height/12, 255);
+  pop();
 }
 
 function displaySpellName(){
@@ -373,6 +453,15 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `stage1End` ){
     state = `stage2`;
   }
+  else if (keyCode === ENTER && state === `stage2` ){
+    state = `stage2End`;
+  }
+  else if (keyCode === ENTER && state === `stage2End` ){
+    state = `stage3`;
+  }
+  // else if (keyCode === ENTER && state === `stage3` ){
+  //   state = `stage3End`;
+  // }
   // Delete current spell if Backspace is pressed
   else if (keyCode === 8){
     currentSpell = ``;
