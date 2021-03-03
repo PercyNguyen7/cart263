@@ -1,9 +1,12 @@
+// Dementors class have 3 dementors that fly towards the middle, levitate in the air and grow in size.
+// Dementors must be pushed away using the spell Expecto Patronum to complete the level.
+
 class Dementors{
     constructor(dementorImage, dementor2Image, dementor3Image){
       this.x = -300,
       this.y = height+100,
-      this.vx = 14;
-      this.vy = -7;
+      this.vx = 12;
+      this.vy = -6;
       this.width = 300,
       this.height = 250,
       this.tint = 0,
@@ -29,35 +32,30 @@ class Dementors{
       this.image3 = dementor3Image;
       this.levitate3 = false;
 
-// levitate speed for all 3 dementors
+// the lx and ly for each dementor
       this.lx =0,
       this.ly = 0,
       this.lx2 = 0,
       this.ly2 = 0,
       this.lx3 = 0,
       this.ly3 = 0,
+// levitate speed for all 3 dementors
+      this.levitatespeed = 2;
 
-      this.levitatespeed = 1,
-      this.appear = false;
     }
 
     display(){
       push();
-      if(state === `stage3`){
-      this.appear = true;
-      }
-      if (this.appear === true){
       this.tint = this.tint +5;
       image(dementor3Image,this.x3,this.y3,this.width3,this.height3);
       image(dementor2Image,this.x2,this.y2,this.width2,this.height2);
       image(dementorImage,this.x,this.y,this.width,this.height);
       pop();
-      }
+
     }
 
+// Move towards the middle of the screen from 3 sides, then levitate around (moving around randomly) once reach its constrain
     move(){
-  // If Lumos Maxima is casted, first dementor moves in
-      if (this.appear ===true){
       this.x += this.vx;
       this.y += this.vy;
         // Levitate once reach width/4
@@ -71,15 +69,15 @@ class Dementors{
       if (this.x2 <= 3*width/4){
         this.levitate2 = true;
       }
-
+// Movement for third dementor
       this.x3 += this.vx3;
       this.y3 += this.vy3;
 
       if (this.y3 >= height/3){
         this.levitate3 = true;
       }
-    }
-  // IF LEVITATE IS TRUE, THEN CHANGE VX and VY to EXTREMELY LOW
+    // }
+  // If levitate is true then replace vx and vy with levitate speed
     if (this.levitate === true){
       this.width *= 1.005;
       this.height *= 1.005;
@@ -121,9 +119,10 @@ class Dementors{
       this.lx3 = random(-this.levitatespeed,this.levitatespeed);
       this.ly3 = random(-this.levitatespeed,this.levitatespeed);
       }
+
     }
 
-// Constrain Demetors movement
+// Constrain each Demetor's movement
       this.width = constrain(this.width, 300, 1200);
       this.height = constrain (this.height, 250, 1000);
 
@@ -133,15 +132,15 @@ class Dementors{
       this.width3 = constrain(this.width3, 130,520);
       this.height3 = constrain(this.height3, 151, 604);
     }
-
+// Player wins if successfully push all dementors out of the screen. Lose if dementor is too great!
     disappear(){
       if (this.x + this.width/2 < 0 && this.x2 - this.width2/2 >width && this.y3 + this.height3/2 < 0 && this.levitate ===true){
-        // this.appear = false;
-        ellipse(width/2,height/2,50);
         state = `stage3End`
+        expectopatronusSFX.stop();
       }
       if (this.width === 1200){
         state = `dementorEnding`
+        expectopatronusSFX.stop();
       }
     }
 

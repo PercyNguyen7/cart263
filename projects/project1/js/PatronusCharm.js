@@ -8,10 +8,10 @@ class PatronusCharm{
       this.size2 = 1;
       this.deform = 40;
       this.deform2 = 70;
-      this.transparency = 40;
-      this.transparency2 = 60;
+      this.transparency = 60;
+      this.transparency2 = 80;
     }
-
+// Display the patronus charm consisted of 2 white, almost transparent circles!
     display(){
       push();
       fill(255,255,255,this.transparency);
@@ -21,7 +21,7 @@ class PatronusCharm{
       ellipse(this.x2,this.y2, this.size2,this.size2);
       pop();
     }
-
+// Once casted, circles grow in size
     casted(){
       this.size += this.deform;
       this.size2 += this.deform2;
@@ -34,7 +34,7 @@ class PatronusCharm{
       }
     }
 
-// Spell collide with dementors depending on the spell's size
+// Patronus charm collides with dementors depending on both the dementors width or height and the spell's size
     collide(dementors){
       let d = dist(this.x, this.y, dementors.x, dementors.y)
       if (d < this.size/2 + dementors.width/2){

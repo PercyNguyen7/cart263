@@ -52,10 +52,15 @@ let dementor3Image;
 let trainSFX;
 let firebgSFX;
 let menuSoundtrack;
+let introSoundtrack;
+let snitchSFX;
 let introspellSFX;
 let wleviosaSFX;
+let wleviosaguideSFX;
 let lumosSFX;
 let lumosmaximaSFX;
+let dementorsSFX;
+let expectopatronusSFX;
 
 /**
 Description of preload
@@ -81,10 +86,15 @@ function preload() {
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
   firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
   menuSoundtrack = loadSound(`assets/sounds/menumusic.mp3`);
+  introSoundtrack = loadSound(`assets/sounds/introbg.mp3`)
   introspellSFX = loadSound(`assets/sounds/immobulus.mp3`);
   wleviosaSFX = loadSound(`assets/sounds/wleviosa.mp3`);
+  wleviosaguideSFX = loadSound(`assets/sounds/wleviosaguide.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumos.mp3`);
   lumosmaximaSFX = loadSound(`assets/sounds/lumosmaxima.mp3`);
+  dementorsSFX = loadSound(`assets/sounds/dementors.mp3`);
+  expectopatronusSFX = loadSound(`assets/sounds/expectopatronus.mp3`);
+  snitchSFX = loadSound(`assets/sounds/snitch.mp3`);
 }
 /**
 Description of setup
@@ -120,6 +130,7 @@ if (state === `loading`){
       firebgSFX.loop();
       menuSoundtrack.amp(0.6);
       firebgSFX.amp(0.3);
+      snitchSFX.amp(0.3);
 
 
   });
@@ -185,6 +196,7 @@ function draw() {
       case "stage4":
             stage4();
             break;
+
    }
 }
 function loading(){
@@ -370,8 +382,7 @@ function stage3(){
       patronuscharm.x2 = tipX;
       patronuscharm.y2 = tipY;
 
-      if (currentSpell === `Expecto Patronus`){
-
+      if (currentSpell === `Expecto Patronum`){
       patronuscharm.display();
       patronuscharm.casted();
       patronuscharm.collide(dementors);
@@ -383,10 +394,17 @@ function stage3(){
 function stage3End(){
   background(255);
   push();
-  displayText(`Stage 3 End`, 20, width/2.5, height/12, 0);
+  fill(0);
+  displayText(`Stage 3 End`, 20, width/2.5, height/12);
   pop();
 }
 
+function stage4(){
+  background(0);
+
+}
+
+// BAD ENDINGS - GAME LOST
 function dementorEnding(){
   background(0);
   push();
@@ -394,6 +412,7 @@ function dementorEnding(){
   pop();
 }
 
+//DISPLAY THE CURRENT SPELL AT TOP
 function displaySpellName(){
   displayText(currentSpell + `!`, 20, width / 2, height / 8);
 }
@@ -411,6 +430,10 @@ function castSpell(spell){
   }
   else if (currentSpell === `Lumos Maxima` && state ===`stage2`){
     lumosmaximaSFX.play();
+  }
+  else if (currentSpell === `Expecto Patronum` && state === `stage3`){
+    expectopatronusSFX.loop();
+    dementorsSFX.stop();
   }
 }
 
@@ -439,16 +462,22 @@ function keyPressed(){
     state = `intro`;
     menuSoundtrack.stop();
     firebgSFX.stop();
+    snitchSFX.loop();
+    introSoundtrack.loop();
   }
   else if (keyCode === ENTER && state === `intro`
     // && snitch.frozen ===true
   ){state = `introEnd`;
+    snitchSFX.stop();
+
   }
   else if (keyCode === ENTER && state === `introEnd` ){
     state = `stage1`;
+    introSoundtrack.stop();
   }
   else if (keyCode === ENTER && state === `stage1` ){
     state = `stage1End`;
+
   }
   else if (keyCode === ENTER && state === `stage1End` ){
     state = `stage2`;
@@ -458,11 +487,16 @@ function keyPressed(){
   }
   else if (keyCode === ENTER && state === `stage2End` ){
     state = `stage3`;
+    dementorsSFX.play();
   }
-  // else if (keyCode === ENTER && state === `stage3` ){
-  //   state = `stage3End`;
-  // }
-  // Delete current spell if Backspace is pressed
+  else if (keyCode === ENTER && state === `stage3` ){
+    state = `stage3End`;
+    dementorsSFX.stop();
+  }
+  else if (keyCode === ENTER && state === `stage3End` ){
+    state = `stage4`;
+  }
+  // Delete current spell if BACKSPACE is pressed
   else if (keyCode === 8){
     currentSpell = ``;
   }
