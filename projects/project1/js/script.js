@@ -26,10 +26,12 @@ let video = undefined;
 //                        CLASSES VARIABLES
 let snitch;
 let introspells =[];
+let voldemortname;
 let treetrunk;
 let darkness;
 let dementors;
 let patronuscharm;
+
 
 //                        IMAGES VARIABLES
 let trainbgGif;
@@ -40,13 +42,21 @@ let introbgImage;
 let wandlightImage;
 let introspellImage;
 let stage1bgImage;
+let voldemortnameImage;
+let avadakedavraImage;
+let avadakedavra2Image;
+let avadakedavra3Image;
 let treetrunkImage;
 let stage2bgImage;
 let lumosflareImage;
+let snapeImage;
 let stage3bgImage;
 let dementorImage;
 let dementor2Image;
 let dementor3Image;
+let stage4bgImage;
+let voldemortgreetImage;
+let voldemortcastImage;
 
 //Sound variables
 let trainSFX;
@@ -55,6 +65,8 @@ let menuSoundtrack;
 let introSoundtrack;
 let snitchSFX;
 let introspellSFX;
+let teleportspellSFX;
+let voldemortnameSFX;
 let wleviosaSFX;
 let wleviosaguideSFX;
 let lumosSFX;
@@ -75,19 +87,29 @@ function preload() {
   wandlightImage = loadImage(`assets/images/wandlight.png`);
   introspellImage = loadImage(`assets/images/introspell.png`);
   stage1bgImage = loadImage(`assets/images/forestbg.jpg`);
+  voldemortnameImage = loadImage(`assets/images/voldemortname.png`);
+  avadakedavraImage = loadImage(`assets/images/avadakedavra.png`);
+  avadakedavra2Image = loadImage(`assets/images/avadakedavra2.png`);
+  avadakedavra3Image = loadImage(`assets/images/avadakedavra3.png`);
   treetrunkImage = loadImage(`assets/images/treetrunk.png`);
   stage2bgImage = loadImage(`assets/images/forest2bg.jpg`);
   lumosflareImage = loadImage(`assets/images/lumosflare.png`);
+  snapeImage = loadImage(`assets/images/snape.png`);
   stage3bgImage = loadImage(`assets/images/dementorbg.jpg`);
   dementorImage = loadImage(`assets/images/dementor.png`);
   dementor2Image = loadImage(`assets/images/dementor2.png`);
   dementor3Image = loadImage(`assets/images/dementor3.png`);
+  stage4bgImage = loadImage(`assets/images/courtyardbg.jpg`)
+  voldemortgreetImage = loadImage(`assets/images/voldemortgreet.png`);
+  voldemortcastImage = loadImage(`assets/images/voldemortcast.png`);
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
   firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
   menuSoundtrack = loadSound(`assets/sounds/menumusic.mp3`);
-  introSoundtrack = loadSound(`assets/sounds/introbg.mp3`)
+  introSoundtrack = loadSound(`assets/sounds/introbg.mp3`);
   introspellSFX = loadSound(`assets/sounds/immobulus.mp3`);
+  voldemortnameSFX = loadSound(`assets/sounds/voldemortname.mp3`);
+  teleportspellSFX = loadSound(`assets/sounds/teleportspell.wav`);
   wleviosaSFX = loadSound(`assets/sounds/wleviosa.mp3`);
   wleviosaguideSFX = loadSound(`assets/sounds/wleviosaguide.mp3`);
   lumosSFX = loadSound(`assets/sounds/lumos.mp3`);
@@ -95,6 +117,7 @@ function preload() {
   dementorsSFX = loadSound(`assets/sounds/dementors.mp3`);
   expectopatronusSFX = loadSound(`assets/sounds/expectopatronus.mp3`);
   snitchSFX = loadSound(`assets/sounds/snitch.mp3`);
+
 }
 /**
 Description of setup
@@ -114,6 +137,8 @@ if (state === `loading`){
   dementors = new Dementors(dementorImage, dementor2Image);
   patronuscharm = new PatronusCharm();
 
+  voldemortname = new VoldemortName(voldemortnameImage,avadakedavraImage,avadakedavra2Image);
+
   // access user's webcam
   video = createCapture(VIDEO);
   video.hide();
@@ -128,6 +153,7 @@ if (state === `loading`){
       trainSFX.stop();
       menuSoundtrack.loop();
       firebgSFX.loop();
+      trainSFX.amp(0.6);
       menuSoundtrack.amp(0.6);
       firebgSFX.amp(0.3);
       snitchSFX.amp(0.3);
@@ -174,6 +200,9 @@ function draw() {
                break;
        case "stage1":
             stage1();
+            break;
+      case "VNameEnding":
+            VNameEnding();
             break;
       case "stage1End":
             stage1End();
@@ -224,8 +253,11 @@ function instructions(){
 
 function intro(){
 // background image
-  image(introbgImage, width/2, height/2, 680, 480)
-
+  image(introbgImage, width/2, height/2, 680, 480);
+  //If say Voldemort, game warns user!
+  if (currentSpell === `Voldemort`){
+    currentSpell = `HE WHO MUST NOT BE NAMED...`
+  }
      snitch.display();
      snitch.move();
   if (predictions.length > 0){
@@ -246,7 +278,7 @@ function intro(){
       strokeWeight(3);
       stroke(0);
       line(baseX, baseY, tipX, tipY);
-      image(wandlightImage,tipX,tipY,30,30);
+      // image(wandlightImage,tipX,tipY,30,30);
       pop();
 
       for (let i = 0; i < introspells.length; i++){
@@ -282,6 +314,7 @@ function stage1(){
   image(stage1bgImage,width/2,height/2, 667,480 );
   pop();
   treetrunk.display();
+
   if(currentSpell === `Wingardium Leviosa`){
       treetrunk.move();
   }
@@ -304,6 +337,8 @@ function stage1(){
       pop();
     }
     displaySpellName();
+    voldemortname.display();
+    voldemortname.move();
 }
 
 function stage1End(){
@@ -336,6 +371,8 @@ image(stage2bgImage,width/2,height/2, 853, 480);
       line(baseX, baseY, tipX, tipY);
 
       if(currentSpell === `Lumos`){
+
+        image(snapeImage, 3*width/4,3*height/4, 143.75,400);
         tint(255,200);
         image(lumosflareImage,tipX,tipY,70,70);
       }
@@ -345,6 +382,8 @@ image(stage2bgImage,width/2,height/2, 853, 480);
       }
       pop();
     }
+    voldemortname.display();
+    voldemortname.move();
     displaySpellName();
 }
 function stage2End(){
@@ -388,6 +427,8 @@ function stage3(){
       patronuscharm.collide(dementors);
       }
     }
+    voldemortname.display();
+    voldemortname.move();
     displaySpellName();
 }
 
@@ -400,7 +441,7 @@ function stage3End(){
 }
 
 function stage4(){
-  background(0);
+  image(stage4bgImage,width/2,height/2,1127,480);
 
 }
 
@@ -412,9 +453,17 @@ function dementorEnding(){
   pop();
 }
 
+function VNameEnding(){
+  background(160,0,0);
+}
 //DISPLAY THE CURRENT SPELL AT TOP
 function displaySpellName(){
+  push();
+  if (currentSpell === `Voldemort`){
+    fill(217,254,177);
+  }
   displayText(currentSpell + `!`, 20, width / 2, height / 8);
+  pop();
 }
 
 function castSpell(spell){
@@ -424,6 +473,11 @@ function castSpell(spell){
 
   if (currentSpell === `Immobulus`){
       createIntroSpell(tipX,tipY);
+  }
+  else if (currentSpell === `Voldemort` && state === `stage1` || currentSpell === `Voldemort` && state === `stage2`
+  || currentSpell === `Voldemort` && state === `stage3`){
+    teleportspellSFX.play();
+    voldemortnameSFX.play();
   }
   else if (currentSpell === `Lumos` && state ===`stage2`){
     lumosSFX.play();

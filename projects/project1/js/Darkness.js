@@ -11,7 +11,7 @@ class Darkness{
       push();
         if(currentSpell === `Lumos`){
           this.transparency = this.transparency - 15;
-          this.transparency = constrain(this.transparency, 150,220);
+          this.transparency = constrain(this.transparency, 180,220);
         }
         else if(currentSpell === `Lumos Maxima`){
           this.transparency = this.transparency - 15;
