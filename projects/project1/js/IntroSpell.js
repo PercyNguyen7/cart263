@@ -17,7 +17,7 @@ class IntroSpell{
 // Display spell
     display(snitch){
       image(introspellImage, this.x, this.y, this.size, this.size);
-
+// Flash when casted
       if (this.flash === true){
         image(this.image,width/2,height/2, 2400, 2400)
         this.flash = false;

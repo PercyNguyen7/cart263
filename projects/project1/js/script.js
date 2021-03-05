@@ -4,7 +4,7 @@
 Harry Potter - Spellcaster
 Percy Vinh TUan Dat Nguyen
 
-This is
+Description
 */
 //
 // First state is Loading screen
@@ -31,7 +31,10 @@ let treetrunk;
 let darkness;
 let dementors;
 let patronuscharm;
-
+let voldemort;
+let timer;
+let stupefyspells=[];
+let incendiospells=[];
 
 //                        IMAGES VARIABLES
 let trainbgGif;
@@ -57,7 +60,9 @@ let dementor3Image;
 let stage4bgImage;
 let voldemortgreetImage;
 let voldemortcastImage;
-
+let voldemortspellImage;
+let timerImage;
+let stupefyspellImage;
 //Sound variables
 let trainSFX;
 let firebgSFX;
@@ -102,6 +107,10 @@ function preload() {
   stage4bgImage = loadImage(`assets/images/courtyardbg.jpg`)
   voldemortgreetImage = loadImage(`assets/images/voldemortgreet.png`);
   voldemortcastImage = loadImage(`assets/images/voldemortcast.png`);
+  voldemortspellImage = loadImage(`assets/images/vspell.png`);
+  timerImage = loadImage(`assets/images/timer.png`);
+  stupefyspellImage = loadImage (`assets/images/stupefyspell.png`);
+
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
   firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
@@ -136,8 +145,9 @@ if (state === `loading`){
   darkness = new Darkness;
   dementors = new Dementors(dementorImage, dementor2Image);
   patronuscharm = new PatronusCharm();
-
+  timer = new Timer(timerImage);
   voldemortname = new VoldemortName(voldemortnameImage,avadakedavraImage,avadakedavra2Image);
+  voldemort = new Voldemort(voldemortgreetImage, voldemortcastImage, voldemortspellImage);
 
   // access user's webcam
   video = createCapture(VIDEO);
@@ -196,8 +206,8 @@ function draw() {
            intro();
            break;
        case "introEnd":
-               introEnd();
-               break;
+            introEnd();
+            break;
        case "stage1":
             stage1();
             break;
@@ -293,9 +303,9 @@ function intro(){
       }
     }
   }
-// display Spell up top
+// Display Spell up top
     displaySpellName();
-// if snitch frozen, show text
+// If snitch frozen, show text
     if(snitch.frozen ===true){
       displayText(`Golden Snitch Immobilized!`,30, width/2, height/5,255);
     }
@@ -443,8 +453,47 @@ function stage3End(){
 function stage4(){
   image(stage4bgImage,width/2,height/2,1127,480);
 
-}
+  if (currentSpell === `Stupify`){
+    currentSpell = `Stupefy`
+  }
+    timer.display();
+    timer.move();
+    voldemort.display();
+  if (predictions.length > 0){
+     let hand = predictions[0];
 
+  let index = hand.annotations.indexFinger;
+      let tip = index[3];
+      let base = index[0];
+      tipX = tip[0];
+      tipY = tip[1];
+      let baseX = base[0];
+      let baseY = base[1];
+
+  // Wand display
+      push();
+      strokeWeight(3);
+      stroke(0);
+      line(baseX, baseY, tipX, tipY);
+      pop();
+
+        for (let i = 0; i < stupefyspells.length; i++){
+          let stupefyspell = stupefyspells[i];
+          stupefyspell.display(voldemort);
+          stupefyspell.move();
+          stupefyspell.chase(voldemort);
+          stupefyspell.collide(voldemort);
+          if (voldemort.countered === true){
+            stupefyspells.splice(i,1);
+            break;
+        }
+      }
+    }
+    voldemort.move();
+    if (voldemort.size2 >= 20){
+    }
+    displaySpellName();
+}
 // BAD ENDINGS - GAME LOST
 function dementorEnding(){
   background(0);
@@ -455,6 +504,9 @@ function dementorEnding(){
 
 function VNameEnding(){
   background(160,0,0);
+  push();
+  displayText(`Voldemort Ending`, 20, width/2.5, height/12, 255);
+  pop();
 }
 //DISPLAY THE CURRENT SPELL AT TOP
 function displaySpellName(){
@@ -476,6 +528,9 @@ function castSpell(spell){
   }
   else if (currentSpell === `Voldemort` && state === `stage1` || currentSpell === `Voldemort` && state === `stage2`
   || currentSpell === `Voldemort` && state === `stage3`){
+    if (dementorsSFX.isPlaying()){
+      dementorsSFX.stop();
+    }
     teleportspellSFX.play();
     voldemortnameSFX.play();
   }
@@ -489,6 +544,9 @@ function castSpell(spell){
     expectopatronusSFX.loop();
     dementorsSFX.stop();
   }
+  else if(currentSpell === `Stupify`){
+    createStupefySpell(tipX,tipY);
+  }
 }
 
 // function that create introspell
@@ -496,7 +554,11 @@ function createIntroSpell(x,y){
     let introspell = new IntroSpell(x,y, introspellImage);
     introspells.push(introspell);
 }
-
+// function that create introspell
+function createStupefySpell(x,y){
+    let stupefyspell = new StupefySpell(x,y,stupefyspellImage);
+    stupefyspells.push(stupefyspell);
+}
 // Display text easier
 function displayText(string, size, x, y, r, g, b) {
     push();

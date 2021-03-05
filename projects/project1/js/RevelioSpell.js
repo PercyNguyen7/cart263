@@ -5,4 +5,7 @@ class RevelioSpell{
       this.image;
       this.size = 1;
     }
+
+
+
  }

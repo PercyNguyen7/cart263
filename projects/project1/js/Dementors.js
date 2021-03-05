@@ -119,7 +119,6 @@ class Dementors{
       this.lx3 = random(-this.levitatespeed,this.levitatespeed);
       this.ly3 = random(-this.levitatespeed,this.levitatespeed);
       }
-
     }
 
 // Constrain each Demetor's movement

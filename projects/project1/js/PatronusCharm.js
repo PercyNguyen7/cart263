@@ -14,6 +14,7 @@ class PatronusCharm{
 // Display the patronus charm consisted of 2 white, almost transparent circles!
     display(){
       push();
+      noStroke();
       fill(255,255,255,this.transparency);
       noStroke();
       ellipse(this.x,this.y, this.size,this.size);

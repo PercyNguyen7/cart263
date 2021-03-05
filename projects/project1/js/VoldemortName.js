@@ -74,7 +74,7 @@ class VoldemortName{
           this.size4 =200;
         }
         fill(239,255,190,this.tint5);
-        this.tint5 +=50;
+        this.tint5 +=60;
         ellipse(width/2,height/2,8000);
       }
       if (!voldemortnameSFX.isPlaying()){
