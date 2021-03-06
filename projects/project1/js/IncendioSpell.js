@@ -16,7 +16,8 @@ class IncendioSpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damage = 50;
+      this.damageMax = 80;
+      this.damageMin = 30;
     }
 // Display spell
     display(){
@@ -144,7 +145,7 @@ class IncendioSpell{
       if (d < 25){
         this.hitVoldemort = true;
         voldemort.incendiohurt = true;
-        voldemort.hp = voldemort.hp - this.damage;
+        voldemort.hp = voldemort.hp - int(random(this.damageMin, this.damageMax));
         incendiohitVSFX.play();
       }
   }
