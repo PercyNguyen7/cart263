@@ -3,32 +3,43 @@ class Timer{
     constructor(timerImage){
       this.x = 50,
       this.y = 450,
-      this.vx = random(1,5);
+      this.vx = 0;
       this.width = 40,
       this.height = 47,
-      this.tint = 220
+      this.tint = 220,
 
-      this.fill ={
-        r : 0,
-        g : 0,
-        b : 0,
-      };
-
+      this.transparency2 = 160
     }
 
     display(){
       push();
       noStroke();
-      fill(this.fill.r,this.fill.g,this.fill.b,140);
-      rect(50,450,540,20);
+      let r = map(this.x,50,590,0,133);
+      let g = map(this.x,50,590,0,210);
+      let b = map(this.x,50,590,0,100);
+      fill(r,g,b,this.transparency2);
+
+      rect(50,450,540,10);
       //
       image(timerImage,this.x,this.y,this.width,this.height);
       pop();
     }
 
-    move(){
+    move(voldemort){
       this.x += this.vx;
-      this.x = constrain(this.x,50, 590);
+
+      if (voldemort.countered === true){
+      this.vx = 5;
+      this.x = constrain(this.x,50, 590)
+      }
+      else if (voldemort.countered === false){
+        this.vx = 0;
+      }
+
+      if (this.x === 590){
+        voldemort.countered = false;
+        this.x = 50;
+      }
     }
 
 }

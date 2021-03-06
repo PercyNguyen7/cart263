@@ -23,9 +23,7 @@ class TreeTrunk{
   move(){
     this.x += this.vx;
     this.y += this.vy;
-    if (this.y === 4*height/5){
-          wleviosaSFX.play();
-    }
+    
 
     if (this.y <= 4*height/5 && this.y >= 3*height/5 ){
       this.vx = random(0.2, 0.3);

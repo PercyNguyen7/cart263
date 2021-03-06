@@ -22,7 +22,8 @@ let tipY;
 let tintvalue = 0;
 // User Webcam
 let video = undefined;
-
+// FONT
+let harrypotterFont
 //                        CLASSES VARIABLES
 let snitch;
 let introspells =[];
@@ -61,8 +62,11 @@ let stage4bgImage;
 let voldemortgreetImage;
 let voldemortcastImage;
 let voldemortspellImage;
+let voldemortspell2Image;
 let timerImage;
 let stupefyspellImage;
+let stupefyspell2Image;
+let stupefyeffectImage;
 //Sound variables
 let trainSFX;
 let firebgSFX;
@@ -71,6 +75,8 @@ let introSoundtrack;
 let snitchSFX;
 let introspellSFX;
 let teleportspellSFX;
+let stage123Soundtrack;
+let warSFX;
 let voldemortnameSFX;
 let wleviosaSFX;
 let wleviosaguideSFX;
@@ -78,11 +84,18 @@ let lumosSFX;
 let lumosmaximaSFX;
 let dementorsSFX;
 let expectopatronusSFX;
+let stage4Soundtrack;
+let stupefySFX;
+let spellcounteredSFX;
+let voldemorthitSFX;
 
 /**
 Description of preload
 */
 function preload() {
+// FONT load
+harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
+
 // Image load
   trainbgGif= loadImage(`assets/images/trainbg.gif`);
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
@@ -108,15 +121,21 @@ function preload() {
   voldemortgreetImage = loadImage(`assets/images/voldemortgreet.png`);
   voldemortcastImage = loadImage(`assets/images/voldemortcast.png`);
   voldemortspellImage = loadImage(`assets/images/vspell.png`);
+  voldemortspell2Image = loadImage(`assets/images/vspell2.png`);
   timerImage = loadImage(`assets/images/timer.png`);
   stupefyspellImage = loadImage (`assets/images/stupefyspell.png`);
+  stupefyspell2Image = loadImage(`assets/images/stupefyspell2.png`);
+  stupefyeffectImage = loadImage(`assets/images/stupefyeffect.png`);
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
-  firebgSFX = loadSound(`assets/sounds/firebg.mp3`)
+  firebgSFX = loadSound(`assets/sounds/firebg.mp3`);
   menuSoundtrack = loadSound(`assets/sounds/menumusic.mp3`);
   introSoundtrack = loadSound(`assets/sounds/introbg.mp3`);
+  snitchSFX = loadSound(`assets/sounds/snitch.mp3`);
   introspellSFX = loadSound(`assets/sounds/immobulus.mp3`);
+  stage123Soundtrack = loadSound(`assets/sounds/snapetomalfoy.mp3`);
+  warSFX = loadSound(`assets/sounds/warSFX.mp3`);
   voldemortnameSFX = loadSound(`assets/sounds/voldemortname.mp3`);
   teleportspellSFX = loadSound(`assets/sounds/teleportspell.wav`);
   wleviosaSFX = loadSound(`assets/sounds/wleviosa.mp3`);
@@ -125,8 +144,10 @@ function preload() {
   lumosmaximaSFX = loadSound(`assets/sounds/lumosmaxima.mp3`);
   dementorsSFX = loadSound(`assets/sounds/dementors.mp3`);
   expectopatronusSFX = loadSound(`assets/sounds/expectopatronus.mp3`);
-  snitchSFX = loadSound(`assets/sounds/snitch.mp3`);
-
+  stage4Soundtrack = loadSound(`assets/sounds/battlefield.mp3`);
+  stupefySFX = loadSound(`assets/sounds/stupefy.wav`);
+  spellcounteredSFX = loadSound(`assets/sounds/spellcountered.wav`);
+  voldemorthitSFX = loadSound(`assets/sounds/hitvoldemort.mp3`);
 }
 /**
 Description of setup
@@ -134,7 +155,7 @@ Description of setup
 function setup() {
 createCanvas(640,480);
 imageMode(CENTER);
-
+textFont(harrypotterFont);
 if (state === `loading`){
   trainSFX.play();
 }
@@ -167,6 +188,9 @@ if (state === `loading`){
       menuSoundtrack.amp(0.6);
       firebgSFX.amp(0.3);
       snitchSFX.amp(0.3);
+      stage123Soundtrack.amp(0.3);
+      warSFX.amp(0.2);
+      stage4Soundtrack.amp(0.4);
 
 
   });
@@ -241,7 +265,7 @@ function draw() {
 function loading(){
   image(trainbgGif,width/2,height/2);
   push();
-  displayText(`The Hogwarts Express is reaching its destination`, 20, width/2.5, height/12);
+  displayText(`The Hogwarts Express is reaching its destination`, 35, width/2.5, height/12);
   pop();
 }
 
@@ -250,14 +274,16 @@ function menu(){
   tintvalue = tintvalue +10;
   // tint(255,tintvalue);
   image(hogwartsbgImage, width/2, height/2,850,480);
-  displayText(`Battle of Hogwarts`,30, width/2, height/2, 255);
+  strokeWeight(1);
+  stroke(20,38,47);
+  displayText(`Battle of Hogwarts`,90, width/2, height/2,255,242,224);
   pop();
 }
 
 function instructions(){
   background(200,100,0);
   push();
-  displayText(`Battle of Hogwarts`,30, width/2, height/2,255,255,100);
+  displayText(`Instructions`,50, width/2, height/5);
   pop();
 }
 
@@ -266,7 +292,7 @@ function intro(){
   image(introbgImage, width/2, height/2, 680, 480);
   //If say Voldemort, game warns user!
   if (currentSpell === `Voldemort`){
-    currentSpell = `HE WHO MUST NOT BE NAMED...`
+    currentSpell = `He who must not be named...`
   }
      snitch.display();
      snitch.move();
@@ -307,7 +333,7 @@ function intro(){
     displaySpellName();
 // If snitch frozen, show text
     if(snitch.frozen ===true){
-      displayText(`Golden Snitch Immobilized!`,30, width/2, height/5,255);
+      displayText(`Golden Snitch Immobilized!`,50, width/2, height/5,255);
     }
   }
 function introEnd(){
@@ -457,7 +483,7 @@ function stage4(){
     currentSpell = `Stupefy`
   }
     timer.display();
-    timer.move();
+
     voldemort.display();
   if (predictions.length > 0){
      let hand = predictions[0];
@@ -479,26 +505,38 @@ function stage4(){
 
         for (let i = 0; i < stupefyspells.length; i++){
           let stupefyspell = stupefyspells[i];
-          stupefyspell.display(voldemort);
+          stupefyspell.display();
           stupefyspell.move();
-          stupefyspell.chase(voldemort);
-          stupefyspell.collide(voldemort);
-          if (voldemort.countered === true){
+          if (voldemort.countered === false && stupefyspell.size >= 200){
+          stupefyspell.chaseVspell(voldemort);
+          stupefyspell.collideVspell(voldemort);
+          }
+          else if (voldemort.countered === true || voldemort.countered === false && stupefyspell.size < 200){
+          stupefyspell.chaseVoldemort(voldemort);
+          stupefyspell.collideVoldemort(voldemort);
+          }
+          if (stupefyspell.hitspell === true){
             stupefyspells.splice(i,1);
             break;
-        }
+          }
+          if (stupefyspell.hitVoldemort === true){
+            stupefyspells.splice(i,1);
+            break;
+          }
+
       }
     }
     voldemort.move();
-    if (voldemort.size2 >= 20){
-    }
+    timer.move(voldemort);
     displaySpellName();
+
 }
 // BAD ENDINGS - GAME LOST
+// DEMENTORS ENDING if player fails to push dementors outside of the screen in time using the Patronus Charm (Expecto Patronum)
 function dementorEnding(){
   background(0);
   push();
-  displayText(`DementorEnding`, 20, width/2.5, height/12, 255);
+  displayText(`DementorEnding`, 50, width/2.5, height/12, 255);
   pop();
 }
 
@@ -514,7 +552,7 @@ function displaySpellName(){
   if (currentSpell === `Voldemort`){
     fill(217,254,177);
   }
-  displayText(currentSpell + `!`, 20, width / 2, height / 8);
+  displayText(currentSpell + `!`, 40, width / 2, height / 8);
   pop();
 }
 
@@ -534,6 +572,9 @@ function castSpell(spell){
     teleportspellSFX.play();
     voldemortnameSFX.play();
   }
+  else if (currentSpell === `Wingardium Leviosa` && state===`stage1`){
+    wleviosaSFX.play();
+  }
   else if (currentSpell === `Lumos` && state ===`stage2`){
     lumosSFX.play();
   }
@@ -544,7 +585,8 @@ function castSpell(spell){
     expectopatronusSFX.loop();
     dementorsSFX.stop();
   }
-  else if(currentSpell === `Stupify`){
+  else if(currentSpell === `Stupify` && state ===`stage4`){
+    stupefySFX.play();
     createStupefySpell(tipX,tipY);
   }
 }
@@ -556,7 +598,7 @@ function createIntroSpell(x,y){
 }
 // function that create introspell
 function createStupefySpell(x,y){
-    let stupefyspell = new StupefySpell(x,y,stupefyspellImage);
+    let stupefyspell = new StupefySpell(x,y,stupefyspellImage,stupefyspell2Image,stupefyeffectImage);
     stupefyspells.push(stupefyspell);
 }
 // Display text easier
@@ -590,6 +632,8 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `introEnd` ){
     state = `stage1`;
     introSoundtrack.stop();
+    stage123Soundtrack.loop();
+    // warSFX.play();
   }
   else if (keyCode === ENTER && state === `stage1` ){
     state = `stage1End`;
@@ -608,9 +652,11 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `stage3` ){
     state = `stage3End`;
     dementorsSFX.stop();
+    stage123Soundtrack.stop();
   }
   else if (keyCode === ENTER && state === `stage3End` ){
     state = `stage4`;
+    stage4Soundtrack.loop();
   }
   // Delete current spell if BACKSPACE is pressed
   else if (keyCode === 8){

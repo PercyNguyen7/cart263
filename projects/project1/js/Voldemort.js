@@ -8,6 +8,10 @@ class Voldemort{
       this.width = 50;
       this.height = 65;
       this.image = voldemortgreetImage;
+      this.hp = 1000;
+      this.countered = false;
+      this.vulnerable = false;
+      this.stupefyhurt = false;
 
       this.x2 = width/2;
       this.y2 = 2*height/3;
@@ -20,9 +24,13 @@ class Voldemort{
       this.size2 = 5,
       this.grow2 = 6,
       this.image2 = voldemortspellImage;
-      this.countered2 = false;
 
-      this.counter = 0;
+// To display image of Voldemort hurt by spell!
+      this.image3;
+      this.x3 = width/2,
+      this.y3 = height/2,
+      this.width3 = 740,
+      this.height3 = 480;
     }
 
     display(){
@@ -39,14 +47,35 @@ class Voldemort{
       this.size2 += this.grow2;
       this.size2 = constrain(this.size2,0,600);
 
+      if (this.image2 === voldemortspellImage){
+        this.image2 = voldemortspell2Image;
+      }
+      else if (this.image2 === voldemortspell2Image){
+        this.image2 = voldemortspellImage
+      }
+
 // RESET values of the spell once it has been countered
       if (this.countered ===true){
         this.x2 = width/2;
-        this.y2 = height/2;
-        this.size2 = 5;
-        this.counter++;
-        this.countered = false;
+        this.y2 = 2*height/3;
+        this.size2 = 1;
        }
+
+      // Display Voldemort's HP
+        displayText(`HP:`+this.hp, 15, width / 2,4.6*height / 8,217,254,177);
+
+// If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
+        if(this.stupefyhurt === true){
+          this.image3 = stupefyeffectImage;
+          image(this.image3,this.x3,this.y3,this.width3,this.height3);
+          this.width3= this.width3 +25;
+          this.height3 = this.height3 +18;
+          if (this.width3 >= 900){
+            this.width3 = 740;
+            this.height3 = 480;
+            this.stupefyhurt = false;
+          }
+        }
     }
 
     move(){
@@ -78,9 +107,12 @@ class Voldemort{
      else {
        this.ay2 = -this.acceleration2;
      }
-
-
-
-
    }
+
+   // defeatVoldemort(){
+   //   if (this.hp <=0){
+   //     state = `winEnding`
+   //   }
+   // }
+
  }
