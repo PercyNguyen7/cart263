@@ -1,4 +1,4 @@
-// This small timer moves from the left to the right. Once it touches the width, Voldemort will cast the next spell
+// This small timer moves from the left to the right. Once it reaches the right end of the rectangle, Voldemort will cast his spell.
 class Timer{
     constructor(timerImage){
       this.x = 50,

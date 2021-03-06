@@ -67,6 +67,9 @@ let timerImage;
 let stupefyspellImage;
 let stupefyspell2Image;
 let stupefyeffectImage;
+let incendiospellImage;
+let incendiospell2Image;
+let incendioeffectImage;
 //Sound variables
 let trainSFX;
 let firebgSFX;
@@ -86,8 +89,11 @@ let dementorsSFX;
 let expectopatronusSFX;
 let stage4Soundtrack;
 let stupefySFX;
+let stupefyhitVSFX;
+let incendioSFX;
+let incendiohitVSFX;
 let spellcounteredSFX;
-let voldemorthitSFX;
+
 
 /**
 Description of preload
@@ -126,6 +132,9 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   stupefyspellImage = loadImage (`assets/images/stupefyspell.png`);
   stupefyspell2Image = loadImage(`assets/images/stupefyspell2.png`);
   stupefyeffectImage = loadImage(`assets/images/stupefyeffect.png`);
+  incendiospellImage = loadImage (`assets/images/incendio.png`);
+  incendiospell2Image = loadImage(`assets/images/incendio2.png`);
+  incendioeffectImage = loadImage(`assets/images/incendioeffect.png`);
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
@@ -146,8 +155,10 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   expectopatronusSFX = loadSound(`assets/sounds/expectopatronus.mp3`);
   stage4Soundtrack = loadSound(`assets/sounds/battlefield.mp3`);
   stupefySFX = loadSound(`assets/sounds/stupefy.wav`);
+  incendioSFX = loadSound(`assets/sounds/incendio.wav`);
   spellcounteredSFX = loadSound(`assets/sounds/spellcountered.wav`);
-  voldemorthitSFX = loadSound(`assets/sounds/hitvoldemort.mp3`);
+  stupefyhitVSFX = loadSound(`assets/sounds/stuphitV.mp3`);
+  incendiohitVSFX = loadSound(`assets/sounds/incendiohitV.wav`);
 }
 /**
 Description of setup
@@ -523,11 +534,33 @@ function stage4(){
             stupefyspells.splice(i,1);
             break;
           }
-
+      }
+        for (let i = 0; i < incendiospells.length; i++){
+          let incendiospell = incendiospells[i];
+          incendiospell.display();
+          incendiospell.move();
+          if (voldemort.countered === false && incendiospell.size >= 200){
+          incendiospell.chaseVspell(voldemort);
+          incendiospell.collideVspell(voldemort);
+          }
+          else if (voldemort.countered === true || voldemort.countered === false && incendiospell.size < 200){
+          incendiospell.chaseVoldemort(voldemort);
+          incendiospell.collideVoldemort(voldemort);
+          }
+          if (incendiospell.hitspell === true){
+            incendiospells.splice(i,1);
+            break;
+          }
+          if (incendiospell.hitVoldemort === true){
+            incendiospells.splice(i,1);
+            break;
+          }
       }
     }
     voldemort.move();
     timer.move(voldemort);
+    voldemortname.display();
+    voldemortname.move();
     displaySpellName();
 
 }
@@ -539,14 +572,16 @@ function dementorEnding(){
   displayText(`DementorEnding`, 50, width/2.5, height/12, 255);
   pop();
 }
-
+// VOLDEMORT ENDING if player says the name Voldemort in stages 1-4.
 function VNameEnding(){
-  background(160,0,0);
+  background(20,116,82);
   push();
-  displayText(`Voldemort Ending`, 20, width/2.5, height/12, 255);
+  displayText(`Foolish enough to mention the Dark Lord?`, 40, width/2, height/2, 180);
+  displayText(`The End`, 35, width/2, 3*height/4, 180)
   pop();
+
 }
-//DISPLAY THE CURRENT SPELL AT TOP
+//Display the current spell that the user just use up top!
 function displaySpellName(){
   push();
   if (currentSpell === `Voldemort`){
@@ -565,7 +600,7 @@ function castSpell(spell){
       createIntroSpell(tipX,tipY);
   }
   else if (currentSpell === `Voldemort` && state === `stage1` || currentSpell === `Voldemort` && state === `stage2`
-  || currentSpell === `Voldemort` && state === `stage3`){
+  || currentSpell === `Voldemort` && state === `stage3`|| currentSpell === `Voldemort` && state === `stage4`){
     if (dementorsSFX.isPlaying()){
       dementorsSFX.stop();
     }
@@ -589,19 +624,29 @@ function castSpell(spell){
     stupefySFX.play();
     createStupefySpell(tipX,tipY);
   }
+  else if(currentSpell === `Incendio` && state ===`stage4`){
+    incendioSFX.play();
+    createIncendioSpell(tipX,tipY);
+  }
 }
 
-// function that create introspell
+// function that create introspell each time the player yells Immobulus
 function createIntroSpell(x,y){
     let introspell = new IntroSpell(x,y, introspellImage);
     introspells.push(introspell);
 }
-// function that create introspell
+// Function that create Stupefy spell each time the player yells Stupify
 function createStupefySpell(x,y){
     let stupefyspell = new StupefySpell(x,y,stupefyspellImage,stupefyspell2Image,stupefyeffectImage);
     stupefyspells.push(stupefyspell);
 }
-// Display text easier
+
+// Function that create Incendio spell each time the player yells Incendio
+function createIncendioSpell(x,y){
+    let incendiospell = new IncendioSpell(x,y,incendiospellImage,incendiospell2Image,incendioeffectImage);
+    incendiospells.push(incendiospell);
+}
+// Function that allow display text to be more efficient
 function displayText(string, size, x, y, r, g, b) {
     push();
     fill(r,g,b)
@@ -610,7 +655,7 @@ function displayText(string, size, x, y, r, g, b) {
     text(string, x, y);
     pop();
 }
-// Keypress function
+// Keypress function that changes states of the game
 function keyPressed(){
   // Allow to change state if pressed on appropriate keys!
   if (keyCode === ENTER && state ===`menu`){
@@ -633,7 +678,7 @@ function keyPressed(){
     state = `stage1`;
     introSoundtrack.stop();
     stage123Soundtrack.loop();
-    // warSFX.play();
+    warSFX.loop();
   }
   else if (keyCode === ENTER && state === `stage1` ){
     state = `stage1End`;
@@ -653,6 +698,7 @@ function keyPressed(){
     state = `stage3End`;
     dementorsSFX.stop();
     stage123Soundtrack.stop();
+    warSFX.stop();
   }
   else if (keyCode === ENTER && state === `stage3End` ){
     state = `stage4`;

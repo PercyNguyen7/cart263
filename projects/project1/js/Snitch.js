@@ -1,3 +1,5 @@
+// The snitch is the flying golden ball in the introductory stage of the game! Player must cast Immobulus, the intro spell,
+ // to immobolize it and advance in the game
 class Snitch{
     constructor(snitchImage,snitch2Image){
       this.x = width/2;

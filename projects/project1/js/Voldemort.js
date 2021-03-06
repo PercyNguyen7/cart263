@@ -76,6 +76,18 @@ class Voldemort{
             this.stupefyhurt = false;
           }
         }
+// If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
+        if(this.incendiohurt === true){
+          this.image3 = incendioeffectImage;
+          image(this.image3,this.x3,this.y3,this.width3,this.height3);
+          this.width3= this.width3 +25;
+          this.height3 = this.height3 +18;
+          if (this.width3 >= 900){
+            this.width3 = 740;
+            this.height3 = 480;
+            this.incendiohurt = false;
+          }
+        }
     }
 
     move(){
