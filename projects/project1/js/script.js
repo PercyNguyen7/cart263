@@ -36,6 +36,8 @@ let voldemort;
 let timer;
 let stupefyspells=[];
 let incendiospells=[];
+let expelliarmusspells =[];
+let confringospells =[];
 
 //                        IMAGES VARIABLES
 let trainbgGif;
@@ -70,6 +72,12 @@ let stupefyeffectImage;
 let incendiospellImage;
 let incendiospell2Image;
 let incendioeffectImage;
+let expelliarmusspellImage;
+let expelliarmusspell2Image;
+let expelliarmuseffectImage;
+let confringospellImage;
+let confringospell2Image;
+let confringoeffectImage;
 //Sound variables
 let trainSFX;
 let firebgSFX;
@@ -89,10 +97,15 @@ let dementorsSFX;
 let expectopatronusSFX;
 let stage4Soundtrack;
 let stupefySFX;
-let stupefyhitVSFX;
+let spellhitV;
 let incendioSFX;
 let incendiohitVSFX;
+let expelliarmusSFX;
+let expelliarmushitVSFX;
+let confringoSFX;
+let confringohitVSFX;
 let spellcounteredSFX;
+let avadakedavraSFX;
 
 
 /**
@@ -135,6 +148,13 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   incendiospellImage = loadImage (`assets/images/incendio.png`);
   incendiospell2Image = loadImage(`assets/images/incendio2.png`);
   incendioeffectImage = loadImage(`assets/images/incendioeffect.png`);
+  expelliarmusspellImage = loadImage (`assets/images/expelliarmus.png`);
+  expelliarmusspell2Image = loadImage(`assets/images/expelliarmus2.png`);
+  expelliarmuseffectImage = loadImage(`assets/images/expelliarmuseffect.png`);
+  confringospellImage = loadImage (`assets/images/confringo.png`);
+  confringospell2Image = loadImage(`assets/images/confringo2.png`);
+  confringoeffectImage = loadImage(`assets/images/confringoeffect.png`);
+
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
@@ -156,9 +176,15 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   stage4Soundtrack = loadSound(`assets/sounds/battlefield.mp3`);
   stupefySFX = loadSound(`assets/sounds/stupefy.wav`);
   incendioSFX = loadSound(`assets/sounds/incendio.wav`);
-  spellcounteredSFX = loadSound(`assets/sounds/spellcountered.wav`);
-  stupefyhitVSFX = loadSound(`assets/sounds/stuphitV.mp3`);
   incendiohitVSFX = loadSound(`assets/sounds/incendiohitV.wav`);
+  expelliarmusSFX = loadSound(`assets/sounds/expelliarmus.wav`);
+  expelliarmushitVSFX = loadSound(`assets/sounds/expelliarmushitV.wav`);
+  confringoSFX = loadSound(`assets/sounds/confringo.wav`);
+  confringohitVSFX = loadSound(`assets/sounds/confringohitV.wav`);
+  spellcounteredSFX = loadSound(`assets/sounds/spellcountered.wav`);
+  spellhitV = loadSound(`assets/sounds/spellhitV.mp3`);
+  avadakedavraSFX = loadSound(`assets/sounds/avadakedavra.wav`);
+
 }
 /**
 Description of setup
@@ -494,8 +520,8 @@ function stage4(){
     currentSpell = `Stupefy`
   }
     timer.display();
-
     voldemort.display();
+    voldemort.Voldemorthurt();
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -516,7 +542,7 @@ function stage4(){
 
         for (let i = 0; i < stupefyspells.length; i++){
           let stupefyspell = stupefyspells[i];
-          stupefyspell.display();
+          stupefyspell.display(voldemort);
           stupefyspell.move();
           if (voldemort.countered === false && stupefyspell.size >= 200){
           stupefyspell.chaseVspell(voldemort);
@@ -524,7 +550,7 @@ function stage4(){
           }
           else if (voldemort.countered === true || voldemort.countered === false && stupefyspell.size < 200){
           stupefyspell.chaseVoldemort(voldemort);
-          stupefyspell.collideVoldemort(voldemort);
+          stupefyspell.collideVoldemort(voldemort,timer);
           }
           if (stupefyspell.hitspell === true){
             stupefyspells.splice(i,1);
@@ -545,7 +571,7 @@ function stage4(){
           }
           else if (voldemort.countered === true || voldemort.countered === false && incendiospell.size < 200){
           incendiospell.chaseVoldemort(voldemort);
-          incendiospell.collideVoldemort(voldemort);
+          incendiospell.collideVoldemort(voldemort,timer);
           }
           if (incendiospell.hitspell === true){
             incendiospells.splice(i,1);
@@ -556,7 +582,50 @@ function stage4(){
             break;
           }
       }
+        for (let i = 0; i < expelliarmusspells.length; i++){
+          let expelliarmusspell = expelliarmusspells[i];
+          expelliarmusspell.display();
+          expelliarmusspell.move();
+          if (voldemort.countered === false && expelliarmusspell.size >= 200){
+          expelliarmusspell.chaseVspell(voldemort);
+          expelliarmusspell.collideVspell(voldemort);
+          }
+          else if (voldemort.countered === true || voldemort.countered === false && expelliarmusspell.size < 200){
+          expelliarmusspell.chaseVoldemort(voldemort);
+          expelliarmusspell.collideVoldemort(voldemort,timer);
+          }
+          if (expelliarmusspell.hitspell === true){
+            expelliarmusspells.splice(i,1);
+            break;
+          }
+          if (expelliarmusspell.hitVoldemort === true){
+            expelliarmusspells.splice(i,1);
+            break;
+          }
+      }
+        for (let i = 0; i < confringospells.length; i++){
+          let confringospell = confringospells[i];
+          confringospell.display();
+          confringospell.move();
+          if (voldemort.countered === false && confringospell.size >= 200){
+          confringospell.chaseVspell(voldemort);
+          confringospell.collideVspell(voldemort);
+          }
+          else if (voldemort.countered === true || voldemort.countered === false && confringospell.size < 200){
+          confringospell.chaseVoldemort(voldemort);
+          confringospell.collideVoldemort(voldemort,timer);
+          }
+          if (confringospell.hitspell === true){
+            confringospells.splice(i,1);
+            break;
+          }
+          if (confringospell.hitVoldemort === true){
+            confringospells.splice(i,1);
+            break;
+          }
+      }
     }
+
     voldemort.move();
     timer.move(voldemort);
     voldemortname.display();
@@ -628,6 +697,14 @@ function castSpell(spell){
     incendioSFX.play();
     createIncendioSpell(tipX,tipY);
   }
+  else if(currentSpell === `Expelliarmus` && state ===`stage4`){
+    expelliarmusSFX.play();
+    createExpelliarmusSpell(tipX,tipY);
+  }
+  else if(currentSpell === `Confringo` && state ===`stage4`){
+    confringoSFX.play();
+    createConfringoSpell(tipX,tipY);
+  }
 }
 
 // function that create introspell each time the player yells Immobulus
@@ -640,11 +717,21 @@ function createStupefySpell(x,y){
     let stupefyspell = new StupefySpell(x,y,stupefyspellImage,stupefyspell2Image,stupefyeffectImage);
     stupefyspells.push(stupefyspell);
 }
-
 // Function that create Incendio spell each time the player yells Incendio
 function createIncendioSpell(x,y){
     let incendiospell = new IncendioSpell(x,y,incendiospellImage,incendiospell2Image,incendioeffectImage);
     incendiospells.push(incendiospell);
+}
+// Function that create Expelliarmus spell each time the player yells Incendio
+function createExpelliarmusSpell(x,y){
+    let expelliarmusspell = new ExpelliarmusSpell(x,y,expelliarmusspellImage,expelliarmusspell2Image,expelliarmuseffectImage);
+    expelliarmusspells.push(expelliarmusspell);
+}
+
+// Function that create Confringo spell each time the player yells Incendio
+function createConfringoSpell(x,y){
+    let confringospell = new ConfringoSpell(x,y,confringospellImage,confringospell2Image,confringoeffectImage);
+    confringospells.push(confringospell);
 }
 // Function that allow display text to be more efficient
 function displayText(string, size, x, y, r, g, b) {

@@ -16,8 +16,9 @@ class IncendioSpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damageMax = 80;
-      this.damageMin = 30;
+      this.damageMax = 120;
+      this.damageMin = 70;
+      this.damage = 0;
     }
 // Display spell
     display(){
@@ -140,13 +141,19 @@ class IncendioSpell{
 // When spell collides with Voldemort, decreases Voldemort's HP by the spell's damage amount. Turn hitVoldemort to true to remove the spell from
 // the array in the main script.
 //Turn incendiohurt to true to display Voldemort being struck by the spell in Voldemort class.
-  collideVoldemort(voldemort){
+  collideVoldemort(voldemort,timer){
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
-      if (d < 25){
+      if (d < 35){
+        displayText(`-`+ this.damage, 50, 5*width / 6, height /6,187,82,15);
+        if (timer.lostwand ===true){
+           timer.lostswand = false;
+         }
         this.hitVoldemort = true;
         voldemort.incendiohurt = true;
-        voldemort.hp = voldemort.hp - int(random(this.damageMin, this.damageMax));
+        this.damage = int(random(this.damageMin, this.damageMax));
+        voldemort.hp = voldemort.hp - this.damage;
         incendiohitVSFX.play();
+        spellhitV.play();
       }
   }
 }

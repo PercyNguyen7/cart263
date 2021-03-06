@@ -12,6 +12,9 @@ class Voldemort{
       this.countered = false;
       this.vulnerable = false;
       this.stupefyhurt = false;
+      this.incendiohurt = false;
+      this.expelliarmushurt = false;
+      this.confringohurt = false;
 
       this.x2 = width/2;
       this.y2 = 2*height/3;
@@ -62,34 +65,60 @@ class Voldemort{
        }
 
       // Display Voldemort's HP
-        displayText(`HP:`+this.hp, 15, width / 2,4.6*height / 8,217,254,177);
+        displayText(`HP:`+this.hp, 20, width / 2,4.6*height / 8,217,254,177);
 
-// If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
-        if(this.stupefyhurt === true){
-          this.image3 = stupefyeffectImage;
-          image(this.image3,this.x3,this.y3,this.width3,this.height3);
-          this.width3= this.width3 +25;
-          this.height3 = this.height3 +18;
-          if (this.width3 >= 900){
-            this.width3 = 740;
-            this.height3 = 480;
-            this.stupefyhurt = false;
-          }
-        }
-// If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
-        if(this.incendiohurt === true){
-          this.image3 = incendioeffectImage;
-          image(this.image3,this.x3,this.y3,this.width3,this.height3);
-          this.width3= this.width3 +25;
-          this.height3 = this.height3 +18;
-          if (this.width3 >= 900){
-            this.width3 = 740;
-            this.height3 = 480;
-            this.incendiohurt = false;
-          }
-        }
+
     }
-
+    Voldemorthurt(){
+      // If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
+              if(this.stupefyhurt === true){
+                this.image3 = stupefyeffectImage;
+                image(this.image3,this.x3,this.y3,this.width3,this.height3);
+                this.width3= this.width3 +25;
+                this.height3 = this.height3 +18;
+                if (this.width3 >= 900){
+                  this.width3 = 740;
+                  this.height3 = 480;
+                  this.stupefyhurt = false;
+                }
+              }
+      // If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
+              if(this.incendiohurt === true){
+                this.image3 = incendioeffectImage;
+                image(this.image3,this.x3,this.y3,this.width3,this.height3);
+                this.width3= this.width3 +25;
+                this.height3 = this.height3 +18;
+                if (this.width3 >= 900){
+                  this.width3 = 740;
+                  this.height3 = 480;
+                  this.incendiohurt = false;
+                }
+              }
+              if(this.expelliarmushurt === true){
+                this.image3 = expelliarmuseffectImage;
+                image(this.image3,this.x3,this.y3,this.width3,this.height3);
+                this.width3= this.width3 +25;
+                this.height3 = this.height3 +18;
+                // displayText(`-`+ expelliarmusspell.damage, 40, 5*width / 6,height / 6,188,77,114);
+                if (this.width3 >= 900){
+                  this.width3 = 740;
+                  this.height3 = 480;
+                  this.expelliarmushurt = false;
+                }
+              }
+              if(this.confringohurt === true){
+                this.image3 = confringoeffectImage;
+                image(this.image3,this.x3,this.y3,this.width3,this.height3);
+                this.width3= this.width3 +25;
+                this.height3 = this.height3 +18;
+                // displayText(`-`+ confringospell.damage, 40, 5*width / 6,height / 6,188,77,114);
+                if (this.width3 >= 900){
+                  this.width3 = 740;
+                  this.height3 = 480;
+                  this.confringohurt = false;
+                }
+              }
+    }
     move(){
       // MOVE VOLDY'S SPELL
       this.x2 += this.vx2;

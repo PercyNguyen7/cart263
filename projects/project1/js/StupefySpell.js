@@ -16,10 +16,10 @@ class StupefySpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damage = 50;
+      this.damage = 70;
     }
 // Display spell
-    display(){
+    display(voldemort){
       image(this.image, this.x, this.y, this.size, this.size);
 // Flash and turn flash off when casted
       if (this.flash === true){
@@ -43,8 +43,10 @@ class StupefySpell{
       }
     else if (voldemort.countered === true){
       this.deform = 40;
-
       }
+
+
+
 
       // // This toggles the split function for the stupefy array once the spell hits Voldemort's spell!
             // if (this.hitspell === true){
@@ -140,13 +142,15 @@ class StupefySpell{
 // When spell collides with Voldemort, decreases Voldemort's HP by the spell's damage amount. Turn hitVoldemort to true to remove the spell from
 // the array in the main script.
 //Turn stupefyhurt to true to display Voldemort being struck by the spell in Voldemort class.
-  collideVoldemort(voldemort){
+  collideVoldemort(voldemort,timer){
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
-      if (d < 25){
+      if (d < 35){
+        displayText(`-`+this.damage, 50, 5*width / 6, height /6,131,174,190);
         this.hitVoldemort = true;
         voldemort.stupefyhurt = true;
         voldemort.hp = voldemort.hp - this.damage;
-        stupefyhitVSFX.play();
+        timer.slowed = true;
+        spellhitV.play();
       }
   }
 }
