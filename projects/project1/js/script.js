@@ -44,10 +44,11 @@ let confringospells =[];
 //                        IMAGES VARIABLES
 let trainbgGif;
 let hogwartsbgImage;
+let instructionsImage;
+let spellslistImage;
 let snitchImage;
 let snitch2Image;
 let introbgImage;
-let wandlightImage;
 let introspellImage;
 let stage1bgImage;
 let voldemortnameImage;
@@ -62,6 +63,7 @@ let stage3bgImage;
 let dementorImage;
 let dementor2Image;
 let dementor3Image;
+let dementorGif;
 let stage4bgImage;
 let voldemortgreetImage;
 let voldemortcastImage;
@@ -80,6 +82,7 @@ let expelliarmuseffectImage;
 let confringospellImage;
 let confringospell2Image;
 let confringoeffectImage;
+let vdeathImage;
 //Sound variables
 let trainSFX;
 let firebgSFX;
@@ -108,7 +111,9 @@ let confringoSFX;
 let confringohitVSFX;
 let spellcounteredSFX;
 let avadakedavraSFX;
-
+let evillaughSFX;
+let loseEndingSFX;
+let winEndingSFX;
 
 /**
 Description of preload
@@ -120,10 +125,11 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
 // Image load
   trainbgGif= loadImage(`assets/images/trainbg.gif`);
   hogwartsbgImage = loadImage(`assets/images/hogwartsbg.jpg`);
+  instructionsImage = loadImage(`assets/images/gryf.jpg`);
+  spellslistImage = loadImage(`assets/images/ravenclaw.png`);
   snitchImage = loadImage(`assets/images/snitch.png`);
   snitch2Image = loadImage(`assets/images/snitch2.png`);
   introbgImage = loadImage(`assets/images/quidditchbg.jpg`);
-  wandlightImage = loadImage(`assets/images/wandlight.png`);
   introspellImage = loadImage(`assets/images/introspell.png`);
   stage1bgImage = loadImage(`assets/images/forestbg.jpg`);
   voldemortnameImage = loadImage(`assets/images/voldemortname.png`);
@@ -138,6 +144,7 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   dementorImage = loadImage(`assets/images/dementor.png`);
   dementor2Image = loadImage(`assets/images/dementor2.png`);
   dementor3Image = loadImage(`assets/images/dementor3.png`);
+  dementorGif = loadImage(`assets/images/dementor.gif`);
   stage4bgImage = loadImage(`assets/images/courtyardbg.jpg`)
   voldemortgreetImage = loadImage(`assets/images/voldemortgreet.png`);
   voldemortcastImage = loadImage(`assets/images/voldemortcast.png`);
@@ -156,7 +163,7 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   confringospellImage = loadImage (`assets/images/confringo.png`);
   confringospell2Image = loadImage(`assets/images/confringo2.png`);
   confringoeffectImage = loadImage(`assets/images/confringoeffect.png`);
-
+  vdeathImage = loadImage(`assets/images/vdeath.gif`);
 
 // Sound load
   trainSFX = loadSound(`assets/sounds/trainwhistle.mp3`);
@@ -186,7 +193,9 @@ harrypotterFont = loadFont(`assets/fonts/harryp.TTF`)
   spellcounteredSFX = loadSound(`assets/sounds/spellcountered.wav`);
   spellhitV = loadSound(`assets/sounds/spellhitV.mp3`);
   avadakedavraSFX = loadSound(`assets/sounds/avadakedavra.wav`);
-
+  evillaughSFX = loadSound(`assets/sounds/evillaugh.mp3`);
+  loseEndingSFX = loadSound(`assets/sounds/loseending.mp3`);
+  winEndingSFX = loadSound(`assets/sounds/winending.mp3`);
 }
 /**
 Description of setup
@@ -228,7 +237,7 @@ if (state === `loading`){
       firebgSFX.amp(0.3);
       snitchSFX.amp(0.3);
       stage123Soundtrack.amp(0.3);
-      warSFX.amp(0.2);
+      warSFX.amp(0.3);
       stage4Soundtrack.amp(0.4);
 
 
@@ -250,7 +259,7 @@ if (state === `loading`){
  }
 
 /**
-Description of draw()
+ Switch case between states!
 */
 function draw() {
   background(0);
@@ -264,6 +273,9 @@ function draw() {
            break;
        case "instructions":
            instructions();
+           break;
+       case "spellslist":
+           spellslist();
            break;
        case "intro":
            intro();
@@ -315,8 +327,8 @@ function loading(){
 
 function menu(){
   push();
-  tintvalue = tintvalue +10;
-  // tint(255,tintvalue);
+  tintvalue+= 30;
+  tint(255,tintvalue);
   image(hogwartsbgImage, width/2, height/2,850,480);
   strokeWeight(1);
   stroke(20,38,47);
@@ -325,15 +337,45 @@ function menu(){
 }
 
 function instructions(){
-  background(200,100,0);
+  image(instructionsImage,width/2,height/2,862,480);
   push();
-  displayText(`Instructions`,50, width/2, height/5);
+  stroke(0);
+  strokeWeight(1);
+  displayText(`Instructions`,50, width/2, height/5 );
+  displayText(`Your wand is now your Index Finger`,40, width/2, height/2-40);
+  displayText(`Yell the incantation of a spell to cast it`,40, width/2, height/2);
+  displayText(`Consult the Spells List by yelling "Spells List" or press S`,30, width/2, height/2+40);
+  displayText(`Once READY, Press Enter to Play`,40, width/2, height/2+80);
+  displayText(`Your Input:`+ currentSpell, 40, width / 2, height/2+150);
+  pop();
+}
+
+function spellslist(){
+  background(1,80,110);
+  image(spellslistImage,width/2,height/2,408,480);
+  push();
+  stroke(0);
+  strokeWeight(1);
+  displayText(`Spells List`,50, width/2, height/8);
+  displayText(`Confringo: Curse that caused the target to explode`,30,width/2,height/2 -140);
+  displayText(`Expecto Patronum: Defensive charm against Dementors`,30,width/2,height/2 -110);
+  displayText(`Expelliarmus: Disarm Charm`,30,width/2,height/2 -80);
+  displayText(`Immobulus: Freezing Charm`,30,width/2,height/2 -50);
+  displayText(`Incendio: Fire-Making Spell`,30,width/2,height/2 -20);
+  displayText(`Lumos: Wand-Lighting Charm`,30,width/2,height/2 +10 );
+  displayText(`Lumos Maxima: Modified version of the Wand-Lighting Charm`,30,width/2,height/2 +40);
+  displayText(`Wingardium Leviosa: Levitation Charm`,30,width/2,height/2 +70);
+  displayText(`Stupefy: Stunning Spell`,30,width/2,height/2 +100);
+  displayText(`Revelio: Charm that reveal concealed objects, messages, passages`,30,width/2,height/2 +130);
+  displayText(`Yell BACK or Press B to go back to Instructions`,30,width/2,height/2 +180);
   pop();
 }
 
 function intro(){
 // background image
   image(introbgImage, width/2, height/2, 680, 480);
+
+
   //If say Voldemort, game warns user!
   if (currentSpell === `Voldemort`){
     currentSpell = `He who must not be named...`
@@ -353,12 +395,9 @@ function intro(){
 
 // Wand display
       push();
-      // tintvalue = random(0,150)
-      // tint(255,tintvalue);
       strokeWeight(3);
       stroke(0);
       line(baseX, baseY, tipX, tipY);
-      // image(wandlightImage,tipX,tipY,30,30);
       pop();
 
       for (let i = 0; i < introspells.length; i++){
@@ -376,27 +415,33 @@ function intro(){
 // Display Spell up top
     displaySpellName();
 // If snitch frozen, show text
+    if (snitch.frozen ===false){
+    displayText(`Use the Freezing Charm, Immobulus, to stop the Golden Snitch from moving!`,25, width/2,5*height/6);
+  }
     if(snitch.frozen ===true){
       displayText(`Golden Snitch Immobilized!`,50, width/2, height/5,255);
+      displayText(`Enter to continue`,30,4*width/5,5*height/6);
     }
   }
 function introEnd(){
-  background(255);
+  background(10);
   push();
-  fill(0);
-  displayText(`Intro End`, 20, width/2.5, height/12, 0);
+  displayText(`Apply your knowledge to the journey ahead`, 40, width/2, height/2, 255,255,255);
+  displayText(`Enter to continue`,30,4*width/5,5*height/6);
   pop();
 }
-
 // Stage 1 of game: Use spell Wingardium Leviosa to levitate the tree log that blocks the path
 function stage1(){
   push();
   image(stage1bgImage,width/2,height/2, 667,480 );
   pop();
   treetrunk.display();
-
-  if(currentSpell === `Wingardium Leviosa`){
+  if (currentSpell === `Revelio`){
+    displayText(`Wingardium Leviosa`, 40, width/2, 5*height/6, 255,255,255);
+  }
+  else if(currentSpell === `Wingardium Leviosa`){
       treetrunk.move();
+      displayText(`Enter to continue`,30,4*width/5,5*height/6);
   }
   if (predictions.length > 0){
      let hand = predictions[0];
@@ -422,10 +467,10 @@ function stage1(){
 }
 
 function stage1End(){
-  background(255);
+  background(10);
   push();
-  fill(0);
-  displayText(`Stage 1 End`, 20, width/2.5, height/12, 0);
+  displayText(`And we march onward`, 50, width/2, height/2, 255,255,255);
+  displayText(`Enter to continue`,30,4*width/5,5*height/6);
   pop();
 }
 
@@ -444,34 +489,41 @@ function stage2(){
       let tipY = tip[1];
       let baseX = base[0];
       let baseY = base[1];
-      push();
-      strokeWeight(3);
-      fill(150);
-      stroke(150);
-      line(baseX, baseY, tipX, tipY);
+      if (currentSpell === `Revelio`){
+        displayText(`Lumos, Lumos Maxima`, 40, width/2, 5*height/6, 255,255,255);
+      }
 
-      if(currentSpell === `Lumos`){
-
+      else if(currentSpell === `Lumos`){
+        push();
         image(snapeImage, 3*width/4,3*height/4, 143.75,400);
         tint(255,200);
         image(lumosflareImage,tipX,tipY,70,70);
+        pop();
       }
       else if(currentSpell === `Lumos Maxima`){
 
         image(lumosflareImage,tipX,tipY,90,90);
         lumosmaxcasted = true;
+        displayText(`Enter to continue`,30,4*width/5,5*height/6);
       }
+      push();
+      strokeWeight(3);
+      fill(150);
+      stroke(150);
+      line(baseX, baseY, tipX, tipY);
       pop();
+
+
     }
     voldemortname.display();
     voldemortname.move();
     displaySpellName();
 }
 function stage2End(){
-  background(255);
+  background(10);
   push();
-  fill(0);
-  displayText(`Stage 2 End`, 20, width/2.5, height/12, 0);
+  displayText(`Finally, Hogwarts is in sight`, 50, width/2, height/2, 255,255,255);
+  displayText(`Enter to continue`,30,4*width/5,5*height/6);
   pop();
 }
 function stage3(){
@@ -479,6 +531,9 @@ function stage3(){
   dementors.display();
   dementors.move();
   dementors.disappear();
+  if (currentSpell === `Revelio`){
+    displayText(`Expecto Patronum`, 40, width/2, 5*height/6, 255,255,255);
+  }
   if (predictions.length > 0){
      let hand = predictions[0];
 
@@ -513,10 +568,10 @@ function stage3(){
 }
 
 function stage3End(){
-  background(255);
+  background(10);
   push();
-  fill(0);
-  displayText(`Stage 3 End`, 20, width/2.5, height/12);
+  displayText(`The smell of Death is near...`, 50, width/2, height/2,255,255,255);
+  displayText(`Enter to continue`,30,4*width/5,5*height/6);
   pop();
 }
 
@@ -524,7 +579,13 @@ function stage4(){
   image(stage4bgImage,width/2,height/2,1127,480);
 
   if (currentSpell === `Stupify`){
-    currentSpell = `Stupefy`
+    currentSpell = `Stupefy`;
+  }
+  else if(currentSpell ===`Revelio`){
+    state = `loseEnding`;
+    stage4Soundtrack.stop();
+    annyang.abort();
+    loseEndingSFX.play();
   }
     timer.display();
     voldemort.display();
@@ -546,7 +607,6 @@ function stage4(){
       stroke(0);
       line(baseX, baseY, tipX, tipY);
       pop();
-
         for (let i = 0; i < stupefyspells.length; i++){
           let stupefyspell = stupefyspells[i];
           stupefyspell.display(voldemort);
@@ -638,39 +698,38 @@ function stage4(){
     voldemortname.display();
     voldemortname.move();
     displaySpellName();
-    voldemort.immortal();
-
 }
-// BAD ENDINGS - GAME LOST
+// 3 BAD ENDINGS - DEMENTORS ENDING, VOLDEMORT NAME ENDING,LOSE TO VOLDEMORT ENDING.
 // DEMENTORS ENDING if player fails to push dementors outside of the screen in time using the Patronus Charm (Expecto Patronum)
 function dementorEnding(){
   background(0);
+  image(dementorGif,width/2,height/3,640,273);
   push();
-  displayText(`DementorEnding`, 50, width/2.5, height/12, 255);
+  displayText(`Enter to Try Again`, 35, width/2, 4*height/5, 255);
   pop();
 }
-// VOLDEMORT ENDING if player says the name Voldemort in stages 1-4.
+// VOLDEMORT NAME  ENDING if player mentions the name Voldemort in stages 1-4.
 function VNameEnding(){
-  background(20,116,82);
+  background(10);
   push();
-  displayText(`Foolish enough to mention the Dark Lord?`, 40, width/2, height/2, 180);
-  displayText(`The End`, 35, width/2, 3*height/4, 180)
+  displayText(`Foolish enough to mention the Dark Lord?`, 45, width/2, height/2, 20,116,82);
+  displayText(`Enter to Try Again`, 35, width/2, height/2+50, 20,116,82);
   pop();
 }
-// LOSE ENDING
+// LOSE ENDING if Voldemort's spell reaches 620 size, means player is too slow to counter the spell and thus lose the duel.
 function loseEnding(){
-  background(20,116,82);
+  background(10);
   push();
-  displayText(`Wasted`, 40, width/2, height/2, 180);
-  displayText(`The End`, 35, width/2, 3*height/4, 180)
+  displayText(`"Avada Kedadvra"`, 70, width/2, height/2, 20,116,82);
+  displayText(`"Enter to Try Again"`, 30, width/2, 3*height/4, 20,116,82);
   pop();
 }
 // GOOD ENDING
 function winEnding(){
-  background(20,116,82);
+  image(vdeathImage,width/2,2*height/5,640,315);
   push();
-  displayText(`Hooray`, 40, width/2, height/2, 180);
-  displayText(`The End`, 35, width/2, 3*height/4, 180)
+  displayText(`And the curse rebounds. The Dark Lord disintegrates into ashes.`, 30, width/2, 3*height/4, 180);
+  displayText(`The End`, 45, width/2, 3*height/4+50, 180);
   pop();
 }
 //Display the current spell that the user just use up top!
@@ -679,7 +738,7 @@ function displaySpellName(){
   if (currentSpell === `Voldemort`){
     fill(217,254,177);
   }
-  displayText(currentSpell + `!`, 40, width / 2, height / 8);
+  displayText(currentSpell, 40, width / 2, height / 8);
   pop();
 }
 
@@ -688,7 +747,13 @@ function castSpell(spell){
   currentSpell = spell.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
   console.log(currentSpell);
 
-  if (currentSpell === `Immobulus`){
+  if (currentSpell === `Spells List`&& state ===`instructions`){
+    state = `spellslist`
+  }
+  else if (currentSpell === `Back`&& state ===`spellslist`){
+    state = `instructions`
+  }
+  else if (currentSpell === `Immobulus`&& state === `intro`){
       createIntroSpell(tipX,tipY);
   }
   else if (currentSpell === `Voldemort` && state === `stage1` || currentSpell === `Voldemort` && state === `stage2`
@@ -771,12 +836,19 @@ function keyPressed(){
   if (keyCode === ENTER && state ===`menu`){
     state =`instructions`;
   }
+  else if (keyCode === 83 && state === `instructions`){
+    state = `spellslist`
+  }
+  else if (keyCode === 66 && state === `spellslist`){
+    state = `instructions`
+  }
   else if (keyCode === ENTER && state === `instructions`){
     state = `intro`;
     menuSoundtrack.stop();
     firebgSFX.stop();
     snitchSFX.loop();
     introSoundtrack.loop();
+    currentSpell = `Your Spell`;
   }
   else if (keyCode === ENTER && state === `intro`
     // && snitch.frozen ===true
@@ -790,6 +862,7 @@ function keyPressed(){
     introSoundtrack.stop();
     stage123Soundtrack.loop();
     warSFX.loop();
+    currentSpell = ``;
   }
   else if (keyCode === ENTER && state === `stage1`
     // && treetrunk.y <4*height/5
@@ -799,6 +872,7 @@ function keyPressed(){
   }
   else if (keyCode === ENTER && state === `stage1End` ){
     state = `stage2`;
+    currentSpell = ``;
   }
   else if (keyCode === ENTER && state === `stage2`
   // && lumosmaxcasted === true
@@ -809,19 +883,28 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `stage2End` ){
     state = `stage3`;
     dementorsSFX.play();
-  }
-  else if (keyCode === ENTER && state === `stage3` ){
-    state = `stage3End`;
     currentSpell = ``;
-    dementorsSFX.stop();
-    stage123Soundtrack.stop();
-    warSFX.stop();
   }
+  // else if (keyCode === ENTER && state === `stage3` ){
+  //   state = `stage3End`;
+  //   currentSpell = ``;
+  //   dementorsSFX.stop();
+  //   stage123Soundtrack.stop();
+  //   warSFX.stop();
+  // }
   else if (keyCode === ENTER && state === `stage3End` ){
     state = `stage4`;
     currentSpell = ``;
     stage4Soundtrack.loop();
   }
+  // else if (keyCode === ENTER && state === `stage4` ){
+  //   state = `winEnding`;
+  //   currentSpell = ``;
+  // }
+  else if (keyCode === ENTER && state === `loseEnding`|| keyCode === ENTER && state === `VNameEnding`){
+    location.reload();
+  }
+
   // Delete current spell if BACKSPACE is pressed
   else if (keyCode === 8){
     currentSpell = ``;

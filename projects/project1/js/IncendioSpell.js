@@ -19,7 +19,7 @@ class IncendioSpell{
       this.damageMax = 65,
       this.damageMin = 40,
       this.damage = 0,
-      this.afterburndamage = 0.025;
+      this.afterburndamage = 0.05;
     }
 // Display spell
     display(){
@@ -61,15 +61,14 @@ class IncendioSpell{
       this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
 // Adjust speed when it is chasing Voldemort's spell
       if (voldemort.countered === false){
-        this.maxSpeed = 13;
-        this.acceleration = 5;
+        this.maxSpeed = 8;
+        this.acceleration = 4;
       }
 // Adjust speed when it is chasing voldemort
       else if (voldemort.countered === true){
         this.maxSpeed = 10;
-        this.acceleration =3;
+        this.acceleration =4;
       }
-
     }
 // Chase Voldemort's spell!
     chaseVspell(voldemort){
@@ -140,6 +139,9 @@ class IncendioSpell{
         voldemort.hp = voldemort.hp - this.damage;
         voldemort.afterburn = true;
         voldemort.afterburndamage = voldemort.afterburndamage+ this.afterburndamage;
+        if (voldemort.hp <=2){
+          evillaughSFX.play();
+        }
         incendiohitVSFX.play();
         spellhitV.play();
       }

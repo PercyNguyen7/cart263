@@ -44,22 +44,6 @@ class StupefySpell{
     else if (voldemort.countered === true){
       this.deform = 40;
       }
-
-
-
-
-      // // This toggles the split function for the stupefy array once the spell hits Voldemort's spell!
-            // if (this.hitspell === true){
-            //     image(this.image2,this.x2,this.height2,this.width2,this.height2);
-            //   // image(this.image,width/2,height/2, 2400, 2400)
-            //
-            // }
-      // // This toggles the split function for the stupefy array once the spell hits Voldemort!
-      //       if (this.hitVoldemort === true){
-      //         image(this.image2,this.x2,this.height2,this.width2,this.height2);
-      //  image(this.image2,this.x2,this.y2,this.width2,this.height2);
-      //         this.hitVoldemort =false;
-      //       }
     }
 // Move the spell!
     move(){
@@ -74,13 +58,13 @@ class StupefySpell{
       this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
 // Adjust speed when it is chasing Voldemort's spell
       if (voldemort.countered === false){
-        this.maxSpeed = 13;
-        this.acceleration = 5;
+        this.maxSpeed = 16;
+        this.acceleration = 7;
       }
 // Adjust speed when it is chasing voldemort
       else if (voldemort.countered === true){
-        this.maxSpeed = 10;
-        this.acceleration =3;
+        this.maxSpeed = 14;
+        this.acceleration =8;
       }
 
     }
@@ -151,6 +135,9 @@ class StupefySpell{
         this.hitVoldemort = true;
         voldemort.stupefyhurt = true;
         voldemort.hp = voldemort.hp - this.damage;
+        if (voldemort.hp <= 2){
+          evillaughSFX.play();
+        }
         spellhitV.play();
       }
   }

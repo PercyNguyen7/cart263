@@ -5,10 +5,10 @@ class Voldemort{
       this.y = 2*height/3;
       this.vy = 0;
       this.vx = 0;
-      this.width = 50;
-      this.height = 65;
+      this.width = 60;
+      this.height = 76;
       this.image = voldemortgreetImage;
-      this.hp = 62;
+      this.hp = 1000;
       this.countered = false;
       this.vulnerable = false;
       this.stupefyhurt = false;
@@ -39,6 +39,7 @@ class Voldemort{
     }
 
     display(){
+
 // Display Voldemort
       image(this.image,this.x,this.y,this.width,this.height);
       if (this.size2 <=15){
@@ -47,14 +48,21 @@ class Voldemort{
       else if(this.size2 >15){
         this.image= voldemortgreetImage;
       }
+
+// Display Voldemort's HP
+  displayText(`HP:`+int(this.hp), 22, width / 2,4.4*height / 8,217,254,177);
+
 // Display Voldermort's spell
       image(this.image2, this.x2, this.y2, this.size2, this.size2);
+      this.grow2 = random(6,7);
       this.size2 += this.grow2;
-      this.grow2 = random(5.5,6.5)
-      this.size2 = constrain(this.size2,0,620);
+      this.size2 = constrain(this.size2,0,700);
 // If Voldemort's spell reaches this size, player loses.
-      if (this.size2 >= 619){
+      if (this.size2 >= 699){
         state = `loseEnding`
+        stage4Soundtrack.stop();
+        annyang.abort();
+        loseEndingSFX.play();
       }
 
       if (this.image2 === voldemortspellImage){
@@ -64,25 +72,24 @@ class Voldemort{
         this.image2 = voldemortspellImage
       }
 
-// RESET values of the spell once it has been countered
+// RESET x, y and size values of the spell once it has been countered
       if (this.countered ===true){
         this.x2 = width/2;
         this.y2 = 2*height/3;
         this.size2 = 1;
        }
-
+// If afterburn is true then reduce the after burn damage from his HP. (Afterburn effect caused by Incendio spell)
       if (this.afterburn === true){
         this.hp -= this.afterburndamage;
       }
+// If he has less than 1.1 HP then turn afterburn to false.
       if (this.hp <=1.1){
         this.afterburn = false;
       }
-
-
-      // Display Voldemort's HP
-        displayText(`HP:`+int(this.hp), 20, width / 2,4.6*height / 8,217,254,177);
-
-
+// Voldemort is immortal. Whenever hp drops below 1, it remains 1. Player may only achieve the win Ending through using the Expelliarmus spell on Voldemort
+      if (this.hp <=1){
+        this.hp = 1
+      }
     }
     Voldemorthurt(){
       // If stupefy hits, display Voldemort hit by the spell until the image width reaches certain size!
@@ -164,10 +171,6 @@ class Voldemort{
        this.ay2 = -this.acceleration2;
      }
    }
-// Voldemort is immortal. Whenever hp drops below 1, it remains 1. Player may only achieve the win Ending through using the Expelliarmus spell on Voldemort
-  immortal(){
-     if (this.hp <=1){
-       this.hp = 1
-     }
-   }
+
+
  }

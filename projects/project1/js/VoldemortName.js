@@ -88,6 +88,7 @@ class VoldemortName{
       // queue in the Voldemort Name Ending once Voldemort's sound effect has stopped playing
       if (!voldemortnameSFX.isPlaying()){
         state = `VNameEnding`;
+        annyang.abort();
         stage123Soundtrack.stop();
         warSFX.stop();
         stage4Soundtrack.stop();

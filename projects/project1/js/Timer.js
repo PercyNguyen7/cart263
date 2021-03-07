@@ -13,7 +13,7 @@ class Timer{
 //    Transparency of the rectangle box
       this.transparency2 = 160
     }
-
+// Display the timer. Timer  formed of a long rectangle and the Slytherin symbol.
     display(){
       push();
       noStroke();
@@ -22,9 +22,8 @@ class Timer{
       let g = map(this.x,50,590,0,210);
       let b = map(this.x,50,590,0,100);
       fill(r,g,b,this.transparency2);
-
+// The rectangle right behind the Slytherin symbol.
       rect(50,450,540,10);
-      //
       image(timerImage,this.x,this.y,this.width,this.height);
       pop();
     }
@@ -47,19 +46,25 @@ class Timer{
           this.vx = random(4,6);
         }
       }
+// Else if Voldemort is not countered then the timer stops! This is the period Voldemort's spell is casted and yet to be countered!
       else if (voldemort.countered === false){
         this.vx = 0;
       }
 
-      // If Slytherin house image reaches here, then Voldemort is no longer countered and will cast another spell!
+// If Slytherin house image reaches the end of the rectangle, then Voldemort is no longer countered and will cast another spell!
+// Also reset the x property of the timer!
       if (this.x === 590){
         voldemort.countered = false;
         this.x = 50;
         avadakedavraSFX.play();
+// Reset slowed property when time's out
         if (this.slowed === true){
           this.slowed = false;
         }
+// Voldemort retrieves his wand when time's out
+        if (this.lostwand === true){
+          this.lostwand = false;
+        }
       }
     }
-
 }

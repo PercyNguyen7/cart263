@@ -63,8 +63,8 @@ class ExpelliarmusSpell{
       }
 // Adjust speed when it is chasing voldemort
       else if (voldemort.countered === true){
-        this.maxSpeed = 10;
-        this.acceleration =3;
+        this.maxSpeed = 14;
+        this.acceleration =5;
       }
 
     }
@@ -140,7 +140,8 @@ class ExpelliarmusSpell{
         if (voldemort.hp ===1){
           state = `winEnding`;
           stage4Soundtrack.stop();
-          
+          annyang.abort();
+          winEndingSFX.play();
         }
         this.hitVoldemort = true;
         voldemort.expelliarmushurt = true;

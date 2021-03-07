@@ -59,15 +59,14 @@ class ConfringoSpell{
       this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
 // Adjust speed when it is chasing Voldemort's spell
       if (voldemort.countered === false){
-        this.maxSpeed = 13;
-        this.acceleration = 5;
+        this.maxSpeed = 4;
+        this.acceleration = 2;
       }
 // Adjust speed when it is chasing voldemort
       else if (voldemort.countered === true){
-        this.maxSpeed = 10;
-        this.acceleration =3;
+        this.maxSpeed = 8;
+        this.acceleration =4;
       }
-
     }
 // Chase Voldemort's spell!
     chaseVspell(voldemort){
@@ -134,12 +133,11 @@ class ConfringoSpell{
         timer.lostwand = false;
         this.hitVoldemort = true;
         voldemort.confringohurt = true;
-        // if (voldemort.hp <=1){
-        //   this.damage = 0;
-        // }
         this.damage = int(random(this.damageRange));
         voldemort.hp = voldemort.hp - this.damage;
-
+        if (voldemort.hp<=2){
+          evillaughSFX.play();
+        }
         confringohitVSFX.play();
         spellhitV.play();
       }
