@@ -16,7 +16,7 @@ class StupefySpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damage = 70;
+      this.damage = 40;
     }
 // Display spell
     display(voldemort){
@@ -146,10 +146,11 @@ class StupefySpell{
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
       if (d < 35){
         displayText(`-`+this.damage, 50, 5*width / 6, height /6,131,174,190);
+        timer.lostwand = false;
+        timer.slowed = true;
         this.hitVoldemort = true;
         voldemort.stupefyhurt = true;
         voldemort.hp = voldemort.hp - this.damage;
-        timer.slowed = true;
         spellhitV.play();
       }
   }

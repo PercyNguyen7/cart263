@@ -16,9 +16,10 @@ class IncendioSpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damageMax = 120;
-      this.damageMin = 70;
-      this.damage = 0;
+      this.damageMax = 65,
+      this.damageMin = 40,
+      this.damage = 0,
+      this.afterburndamage = 0.025;
     }
 // Display spell
     display(){
@@ -46,19 +47,6 @@ class IncendioSpell{
     else if (voldemort.countered === true){
       this.deform = 40;
       }
-
-      // // This toggles the split function for the incendio array once the spell hits Voldemort's spell!
-            // if (this.hitspell === true){
-            //     image(this.image2,this.x2,this.height2,this.width2,this.height2);
-            //   // image(this.image,width/2,height/2, 2400, 2400)
-            //
-            // }
-      // // This toggles the split function for the incendio array once the spell hits Voldemort!
-      //       if (this.hitVoldemort === true){
-      //         image(this.image2,this.x2,this.height2,this.width2,this.height2);
-      //  image(this.image2,this.x2,this.y2,this.width2,this.height2);
-      //         this.hitVoldemort =false;
-      //       }
     }
 // Move the spell!
     move(){
@@ -145,13 +133,13 @@ class IncendioSpell{
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
       if (d < 35){
         displayText(`-`+ this.damage, 50, 5*width / 6, height /6,187,82,15);
-        if (timer.lostwand ===true){
-           timer.lostswand = false;
-         }
+        timer.lostwand = false;
         this.hitVoldemort = true;
         voldemort.incendiohurt = true;
         this.damage = int(random(this.damageMin, this.damageMax));
         voldemort.hp = voldemort.hp - this.damage;
+        voldemort.afterburn = true;
+        voldemort.afterburndamage = voldemort.afterburndamage+ this.afterburndamage;
         incendiohitVSFX.play();
         spellhitV.play();
       }

@@ -16,7 +16,8 @@ class ConfringoSpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damage = 105;
+      this.damageRange = [1,2,250],
+      this.damage = 0;
     }
 // Display spell
     display(){
@@ -44,19 +45,6 @@ class ConfringoSpell{
     else if (voldemort.countered === true){
       this.deform = 40;
       }
-
-      // // This toggles the split function for the confringo array once the spell hits Voldemort's spell!
-            // if (this.hitspell === true){
-            //     image(this.image2,this.x2,this.height2,this.width2,this.height2);
-            //   // image(this.image,width/2,height/2, 2400, 2400)
-            //
-            // }
-      // // This toggles the split function for the confringo array once the spell hits Voldemort!
-      //       if (this.hitVoldemort === true){
-      //         image(this.image2,this.x2,this.height2,this.width2,this.height2);
-      //  image(this.image2,this.x2,this.y2,this.width2,this.height2);
-      //         this.hitVoldemort =false;
-      //       }
     }
 // Move the spell!
     move(){
@@ -143,12 +131,15 @@ class ConfringoSpell{
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
       if (d < 35){
         displayText(`-`+ this.damage, 40, 5*width/6,height / 6,188,77,114);
-        if (timer.lostwand ===true){
-           timer.lostswand = false;
-         }
+        timer.lostwand = false;
         this.hitVoldemort = true;
         voldemort.confringohurt = true;
+        // if (voldemort.hp <=1){
+        //   this.damage = 0;
+        // }
+        this.damage = int(random(this.damageRange));
         voldemort.hp = voldemort.hp - this.damage;
+
         confringohitVSFX.play();
         spellhitV.play();
       }

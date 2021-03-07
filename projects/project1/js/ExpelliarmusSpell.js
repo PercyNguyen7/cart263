@@ -16,8 +16,7 @@ class ExpelliarmusSpell{
       this.flash = true,
       this.hitspell = false,
       this.hitVoldemort = false,
-      this.damageRange = [1,2,300],
-      this.damage = 0;
+      this.damage = 25;
     }
 // Display spell
     display(){
@@ -45,19 +44,6 @@ class ExpelliarmusSpell{
     else if (voldemort.countered === true){
       this.deform = 40;
       }
-
-      // // This toggles the split function for the expelliarmus array once the spell hits Voldemort's spell!
-            // if (this.hitspell === true){
-            //     image(this.image2,this.x2,this.height2,this.width2,this.height2);
-            //   // image(this.image,width/2,height/2, 2400, 2400)
-            //
-            // }
-      // // This toggles the split function for the expelliarmus array once the spell hits Voldemort!
-      //       if (this.hitVoldemort === true){
-      //         image(this.image2,this.x2,this.height2,this.width2,this.height2);
-      //  image(this.image2,this.x2,this.y2,this.width2,this.height2);
-      //         this.hitVoldemort =false;
-      //       }
     }
 // Move the spell!
     move(){
@@ -144,15 +130,21 @@ class ExpelliarmusSpell{
     let d = dist(this.x, this.y,voldemort.x, voldemort.y)
       if (d < 35){
         displayText(`-`+ this.damage, 40, 5*width/6,height / 6,188,77,114);
+        if (timer.lostwand === true){
+          timer.lostwand = false
+        }
+        else{
+        timer.lostwand = true;
+        }
+// WIN CONDITION of player
+        if (voldemort.hp ===1){
+          state = `winEnding`;
+          stage4Soundtrack.stop();
+          
+        }
         this.hitVoldemort = true;
         voldemort.expelliarmushurt = true;
-        this.damage = int(random(this.damageRange));
         voldemort.hp = voldemort.hp - this.damage;
-          timer.lostwand = true;
-
-       // else if (timer.lostwand ===true){
-       //    timer.lostswand = false;
-       //  }
         expelliarmushitVSFX.play();
         spellhitV.play();
       }

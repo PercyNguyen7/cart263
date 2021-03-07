@@ -24,6 +24,8 @@ let tintvalue = 0;
 let video = undefined;
 // FONT
 let harrypotterFont
+
+let lumosmaxcasted = false;
 //                        CLASSES VARIABLES
 let snitch;
 let introspells =[];
@@ -296,7 +298,12 @@ function draw() {
       case "stage4":
             stage4();
             break;
-
+      case "loseEnding":
+            loseEnding();
+            break;
+      case "winEnding":
+            winEnding();
+            break;
    }
 }
 function loading(){
@@ -423,7 +430,7 @@ function stage1End(){
 }
 
 function stage2(){
-image(stage2bgImage,width/2,height/2, 853, 480);
+  image(stage2bgImage,width/2,height/2, 853, 480);
 
       darkness.display();
 
@@ -450,8 +457,9 @@ image(stage2bgImage,width/2,height/2, 853, 480);
         image(lumosflareImage,tipX,tipY,70,70);
       }
       else if(currentSpell === `Lumos Maxima`){
-        // tint(255,220);
+
         image(lumosflareImage,tipX,tipY,90,90);
+        lumosmaxcasted = true;
       }
       pop();
     }
@@ -468,7 +476,6 @@ function stage2End(){
 }
 function stage3(){
   image(stage3bgImage,width/2,height/2, 853, 480);
-
   dementors.display();
   dementors.move();
   dementors.disappear();
@@ -631,6 +638,7 @@ function stage4(){
     voldemortname.display();
     voldemortname.move();
     displaySpellName();
+    voldemort.immortal();
 
 }
 // BAD ENDINGS - GAME LOST
@@ -648,7 +656,22 @@ function VNameEnding(){
   displayText(`Foolish enough to mention the Dark Lord?`, 40, width/2, height/2, 180);
   displayText(`The End`, 35, width/2, 3*height/4, 180)
   pop();
-
+}
+// LOSE ENDING
+function loseEnding(){
+  background(20,116,82);
+  push();
+  displayText(`Wasted`, 40, width/2, height/2, 180);
+  displayText(`The End`, 35, width/2, 3*height/4, 180)
+  pop();
+}
+// GOOD ENDING
+function winEnding(){
+  background(20,116,82);
+  push();
+  displayText(`Hooray`, 40, width/2, height/2, 180);
+  displayText(`The End`, 35, width/2, 3*height/4, 180)
+  pop();
 }
 //Display the current spell that the user just use up top!
 function displaySpellName(){
@@ -676,7 +699,7 @@ function castSpell(spell){
     teleportspellSFX.play();
     voldemortnameSFX.play();
   }
-  else if (currentSpell === `Wingardium Leviosa` && state===`stage1`){
+  else if (currentSpell === `Wingardium Leviosa` && state===`stage1` ){
     wleviosaSFX.play();
   }
   else if (currentSpell === `Lumos` && state ===`stage2`){
@@ -758,6 +781,7 @@ function keyPressed(){
   else if (keyCode === ENTER && state === `intro`
     // && snitch.frozen ===true
   ){state = `introEnd`;
+    currentSpell = ``;
     snitchSFX.stop();
 
   }
@@ -767,15 +791,20 @@ function keyPressed(){
     stage123Soundtrack.loop();
     warSFX.loop();
   }
-  else if (keyCode === ENTER && state === `stage1` ){
+  else if (keyCode === ENTER && state === `stage1`
+    // && treetrunk.y <4*height/5
+   ){
     state = `stage1End`;
-
+    currentSpell = ``;
   }
   else if (keyCode === ENTER && state === `stage1End` ){
     state = `stage2`;
   }
-  else if (keyCode === ENTER && state === `stage2` ){
+  else if (keyCode === ENTER && state === `stage2`
+  // && lumosmaxcasted === true
+){
     state = `stage2End`;
+    currentSpell = ``;
   }
   else if (keyCode === ENTER && state === `stage2End` ){
     state = `stage3`;
@@ -783,12 +812,14 @@ function keyPressed(){
   }
   else if (keyCode === ENTER && state === `stage3` ){
     state = `stage3End`;
+    currentSpell = ``;
     dementorsSFX.stop();
     stage123Soundtrack.stop();
     warSFX.stop();
   }
   else if (keyCode === ENTER && state === `stage3End` ){
     state = `stage4`;
+    currentSpell = ``;
     stage4Soundtrack.loop();
   }
   // Delete current spell if BACKSPACE is pressed

@@ -8,13 +8,15 @@ class Voldemort{
       this.width = 50;
       this.height = 65;
       this.image = voldemortgreetImage;
-      this.hp = 1000;
+      this.hp = 62;
       this.countered = false;
       this.vulnerable = false;
       this.stupefyhurt = false;
       this.incendiohurt = false;
       this.expelliarmushurt = false;
       this.confringohurt = false;
+      this.afterburn = false;
+      this.afterburndamage = 0;
 
       this.x2 = width/2;
       this.y2 = 2*height/3;
@@ -25,10 +27,10 @@ class Voldemort{
       this.acceleration2 = 0.05,
       this.maxSpeed2 = 5,
       this.size2 = 5,
-      this.grow2 = 6,
+      this.grow2 = 0,
       this.image2 = voldemortspellImage;
 
-// To display image of Voldemort hurt by spell!
+// Third item: The image of Voldemort hurt by spells! Image shown depends on the spell casted against Voldemort.
       this.image3;
       this.x3 = width/2,
       this.y3 = height/2,
@@ -48,7 +50,12 @@ class Voldemort{
 // Display Voldermort's spell
       image(this.image2, this.x2, this.y2, this.size2, this.size2);
       this.size2 += this.grow2;
-      this.size2 = constrain(this.size2,0,600);
+      this.grow2 = random(5.5,6.5)
+      this.size2 = constrain(this.size2,0,620);
+// If Voldemort's spell reaches this size, player loses.
+      if (this.size2 >= 619){
+        state = `loseEnding`
+      }
 
       if (this.image2 === voldemortspellImage){
         this.image2 = voldemortspell2Image;
@@ -64,8 +71,16 @@ class Voldemort{
         this.size2 = 1;
        }
 
+      if (this.afterburn === true){
+        this.hp -= this.afterburndamage;
+      }
+      if (this.hp <=1.1){
+        this.afterburn = false;
+      }
+
+
       // Display Voldemort's HP
-        displayText(`HP:`+this.hp, 20, width / 2,4.6*height / 8,217,254,177);
+        displayText(`HP:`+int(this.hp), 20, width / 2,4.6*height / 8,217,254,177);
 
 
     }
@@ -149,11 +164,10 @@ class Voldemort{
        this.ay2 = -this.acceleration2;
      }
    }
-
-   // defeatVoldemort(){
-   //   if (this.hp <=0){
-   //     state = `winEnding`
-   //   }
-   // }
-
+// Voldemort is immortal. Whenever hp drops below 1, it remains 1. Player may only achieve the win Ending through using the Expelliarmus spell on Voldemort
+  immortal(){
+     if (this.hp <=1){
+       this.hp = 1
+     }
+   }
  }

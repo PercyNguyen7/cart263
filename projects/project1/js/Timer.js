@@ -29,27 +29,27 @@ class Timer{
       pop();
     }
 
+// Move the Slytherin timer from left to right and constrain it to the rectangle!
     move(voldemort){
       this.x += this.vx;
       this.x = constrain(this.x,50, 590)
       if (voldemort.countered === true){
-      this.vx = 5;
-        if (this.slowed === true ||this.slowed === true && this.lostwand === false){
-          this.vx = 2;
+// Slow down if this is slowed (caused by stupefy spell)
+        if (this.slowed === true && this.lostwand === false){
+          this.vx = 2.4;
         }
-        if (this.lostwand === true){
+// Freeze it if Voldemort lost his wand (caused by Expelliarmus spell)
+        else if (this.lostwand === true){
           this.vx = 0;
         }
+// Else if wand is not lost then this set this to between 5 to 7
         else if (this.lostwand === false){
-          this.vx = 5;
+          this.vx = random(4,6);
         }
       }
       else if (voldemort.countered === false){
         this.vx = 0;
       }
-
-        console.log(this.lostwand);
-
 
       // If Slytherin house image reaches here, then Voldemort is no longer countered and will cast another spell!
       if (this.x === 590){
