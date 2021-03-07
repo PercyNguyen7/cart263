@@ -745,7 +745,7 @@ function winEnding() {
   image(winEndingGif, width / 2, 2 * height / 5, 640, 315);
   push();
   displayText(`And the curse rebounds. The Dark Lord disintegrates into ashes.`, 30, width / 2, 3 * height / 4, 180);
-  displayText(`The End`, 45, width / 2, 3 * height / 4 + 50, 180);
+  displayText(`Well Played`, 45, width / 2, 3 * height / 4 + 50, 180);
   pop();
 }
 //Display the current spell that the user just use up top!
