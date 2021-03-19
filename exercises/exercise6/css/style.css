@@ -20,9 +20,12 @@ p {
 .redacted {
   background-color:black;
   user-select:none;
+  opacity:100;
 }
 
 .revealed{
   color:red;
-  text-decoration: underline;
+  opacity:100;
+  text-decoration: overline;
+  font-weight:bold;
 }

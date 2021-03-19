@@ -8,15 +8,23 @@ Exercise 6: Raving Redactionist
 
 "use strict";
 
-$(`.top-secret`).on(`click`,redact);
+$(`.top-secret`).on(`click`,fadeout);
 setInterval(revelation,500);
 
+// Audio that plays in the background
 $('audio#pop')[0].play()
 
-function redact(event){
-  $(this).removeClass(`revealed`);
-  $(this).addClass(`redacted`);
-}
+function fadeout (event){
+
+  $(this).animate({
+    "opacity":0,
+  },1000);
+
+// This fades back in
+  $(this).animate({
+    "opacity":100,
+  },50000);
+};
 
 function revelation() {
   $(`.redacted`).each(attemptReveal);
