@@ -1,7 +1,17 @@
+
+/**************************************************
+Exercise 6: Raving Redactionist
+3 Implementations:
+1 Modified CSS color
+**************************************************/
+
+
 "use strict";
 
 $(`.top-secret`).on(`click`,redact);
 setInterval(revelation,500);
+
+$('audio#pop')[0].play()
 
 function redact(event){
   $(this).removeClass(`revealed`);
