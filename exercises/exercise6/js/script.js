@@ -32,7 +32,7 @@ function fadeout (event){
 // This fades back in
   $(this).animate({
     "opacity":100,
-  },50000);
+  },500);
 };
 
 function revelation() {
