@@ -11,6 +11,10 @@ p {
   color:black;
   margin:4%;
 }
+h2{
+  color:black;
+  margin:4%;
+}
 #secret-document{
   font-family:monospace;
   font-size:1.25rem;

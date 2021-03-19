@@ -1,8 +1,14 @@
 
 /**************************************************
 Exercise 6: Raving Redactionist
-3 Implementations:
-1 Modified CSS color
+4 additions to the activity:
+1. Modified HTML and CSS
+2. Changed Text
+3. Added in fade in and out animation effects
+4. Added in background music
+
+Source for soundtrack:
+https://www.youtube.com/watch?v=4Lsjg1vmAig&ab_channel=PlayItBackwards
 **************************************************/
 
 
