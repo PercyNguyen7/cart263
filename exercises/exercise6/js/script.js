@@ -15,11 +15,14 @@ https://www.youtube.com/watch?v=4Lsjg1vmAig&ab_channel=PlayItBackwards
 "use strict";
 
 $(`.top-secret`).on(`click`,fadeout);
+$(`.top-secret`).one(`click`,playAudio);
 setInterval(revelation,500);
 
-// Audio that plays in the background
-$('audio#pop')[0].play()
-
+// Audio that plays in the background on user's first click
+function playAudio(event){
+  $('audio#pop')[0].play()
+}
+// Fade out and in
 function fadeout (event){
 
   $(this).animate({
