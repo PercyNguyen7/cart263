@@ -1,0 +1,12 @@
+#poem {
+  font-size:2rem;
+}
+#answer{
+  width:10rem;
+  height:2rem;
+  border: 1px dashed black;
+}
+
+.found {
+  color:red;
+}
