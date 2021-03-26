@@ -14,7 +14,7 @@ Percy Vinh Tuan Dat Nguyeen
 $(`#solved-dialog`).dialog({
   autoOpen:false,
   buttons:{
-    "I know.": function(){
+    "DAME DAME": function(){
       $(this).dialog(`close`);
     }
   }
@@ -41,11 +41,10 @@ $(`#answer`).droppable({
 });
 
 window.addEventListener("keydown", checkKeyPress, false);
-
+// Function that removes last character from answer text
 function checkKeyPress(key){
   if(key.keyCode == "8"){
     let answerText = $(`#answer`).text()
     $(`#answer`).text(answerText.slice(0,-1));
-    alert("DELETED PREVIOUS WORD!")
   }
 }

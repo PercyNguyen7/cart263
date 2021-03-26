@@ -12,6 +12,7 @@ body {
 #poem {
 padding-left:4%;
 padding-right:4%;
+margin: 2% 0%;
   font-size:1.4rem;
   background-color: rgba(0, 0, 0, 0.3);
   /* -webkit-text-stroke: 1% black; */
@@ -24,6 +25,7 @@ padding-right:4%;
   width:35rem;
   height:5rem;
   border: 1px dashed black;
+  margin-bottom: 2%;
 }
 
 .found {
