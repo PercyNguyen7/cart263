@@ -2,8 +2,11 @@
 Title of Project
 Percy Vinh Tuan Dat Nguyeen
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+4 New Changes to the Project:
+1. Added Baka Mitai soundtrack once player decoded the song's name successfully
+2. Changed CSS and background
+3. Changed text and Title
+4. Allow user to remove last character from the answer box by pressing BACKSPACE. (They may pull characters to the box multiple time)
 */
 
 "use strict";
@@ -28,8 +31,7 @@ $(`#answer`).droppable({
   drop:function(event,ui){
     let letter = ui.draggable.text();
     $(this).append(letter);
-    ui.draggable.draggable(`disable`);
-    ui.draggable.removeClass(`found`);
+
     // Check if they got it
     if ($(this).text() === `Bakamitai`){
       $(`#solved-dialog`).dialog(`open`);
@@ -38,6 +40,12 @@ $(`#answer`).droppable({
   }
 });
 
-$( `#answer` ).keydown(function() {
-  alert( "Handler for .keydown() called." );
-});
+window.addEventListener("keydown", checkKeyPress, false);
+
+function checkKeyPress(key){
+  if(key.keyCode == "8"){
+    let answerText = $(`#answer`).text()
+    $(`#answer`).text(answerText.slice(0,-1));
+    alert("DELETED PREVIOUS WORD!")
+  }
+}
