@@ -1,9 +1,28 @@
-#poem {
-  font-size:2rem;
+
+
+body {
+  background:url(../assets/images/bakamitai.jpg) ;
+  background-size: cover;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 }
+
+#poem {
+padding-left:4%;
+padding-right:4%;
+  font-size:1.4rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* -webkit-text-stroke: 1% black; */
+
+  color:white;
+}
+
 #answer{
-  width:10rem;
-  height:2rem;
+  background-color: rgba(255, 255,255, 0.6);
+  width:35rem;
+  height:5rem;
   border: 1px dashed black;
 }
 

@@ -31,8 +31,13 @@ $(`#answer`).droppable({
     ui.draggable.draggable(`disable`);
     ui.draggable.removeClass(`found`);
     // Check if they got it
-    if ($(this).text() === `Theremin`){
+    if ($(this).text() === `Bakamitai`){
       $(`#solved-dialog`).dialog(`open`);
+      $(`#music`)[0].play();
     }
   }
+});
+
+$( `#answer` ).keydown(function() {
+  alert( "Handler for .keydown() called." );
 });
