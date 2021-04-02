@@ -79,10 +79,12 @@ background(255);
      case "phoneFallenEnding":
        phoneFallenEnding();
        break;
-     case `phoneSmackedEnding`:
+     case "phoneSmackedEnding":
        phoneSmackedEnding();
-     case `phonePushedEnding`:
+       break;
+     case "phonePushedEnding":
        phonePushedEnding();
+       break;
   }
 }
 // Instructions on loading
@@ -122,16 +124,17 @@ function testGround() {
     background(30);
     displayText(`Phone FELL`, 20, width / 2, height / 2,0);
   }
+  // Achieved by laughing Haha while having the size of your middle finger (sounds wrong) be bigger than half the height
+    function phonePushedEnding(){
+      background(20);
+      displayText(`You pushed it away...`, 15, width / 2, height/2,255);
+    }
 // Achieved by saying I Got You while having all 5 fingers on the phonee
   function phoneSmackedEnding(){
     background(20,200,120);
     displayText(`You TOUCHED IT... only to SMACK it down to the ground, breaking it apart.`, 15, width / 2, height/2,255);
   }
-// Achieved by laughing Haha while having the size of your middle finger (sounds wrong) be bigger than half the height
-  function phonePushedEnding(){
-    background(20);
-    displayText(`You pushed it away...`, 15, width / 2, height/2,255);
-  }
+
 
 /**
 Provided with a detected hand it highlights the skeleton of each finger
@@ -190,7 +193,7 @@ function highlightHand(hand) {
     // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
       let d = dist(base3X, base3Y, tip3X, tip3Y);
       if (d >= 240 && currentInput === `Haha`){
-        state = `phonePushedEnding`
+        state = `phonePushedEnding`;
       }
 
       // Trigger phone Smack Ending if player's tips are close enough to the phone while they yell I got you
