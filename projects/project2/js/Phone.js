@@ -2,9 +2,9 @@ class Phone {
   constructor() {
     this.x = width / 2,
     this.y = height / 2 - 300,
-    this.width = 120,
-    this.height = 240,
-    this.vy = 7
+    this.width = 160,
+    this.height = 280,
+    this.vy = 4
 
   }
   // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
@@ -19,8 +19,8 @@ class Phone {
   // Move
   move(){
     this.y += this.vy
-    if (this.y -this.height/2 >= height){
-      state =`phoneFallenEnding`
+    if (this.y - this.height/2 >= height){
+      state =`doNothingOutcome`
     }
   }
 

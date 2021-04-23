@@ -11,17 +11,20 @@ author, and this description to match your project!
 let currentInput = ``;
 
 // Starting state of program
-let state = `loading`; // loading, testGround
+let state = `loading`; // loading, firstDecision
 // User's webcam
 let video;
 // The name of our model
 let modelName = `Handpose`;
 // Handpose object (using the name of the model for clarity)
 let handpose;
-// The current set of predictions made by Handpose once it's testGround
+// The current set of predictions made by Handpose once it's firstDecision
 let predictions = [];
 
 let phone;
+// Decision One: catched variable to identify whether P catched or did not catch the phone
+let catched;
+
 function preload() {
 
 }
@@ -47,12 +50,12 @@ function setup() {
  video = createCapture(VIDEO);
  video.hide();
 
- // Start the Handpose model and switch to our testGround state when it loads
+ // Start the Handpose model and switch to our firstDecision state when it loads
  handpose = ml5.handpose(video, {
    flipHorizontal: true
  }, function() {
-   // Switch to the testGround state
-   state = `testGround`;
+   // Switch to the firstDecision state
+   state = `menu`;
  });
 
  // Listen for prediction events from Handpose and store the results in our
@@ -61,7 +64,6 @@ function setup() {
    predictions = results;
  });
 }
-
 
 /**
 Description of draw()
@@ -73,73 +75,37 @@ background(255);
      case "loading":
        loading();
        break;
-     case "testGround":
-       testGround();
+     case "menu":
+       menu();
        break;
-     case "phoneFallenEnding":
-       phoneFallenEnding();
+    case "instructions":
+      instructions();
        break;
-     case "phoneSmackedEnding":
-       phoneSmackedEnding();
+    case "firstSituation":
+      firstSituation();
+      break;
+     case "firstDecision":
+       firstDecision();
        break;
-     case "phonePushedEnding":
-       phonePushedEnding();
+     case "introduction":
+        introduction();
+        break;
+     case "doNothingOutcome":
+       doNothingOutcome();
        break;
+     case "catchOutcome":
+       catchOutcome();
+       break;
+     case "secondSituation":
+       secondSituation();
+       break;
+
   }
 }
-// Instructions on loading
-function loading(){
-  background(0,0,150);
-  displayText(`It's a Catch.`, 30, width / 2, height / 8);
-  displayText(`While saying "I got you"`, 20, width / 2, height / 4);
-  displayText(`It's a Push`, 30, width / 2, 6*height / 8);
-  displayText(`While laughing "Haha"`, 20, width / 2, 7*height / 8);
-}
-
-// States functions
-//Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger
-function testGround() {
-  // Display the webcam with reveresd image
-  let flippedVideo = ml5.flipImage(video);
-  image(flippedVideo, 0, 0, width, height);
-  background(120,0,0);
-
-  // Display and move phone down
-  phone.display();
-  phone.move();
-
-  displayText(currentInput, 20, width / 2, height / 8,0);
-  // Check if there are currently any predictions to display
-  if (predictions.length > 0) {
-    // Get the hand predicted
-    let hand = predictions[0];
-    // Show fingers coordinates
-    highlightHand(hand);
-  }
-}
-
-// ENDINGS
-// Triggered by letting the phone falls
-  function phoneFallenEnding(){
-    background(30);
-    displayText(`Phone FELL`, 20, width / 2, height / 2,0);
-  }
-  // Achieved by laughing Haha while having the size of your middle finger (sounds wrong) be bigger than half the height
-    function phonePushedEnding(){
-      background(20);
-      displayText(`You pushed it away...`, 15, width / 2, height/2,255);
-    }
-// Achieved by saying I Got You while having all 5 fingers on the phonee
-  function phoneSmackedEnding(){
-    background(20,200,120);
-    displayText(`You TOUCHED IT... only to SMACK it down to the ground, breaking it apart.`, 15, width / 2, height/2,255);
-  }
-
-
 /**
 Provided with a detected hand it highlights the skeleton of each finger
 */
-function highlightHand(hand) {
+function highlightHand(hand){
    push();
    noFill();
    strokeWeight(3);
@@ -191,10 +157,10 @@ function highlightHand(hand) {
      line(base5X, base5Y, tip5X, tip5Y);
 
     // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
-      let d = dist(base3X, base3Y, tip3X, tip3Y);
-      if (d >= 240 && currentInput === `Haha`){
-        state = `phonePushedEnding`;
-      }
+      // let d = dist(base3X, base3Y, tip3X, tip3Y);
+      // if (d >= 240 && currentInput === `Haha`){
+      //   state = `phonePushedEnding`;
+      // }
 
       // Trigger phone Smack Ending if player's tips are close enough to the phone while they yell I got you
       let d1 = dist(phone.x, phone.y,tipX,tipY);
@@ -206,7 +172,7 @@ function highlightHand(hand) {
       if (d1 <= phone.height/2 && d2 <= phone.height/2 && d3 <= phone.height/2 && d4 <= phone.height/2 && d5 <= phone.height/2 &&
       currentInput === `I got you`){
         // displayText(`TOUCHED PHONE`, 20, width / 2, 7*height / 8,0);
-        state = `phoneSmackedEnding`;
+        state = `catchOutcome`;
       }
 }
 
@@ -225,4 +191,25 @@ function displayText(string, size, x, y, r, g, b) {
   textSize(size);
   text(string, x, y);
   pop();
+}
+
+function keyPressed(){
+  if (keyCode === ENTER && state ===`menu`){
+    state = `instructions`
+  }
+  else if (keyCode === ENTER && state ===`instructions`){
+    state = `introduction`
+  }
+  else if (keyCode === ENTER && state ===`introduction`){
+    state = `firstSituation`
+  }
+  else if (keyCode === ENTER && state ===`firstSituation`){
+    state = `firstDecision`
+  }
+  else if (keyCode === ENTER && state ===`catchOutcome`){
+    state = `secondSituation`
+  }
+  else if (keyCode === ENTER && state ===`doNothingOutcome`){
+    state = `secondSituation`
+  }
 }
