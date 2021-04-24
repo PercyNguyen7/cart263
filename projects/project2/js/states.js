@@ -2,40 +2,23 @@
 //  loading
 function loading(){
   background(40);
-  displayText(`To help or not to help... That is the question`, 20, width / 2, height / 8, 255);
+  displayText(`To help or not to help... That is the question`, 30, width / 2, height / 6, 255);
 }
 function menu(){
   background(70,0,0);
-  displayText(`GIBE`, 20, width / 2, height / 2, 255);
+  displayText(`GIBE`, 80, width / 2, height / 2, 255);
 }
 
 function instructions(){
   background(0,0,70);
-  displayText(`Instructions`, 20, width / 2, height / 2, 255);
-}
-function introduction(){
-  image(introbgImage,width/2,height/2,640,480);
-  displayText(`"Forget the black screens`, 20, width / 2, height / 5, 255);
-  displayText(`Time to get out and take a breath of the wild"`, 25, width / 2, height / 4, 255);
-  // Display and move the clouds
-  cloud.display();
-  cloud.move();
-}
-function firstSituation(){
-  image(situation1bgImage,width/2,height/2, 640,480);
-  displayText(`First Situation`, 20, width / 2, height / 2, 255);
-}
-// States functions
-//Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger
-function firstDecision() {
+  displayText(`Instructions`, 40, width / 2, height / 6, 255);
+  displayText(`Put your index finger at the red button`, 25, width / 2, height / 4, 255);
+  displayText(`And say "Let's Go!" `, 25, width / 2, height / 3, 255);
 
-  background(120,0,0);
+  //Display Start Button
+  redbutton.display();
 
-  // Display and move phone down
-  phone.display();
-  phone.move();
-
-  displayText(currentInput, 20, width / 2, height / 8,0);
+  displayText(currentInput, 30, width / 2, 7*height / 8,0);
   // Check if there are currently any predictions to display
   if (predictions.length > 0) {
     // Get the hand predicted
@@ -44,7 +27,36 @@ function firstDecision() {
     highlightHand(hand);
   }
 }
+function introduction(){
+  image(introbgImage,width/2,height/2,640,480);
+  displayText(`"Enough of the black screens`, 30, width / 2, height / 5, 255);
+  displayText(`Time to get out and take a breath of the wild"`, 35, width / 2, height / 3.5, 255);
+  // Display and move the clouds
+  cloud.display();
+  cloud.move();
+}
+function firstSituation(){
+  image(situation1bgImage,width/2,height/2, 640,480);
+  displayText(`First Situation`, 50, width / 2, height / 2, 255);
+}
+// States functions
+//Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger
+function firstDecision() {
+  background(120,0,0);
 
+  // Display and move phone down
+  phone.display();
+  phone.move();
+
+  displayText(currentInput, 30, width / 2, height / 8,0);
+  // Check if there are currently any predictions to display
+  if (predictions.length > 0) {
+    // Get the hand predicted
+    let hand = predictions[0];
+    // Show fingers coordinates
+    highlightHand(hand);
+  }
+}
 // ENDINGS
 // Letting the phone falls.
   function doNothingOutcome(){
@@ -71,10 +83,7 @@ function firstDecision() {
   }
   function secondDecision() {
     background(120,0,0);
-
     // Display and move poop
-
-
     displayText(currentInput, 20, width / 2, height / 8,0);
     // Check if there are currently any predictions to display
     if (predictions.length > 0) {

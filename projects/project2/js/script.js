@@ -22,6 +22,7 @@ let handpose;
 let predictions = [];
 
 // Declare classes
+let redbutton;
 let cloud;
 let phone;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
@@ -32,7 +33,13 @@ let introbgImage;
 let cloudImage;
 let situation1bgImage;
 
+// Font
+let arrFont;
+
 function preload() {
+  // FONT load
+  arrFont = loadFont(`assets/fonts/arr.ttf`)
+  //Image load
   introbgImage = loadImage(`assets/images/introbg.png`);
   cloudImage = loadImage(`assets/images/introclouds.png`);
   situation1bgImage = loadImage('assets/images/situation1bg.jpg');
@@ -47,7 +54,9 @@ function setup() {
   createCanvas(640,480);
   rectMode(CENTER);
   imageMode(CENTER);
+  textFont(arrFont);
   // Declare class
+  redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
   phone = new Phone;
 
@@ -170,6 +179,18 @@ function highlightHand(hand){
      let base5Y = base5[1];
      line(base5X, base5Y, tip5X, tip5Y);
 
+      let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
+      if (state === `instructions` && di <= redbutton.size/2 && currentInput === `Let's go`){
+        redbutton.y = height/2 + 60;
+        state = `introduction`
+      }
+      else if (state === `instructions` && di <= redbutton.size/2 ){
+        redbutton.y = height/2 +60;
+      }
+      else{
+        redbutton.y = height/2 +50;
+      }
+
     // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
       // let d = dist(base3X, base3Y, tip3X, tip3Y);
       // if (d >= 240 && currentInput === `Haha`){
@@ -183,10 +204,11 @@ function highlightHand(hand){
       let d4 = dist(phone.x, phone.y,tip4X,tip4Y);
       let d5 = dist(phone.x, phone.y,tip5X,tip5Y);
       pop();
-      if (d1 <= phone.height/2 && d2 <= phone.height/2 && d3 <= phone.height/2 && d4 <= phone.height/2 && d5 <= phone.height/2 &&
-      currentInput === `I got you`){
-        // displayText(`TOUCHED PHONE`, 20, width / 2, 7*height / 8,0);
-        state = `catchOutcome`;
+      if (d1 <= phone.height/2 && d2 <= phone.height/2 && d3 <= phone.height/2 && d4 <= phone.height/2 && d5 <= phone.height/2
+         &&  currentInput === `I got you`
+          && state === `firstDecision`){
+        displayText(`TOUCHED PHONE`, 20, width / 2, 7*height / 8,0);
+        // state = `catchOutcome`;
       }
 }
 
