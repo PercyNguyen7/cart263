@@ -21,11 +21,22 @@ let handpose;
 // The current set of predictions made by Handpose once it's firstDecision
 let predictions = [];
 
+// Declare classes
+let cloud;
 let phone;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
 let catched;
 
+// Image variables
+let introbgImage;
+let cloudImage;
+let situation1bgImage;
+
 function preload() {
+  introbgImage = loadImage(`assets/images/introbg.png`);
+  cloudImage = loadImage(`assets/images/introclouds.png`);
+  situation1bgImage = loadImage('assets/images/situation1bg.jpg');
+
 
 }
 
@@ -35,8 +46,11 @@ Setup function to setup Annyang and Handpose!
 function setup() {
   createCanvas(640,480);
   rectMode(CENTER);
+  imageMode(CENTER);
   // Declare class
+  cloud = new Cloud(cloudImage);
   phone = new Phone;
+
 // Setup annyang
   if (annyang) {
      let commands = {
@@ -50,7 +64,7 @@ function setup() {
  video = createCapture(VIDEO);
  video.hide();
 
- // Start the Handpose model and switch to our firstDecision state when it loads
+ // Start the Handpose model and switch to menu state when it loads
  handpose = ml5.handpose(video, {
    flipHorizontal: true
  }, function() {
@@ -193,6 +207,7 @@ function displayText(string, size, x, y, r, g, b) {
   pop();
 }
 
+// Keypress function to change state
 function keyPressed(){
   if (keyCode === ENTER && state ===`menu`){
     state = `instructions`

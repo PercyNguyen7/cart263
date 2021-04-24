@@ -14,19 +14,21 @@ function instructions(){
   displayText(`Instructions`, 20, width / 2, height / 2, 255);
 }
 function introduction(){
-  background(0,0,70);
-  displayText(`Introduction`, 20, width / 2, height / 2, 255);
+  image(introbgImage,width/2,height/2,640,480);
+  displayText(`"Forget the black screens`, 20, width / 2, height / 5, 255);
+  displayText(`Time to get out and take a breath of the wild"`, 25, width / 2, height / 4, 255);
+  // Display and move the clouds
+  cloud.display();
+  cloud.move();
 }
 function firstSituation(){
-  background(0,0,40);
+  image(situation1bgImage,width/2,height/2, 640,480);
   displayText(`First Situation`, 20, width / 2, height / 2, 255);
 }
 // States functions
 //Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger
 function firstDecision() {
-  // Display the webcam with reversed image
-  let flippedVideo = ml5.flipImage(video);
-  image(flippedVideo, 0, 0, width, height);
+
   background(120,0,0);
 
   // Display and move phone down
@@ -61,10 +63,25 @@ function firstDecision() {
     background(0,0,40);
     displayText(`Second Situation`, 20, width / 2, height / 2, 255)
     if (catched === true){
-      displayText(`he angy`, 20, width / 2, height / 2 + 100, 255)
+      displayText(`Your friend does not seem happy.`, 20, width / 2, height / 2 + 100, 255)
     }
     else if (catched === false){
       displayText(`he happi`, 20, width / 2, height / 2 + 100, 255)
+    }
+  }
+  function secondDecision() {
+    background(120,0,0);
+
+    // Display and move poop
+
+
+    displayText(currentInput, 20, width / 2, height / 8,0);
+    // Check if there are currently any predictions to display
+    if (predictions.length > 0) {
+      // Get the hand predicted
+      let hand = predictions[0];
+      // Show fingers coordinates
+      highlightHand(hand);
     }
   }
 // Achieved by laughing Haha while having the size of your middle finger (sounds wrong) be bigger than half the height
