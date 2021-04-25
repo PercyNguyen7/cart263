@@ -2,11 +2,27 @@
 //  loading
 function loading(){
   background(40);
-  displayText(`To help or not to help... That is the question`, 30, width / 2, height / 6, 255);
+  displayText(`"To help or not to help... `, 30, 2*width / 5, height / 6, 255);
+  displayText(`That is the question"`, 30, 2*width / 3, height / 4, 255);
+  displayText(`"Don't fix-it felix!"`, 30, 2*width / 3, 3*height / 4, 255);
 }
 function menu(){
   background(70,0,0);
-  displayText(`GIBE`, 80, width / 2, height / 2, 255);
+  displayText(`GIBE`, 120, width / 2, height / 2 - 40, 255);
+
+//Display and move sub title "The Extremely Silly Game"
+  title.display();
+  title.move();
+  if (title.y + 30 >= height*2){
+  displayText(`Good Intention, Bad Execution`, 55, width/2, height/2 + 50, 255);
+  }
+  // Check if there are currently any predictions to display
+  if (predictions.length > 0) {
+    // Get the hand predicted
+    let hand = predictions[0];
+    // Show fingers coordinates
+    highlightHand(hand);
+  }
 }
 
 function instructions(){
@@ -37,7 +53,11 @@ function introduction(){
 }
 function firstSituation(){
   image(situation1bgImage,width/2,height/2, 640,480);
-  displayText(`First Situation`, 50, width / 2, height / 2, 255);
+  displayText(`Fresh air feels great`, 50, width / 2, 4*height /5, 255);
+    displayText(`Fresh air feels great`, 50, width / 2, height / 2, 255);
+
+
+
 }
 // States functions
 //Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger

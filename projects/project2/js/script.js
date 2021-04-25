@@ -22,6 +22,7 @@ let handpose;
 let predictions = [];
 
 // Declare classes
+let title;
 let redbutton;
 let cloud;
 let phone;
@@ -56,6 +57,7 @@ function setup() {
   imageMode(CENTER);
   textFont(arrFont);
   // Declare class
+  title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
   phone = new Phone;
@@ -178,6 +180,12 @@ function highlightHand(hand){
      let base5X = base5[0];
      let base5Y = base5[1];
      line(base5X, base5Y, tip5X, tip5Y);
+
+// Break the sub title if User's index finger is close enough to it!
+      let dm = dist(3*width/4, 3*height/4, tip2X, tip2Y);
+      if (state === `menu`&& dm <= 60){
+        title.broken = true;
+      }
 
       let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
       if (state === `instructions` && di <= redbutton.size/2 && currentInput === `Let's go`){
