@@ -1,18 +1,12 @@
-class Phone {
-  constructor(phoneImage) {
+class Legs {
+  constructor(leftlegImage, rightlegImage) {
     // Parameters for the first phone in FirstDecision
     this.x = width / 2,
     this.y = height / 2 - 300,
     this.width = 160,
     this.height = 280,
-    this.vy = 2
-    // Parameters for phone in doNothing1Outcome state
-    this.x2 = 0,
-    this.y2 = height / 2,
-    this.width2 = 95,
-    this.height2 = 156,
-    this.vy2 = 2
-    this.image2 = phoneImage;
+    this.vy = 0;
+
   }
   // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
   display() {
@@ -31,13 +25,6 @@ class Phone {
       state =`doNothing1Outcome`
     }
   }
-  // Display phone image
-  display2(){
-    image(this.image2,this.x2,this.y2,this.width2,this.height2);
-  }
-  // Move phone down and up.
-  move2(){
-    this.y2 += this.vy2;
-  }
+
 
   }

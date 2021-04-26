@@ -24,6 +24,8 @@ let predictions = [];
 
 // Declare classes
 let title;
+let firstDecisionBg;
+
 let redbutton;
 let cloud;
 let phone;
@@ -31,8 +33,10 @@ let phone;
 let catched;
 
 // Event counters for each situation
-// Event counter for Situation 1
+// for Situation 1
 let eventCounterS1 = 0;
+// for Catch Outcome
+let eventCounterCO = 0;
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -40,6 +44,12 @@ let situation1bgImage;
 let situation1bg2Image;
 let situation1bg3Image;
 let situation1bg4Image;
+let firstDecisionbgImage;
+let brokenphoneImage;
+let catchOutcomebgImage;
+let phoneImage;
+let leftlegImage;
+let rightlegImage;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -55,6 +65,13 @@ function preload() {
   situation1bg2Image = loadImage(`assets/images/situation1bg2.jpg`);
   situation1bg3Image = loadImage(`assets/images/situation1bg3.jpg`);
   situation1bg4Image = loadImage(`assets/images/situation1bg4.jpg`);
+  firstDecisionbgImage = loadImage(`assets/images/firstdecisionbg.jpg`);
+  brokenphoneImage = loadImage(`assets/images/brokenphone.jpg`);
+  catchOutcomebgImage = loadImage(`assets/images/catchoutcomebg.jpg`);
+  doNothing1bg = loadImage(`assets/images/donothing1bg.jpg`);
+  phoneImage = loadImage(`assets/images/phone.png`);
+  leftlegImage = loadImage(`assets/images/leftleg.png`);
+  rightlegImage = loadImage(`assets/images/rightleg.png`);
 }
 
 /**
@@ -69,6 +86,7 @@ function setup() {
   // Set first background image for situation
   s1bg = situation1bgImage;
   // Declare class
+  firstDecisionBg = new FirstDecisionBg(firstDecisionbgImage);
   title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
@@ -130,8 +148,8 @@ function draw() {
     case "introduction":
       introduction();
       break;
-    case "doNothingOutcome":
-      doNothingOutcome();
+    case "doNothing1Outcome":
+      doNothing1Outcome();
       break;
     case "catchOutcome":
       catchOutcome();
@@ -148,7 +166,7 @@ function highlightHand(hand) {
   push();
   noFill();
   strokeWeight(3);
-  stroke(225, 220, 177);
+  stroke(255);
   // Display a circle at the tip of the index finger
   let thumb = hand.annotations.thumb;
   let tip = thumb[3];
@@ -227,8 +245,8 @@ function highlightHand(hand) {
   if (d1 <= phone.height / 2 && d2 <= phone.height / 2 && d3 <= phone.height / 2 && d4 <= phone.height / 2 && d5 <= phone.height / 2 &&
     currentInput === `I got you` &&
     state === `firstDecision`) {
-    displayText(`TOUCHED PHONE`, 20, width / 2, 7 * height / 8, 0);
-    // state = `catchOutcome`;
+    // displayText(`TOUCHED PHONE`, 20, width / 2, 7 * height / 8, 0);
+    state = `catchOutcome`;
   }
 }
 
@@ -243,10 +261,9 @@ function userInput(input) {
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
-  if (state === `firstSituation`) {
+  if (state === `firstSituation`|| state === `catchOutcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
-
   } else {
     textAlign(CENTER, CENTER);
   }
@@ -278,8 +295,17 @@ function keyPressed() {
   }  else if (keyCode === ENTER && state === `firstDecisionIntro`) {
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
+    eventCounterCO += 1;
+  } else if (keyCode === ENTER && state === `catchOutcome`) {
     state = `secondSituation`
-  } else if (keyCode === ENTER && state === `doNothingOutcome`) {
+  } else if (keyCode === ENTER && state === `doNothing1Outcome`) {
     state = `secondSituation`
+  }
+
+  else if (keyCode === 65 && state === `firstDecision`){
+    state = `catchOutcome`
+  }
+  else if (keyCode === 82 && state === `firstDecision`){
+    state = `doNothing1Outcome`
   }
 }

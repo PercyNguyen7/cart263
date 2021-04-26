@@ -106,7 +106,8 @@ function firstDecisionIntro(){
 // States functions
 //Displays the webcam. If there is a hand it outlines it and highlights the tip of the index finger
 function firstDecision() {
-  background(120,0,0);
+  firstDecisionBg.display();
+  firstDecisionBg.move();
   // Display and move phone down
   phone.display();
   phone.move();
@@ -122,21 +123,58 @@ function firstDecision() {
 }
 // ENDINGS
 // Letting the phone falls.
-  function doNothingOutcome(){
+  function doNothing1Outcome(){
     background(30);
-    displayText(`Phone FELL`, 20, width / 2, height / 2,0);
     catched = false;
+    displayText(``, 20, width / 2, height / 2,0);
+
   }
 // Achieved by saying I Got You while having all 5 fingers on the phonee
   function catchOutcome(){
-    background(20,200,120);
-    displayText(`You almost caught it... only to SMACK it down to the ground, breaking it apart.`, 15, width / 2, height/2,255);
+    background(0);
+    textBox();
     catched = true;
-  }
-
+    if (eventCounterCO === 0){
+    displayText(`... `, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterCO === 1){
+    displayText(`You almost caught it ...`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterCO === 2){
+    displayText(`You almost caught it ... only to SMACK it to the ground, breaking it apart.`, 25, 20, 4.3*height /5,180,0,0);
+    }
+    else if (eventCounterCO === 3){
+    image(brokenphoneImage,width/2,height/2,640,480);
+    }
+    else if (eventCounterCO === 4){
+    image(catchOutcomebgImage,width/2,height/2,640,480);
+    }
+    else if (eventCounterCO === 5){
+    image(catchOutcomebgImage,width/2,height/2,640,480);
+    textBox();
+    displayText(`Michael assures you that it is fine. At least you tried.`, 25, 20, 4.3*height /5,70,70,70);
+    }
+    else if (eventCounterCO === 6){
+    image(catchOutcomebgImage,width/2,height/2 + 300,1920,1440);
+    textBox();
+    displayText(`Michael assures you that it's fine. At least you tried.`, 25, 20, 4.3*height /5,70,70,70);
+    displayText(`It was an honest mistake...`, 25, 20, 4.7*height /5,70,70,70);
+    }
+    else if (eventCounterCO === 7){
+    textBox();
+    displayText(`...`, 25, 20, 4.3*height /5,160,0,0);
+    }
+    else if (eventCounterCO === 8){
+    textBox();
+    displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
+    }
+    else if (eventCounterCO === 9){
+    state = `secondSituation`
+    }
+   }
   function secondSituation(){
     background(0,0,40);
-    displayText(`Second Situation`, 20, width / 2, height / 2, 255)
+    textBox();
     if (catched === true){
       displayText(`Your friend does not seem happy.`, 20, width / 2, height / 2 + 100, 255)
     }
