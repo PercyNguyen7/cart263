@@ -4,7 +4,7 @@ class Phone {
     this.y = height / 2 - 300,
     this.width = 160,
     this.height = 280,
-    this.vy = 0.1
+    this.vy = 3
 
   }
   // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.

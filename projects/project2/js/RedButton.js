@@ -1,8 +1,9 @@
+// Red button to start the game in instruction state
 class RedButton {
   constructor() {
     this.x = width / 2,
-    this.y = height / 2 + 50,
-    this.y2 = height/2 + 60,
+    this.y = height / 2 + 70,
+    this.y2 = height/2 + 80,
     this.size = 120
   }
   // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.

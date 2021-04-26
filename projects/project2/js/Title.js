@@ -24,6 +24,5 @@ class Title {
     if (this.broken === true){
     this.y += this.vy;
     }
-    
   }
 }

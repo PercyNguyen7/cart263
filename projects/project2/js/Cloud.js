@@ -1,3 +1,4 @@
+// This class is the cloud that floats left to right of the introduction screen
 class Cloud {
   constructor(cloudImage) {
     this.x = 0,
@@ -8,14 +9,13 @@ class Cloud {
     this.image = cloudImage;
 
   }
-  // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
+  // Display the cloud image
   display() {
     push();
     image(this.image, this.x,this.y, this.width, this.height);
-
     pop();
   }
-  // Move
+  // Move cloud left to right and resets its x 
   move(){
     this.x += this.vx
     if (this.x - this.width/2 >= width){
