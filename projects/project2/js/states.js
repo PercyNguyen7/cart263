@@ -89,7 +89,7 @@ function firstSituation(){
   s1bg = situation1bg4Image;
   displayText(`Until... ALl HELLS BROKE LOOSE`, 55, 20, 4.3*height /5, 70,70,70);
   }
-  else if (eventCounterS1 === 8){
+  else if (eventCounterS1 >= 8){
   state = `firstDecisionIntro`
   }
   pop();
@@ -124,16 +124,65 @@ function firstDecision() {
 // ENDINGS
 // Letting the phone falls.
   function doNothing1Outcome(){
-    background(30);
-    catched = false;
-    displayText(``, 20, width / 2, height / 2,0);
-
+    phonecaught = false;
+    push();
+    textFont(newspaperCutoutFont);
+    if (eventCounterDN1 === 0){
+      image(doNothing1bgImage,width/2,height/2,640,480);
+      legs.display();
+      legs.move(phone);
+      phone.display2();
+      phone.move2();
+    }
+    else if(eventCounterDN1 === 1){
+      image(doNothing1bg2Image,width/2,height/2,640,480);
+      phone.display2();
+      phone.move2();
+    }
+    else if(eventCounterDN1 === 2){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`!`, 25, 20, 4.3*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 === 3){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`He... just juggled with his left foot`, 25, 20, 4.3*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 === 4){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`He... just juggled with his left foot`, 25, 20, 4.3*height /5, 70,70,70);
+      displayText(`Oh right... he's a sporty bastard! `, 25, 20, 4.7*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 === 5){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`You couldn't help but wonder what if you tried to catch it`, 25, 20, 4.3*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 === 6){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`You couldn't help but wonder what if you tried to catch it`, 25, 20, 4.3*height /5, 70,70,70);
+      displayText(`Oh well! At least all is good!`, 25, 20, 4.7*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 === 7){
+      image(doNothing1bg3Image,width/2,height/2,640,480);
+      textBox();
+      displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height /5, 70,70,70);
+      textStyle(BOLD);
+      displayText(`Friendship + 1`, 30, 20, 4.7*height /5, 70,70,70);
+    }
+    else if(eventCounterDN1 >= 8){
+    state = `secondSituation`;
+    }
+    pop();
   }
 // Achieved by saying I Got You while having all 5 fingers on the phonee
   function catchOutcome(){
     background(0);
     textBox();
-    catched = true;
+    phonecaught = true;
     if (eventCounterCO === 0){
     displayText(`... `, 25, 20, 4.3*height /5,0,0,0);
     }
@@ -155,7 +204,7 @@ function firstDecision() {
     displayText(`Michael assures you that it is fine. At least you tried.`, 25, 20, 4.3*height /5,70,70,70);
     }
     else if (eventCounterCO === 6){
-    image(catchOutcomebgImage,width/2,height/2 + 300,1920,1440);
+    image(catchOutcomebgImage,width/2,height/2 + 400,1920,1440);
     textBox();
     displayText(`Michael assures you that it's fine. At least you tried.`, 25, 20, 4.3*height /5,70,70,70);
     displayText(`It was an honest mistake...`, 25, 20, 4.7*height /5,70,70,70);
@@ -168,17 +217,17 @@ function firstDecision() {
     textBox();
     displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
     }
-    else if (eventCounterCO === 9){
+    else if (eventCounterCO >= 9){
     state = `secondSituation`
     }
    }
   function secondSituation(){
     background(0,0,40);
     textBox();
-    if (catched === true){
+    if (phonecaught === true){
       displayText(`Your friend does not seem happy.`, 20, width / 2, height / 2 + 100, 255)
     }
-    else if (catched === false){
+    else if (phonecaught === false){
       displayText(`he happi`, 20, width / 2, height / 2 + 100, 255)
     }
   }

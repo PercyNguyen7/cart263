@@ -25,18 +25,20 @@ let predictions = [];
 // Declare classes
 let title;
 let firstDecisionBg;
-
 let redbutton;
 let cloud;
 let phone;
+let legs;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
-let catched;
+let phonecaught;
 
 // Event counters for each situation
 // for Situation 1
 let eventCounterS1 = 0;
 // for Catch Outcome
 let eventCounterCO = 0;
+// for Do Nothing 1
+let eventCounterDN1 = 0;
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -47,6 +49,9 @@ let situation1bg4Image;
 let firstDecisionbgImage;
 let brokenphoneImage;
 let catchOutcomebgImage;
+let doNothing1bgImage;
+let doNothing1bg2Image;
+let doNothing1bg3Image;
 let phoneImage;
 let leftlegImage;
 let rightlegImage;
@@ -68,7 +73,9 @@ function preload() {
   firstDecisionbgImage = loadImage(`assets/images/firstdecisionbg.jpg`);
   brokenphoneImage = loadImage(`assets/images/brokenphone.jpg`);
   catchOutcomebgImage = loadImage(`assets/images/catchoutcomebg.jpg`);
-  doNothing1bg = loadImage(`assets/images/donothing1bg.jpg`);
+  doNothing1bgImage = loadImage(`assets/images/donothing1bg.jpg`);
+  doNothing1bg2Image = loadImage(`assets/images/donothing1bg2.jpg`);
+  doNothing1bg3Image = loadImage(`assets/images/donothing1bg3.jpg`);
   phoneImage = loadImage(`assets/images/phone.png`);
   leftlegImage = loadImage(`assets/images/leftleg.png`);
   rightlegImage = loadImage(`assets/images/rightleg.png`);
@@ -90,8 +97,8 @@ function setup() {
   title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
-  phone = new Phone;
-
+  phone = new Phone(phoneImage);
+  legs = new Legs(leftlegImage,rightlegImage);
   // Setup annyang
   if (annyang) {
     let commands = {
@@ -261,7 +268,7 @@ function userInput(input) {
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
-  if (state === `firstSituation`|| state === `catchOutcome`) {
+  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -298,11 +305,9 @@ function keyPressed() {
     eventCounterCO += 1;
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     state = `secondSituation`
-  } else if (keyCode === ENTER && state === `doNothing1Outcome`) {
-    state = `secondSituation`
-  }
-
-  else if (keyCode === 65 && state === `firstDecision`){
+  } else if (keyCode === ENTER && state === `doNothing1Outcome` && eventCounterDN1 >=2) {
+    eventCounterDN1 += 1;
+  } else if (keyCode === 65 && state === `firstDecision`){
     state = `catchOutcome`
   }
   else if (keyCode === 82 && state === `firstDecision`){

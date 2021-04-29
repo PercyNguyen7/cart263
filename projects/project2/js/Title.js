@@ -3,10 +3,10 @@ class Title {
     this.x = width / 2,
     this.y = height / 2 + 50,
     this.y2 = height/2 + 60,
-    this.size = 120
-    this.vy = 15;
-    this.r = 0;
-    this.vr = 4;
+    this.size = 120,
+    this.vy = 15,
+    this.r = 0,
+    this.vr = 4,
     this.broken = false;
   }
   // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
