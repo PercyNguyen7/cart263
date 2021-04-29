@@ -88,6 +88,8 @@ function firstSituation(){
   else if (eventCounterS1 === 7){
   s1bg = situation1bg4Image;
   displayText(`Until... ALl HELLS BROKE LOOSE`, 55, 20, 4.3*height /5, 70,70,70);
+  phone.display3();
+  phone.move3();
   }
   else if (eventCounterS1 >= 8){
   state = `firstDecisionIntro`
@@ -112,7 +114,7 @@ function firstDecision() {
   phone.display();
   phone.move();
 
-  displayText(currentInput, 30, width / 2, height / 8,0);
+  displayText(currentInput, 40, width / 2, height / 8,0);
   // Check if there are currently any predictions to display
   if (predictions.length > 0) {
     // Get the hand predicted
@@ -121,53 +123,47 @@ function firstDecision() {
     highlightHand(hand);
   }
 }
-// ENDINGS
 // Letting the phone falls.
-  function doNothing1Outcome(){
+function doNothing1Outcome(){
+    image(dNbg,width/2,height/2,640,480);
     phonecaught = false;
     push();
     textFont(newspaperCutoutFont);
     if (eventCounterDN1 === 0){
-      image(doNothing1bgImage,width/2,height/2,640,480);
       legs.display();
       legs.move(phone);
       phone.display2();
       phone.move2();
     }
     else if(eventCounterDN1 === 1){
-      image(doNothing1bg2Image,width/2,height/2,640,480);
+      dNbg = doNothing1bg2Image;
       phone.display2();
       phone.move2();
     }
     else if(eventCounterDN1 === 2){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
+      dNbg = doNothing1bg3Image;
       textBox();
       displayText(`!`, 25, 20, 4.3*height /5, 70,70,70);
     }
     else if(eventCounterDN1 === 3){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
       textBox();
       displayText(`He... just juggled with his left foot`, 25, 20, 4.3*height /5, 70,70,70);
     }
     else if(eventCounterDN1 === 4){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
       textBox();
       displayText(`He... just juggled with his left foot`, 25, 20, 4.3*height /5, 70,70,70);
       displayText(`Oh right... he's a sporty bastard! `, 25, 20, 4.7*height /5, 70,70,70);
     }
     else if(eventCounterDN1 === 5){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
       textBox();
       displayText(`You couldn't help but wonder what if you tried to catch it`, 25, 20, 4.3*height /5, 70,70,70);
     }
     else if(eventCounterDN1 === 6){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
       textBox();
       displayText(`You couldn't help but wonder what if you tried to catch it`, 25, 20, 4.3*height /5, 70,70,70);
       displayText(`Oh well! At least all is good!`, 25, 20, 4.7*height /5, 70,70,70);
     }
     else if(eventCounterDN1 === 7){
-      image(doNothing1bg3Image,width/2,height/2,640,480);
       textBox();
       displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height /5, 70,70,70);
       textStyle(BOLD);
@@ -179,7 +175,7 @@ function firstDecision() {
     pop();
   }
 // Achieved by saying I Got You while having all 5 fingers on the phonee
-  function catchOutcome(){
+function catchOutcome(){
     background(0);
     textBox();
     phonecaught = true;
@@ -216,25 +212,65 @@ function firstDecision() {
     else if (eventCounterCO === 8){
     textBox();
     displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
+    push();
+    textStyle(BOLD);
+    displayText(`Friendship - 1`, 30, 20, 4.7*height /5,160,0,0);
+    pop();
     }
     else if (eventCounterCO >= 9){
     state = `secondSituation`
     }
    }
+   // Second situation
   function secondSituation(){
-    background(0,0,40);
+    push();
+    image(s2bg,width/2,height/2,640,480);
     textBox();
-    if (phonecaught === true){
-      displayText(`Your friend does not seem happy.`, 20, width / 2, height / 2 + 100, 255)
+    if (phonecaught === true && eventCounterS2 === 0){
+      displayText(`Michael seems slightly annoyed.`, 25, 20, 4.3*height / 5 , 160,0,0);
     }
-    else if (phonecaught === false){
-      displayText(`he happi`, 20, width / 2, height / 2 + 100, 255)
+    else if (phonecaught === false && eventCounterS2 === 0){
+      displayText(`Michael seems glad that he got to show off`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
+    else if (eventCounterS2 === 1){
+      displayText(`You chat while walking...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS2 === 2){
+      displayText(`You chat while walking...`, 25, 20, 4.3*height / 5 , 70,70,70);
+      displayText(`Quite windy, but still a lovely day!`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS2 === 3){
+      displayText(`You look up and gaze at the cloud`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS2 === 4){
+      s2bg = situation2bg2Image;
+      bird.display();
+      bird.move();
+      if (poop.appear){
+        displayText(`IT'S DROPPING TOWARDS MICHAEL!!`, 45, 20, 4.3*height /5, 70,70,70);;
+       }
+      poop.display();
+      poop.move(bird);
+    }
+    else if (eventCounterS2 === 5){
+      state = `secondDecisionIntro`
+    }
+    pop();
+  }
+  function secondDecisionIntro(){
+    background(0);
+    push();
+    displayText(`Will you PUSH YOUR FRIEND or POOP YOUR FRIEND? `, 35 , width/2, height /2 - 75, 255);
+    textFont(newspaperCutoutFont);
+    displayText(`To PUSH, put your hand VERY close to the screen "`, 30 , width/2, height /2, 255);
+    displayText(`And yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,0);
+    displayText(`To POOP... you... let it poop."`, 30 , width/2, height / 2+100, 255);
+    pop();
   }
   function secondDecision() {
     background(120,0,0);
     // Display and move poop
-    displayText(currentInput, 20, width / 2, height / 8,0);
+    displayText(currentInput, 40, width / 2, height / 8,255,255,255);
     // Check if there are currently any predictions to display
     if (predictions.length > 0) {
       // Get the hand predicted

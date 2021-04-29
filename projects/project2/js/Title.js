@@ -6,17 +6,18 @@ class Title {
     this.size = 120,
     this.vy = 15,
     this.r = 0,
-    this.vr = 4,
+    this.vr = 30,
     this.broken = false;
   }
-  // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
+  // Display title
   display() {
     push();
-    this.r = this.r+this.vr;
-    if (this.r >= 60){
+    // Title gets tilted
+    this.r +=this.vr;
+    if (this.r >= 300){
       this.vr = 0;
     }
-      rotate( 0.1*radians(this.r));
+      rotate(1*radians(this.r));
     displayText(`The Extremely Silly Game`, 60, this.x, this.y, 255);
     pop();
   }

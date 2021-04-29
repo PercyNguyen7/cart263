@@ -1,12 +1,12 @@
 class Phone {
-  constructor(phoneImage) {
+  constructor(phoneImage,phoneFallings1bg4Image) {
     // Parameters for the first phone in FirstDecision
     this.x = width / 2,
     this.y = height / 2 - 300,
     this.width = 160,
     this.height = 280,
     this.vy = 3,
-    // Parameters for phone in doNothing1Outcome state
+    // Parameters for phone in doNothing1Outcome state.
     this.x2 = width/2 + 50,
     this.y2 = -75,
     this.width2 = 95,
@@ -15,11 +15,18 @@ class Phone {
     this.image2 = phoneImage,
     this.juggled2 = false;
     this.rotationSpeed2 = 0;
+    angleMode(DEGREES)
+    this.angle2 = 5;
 
-   angleMode(DEGREES)
-   this.angle2 = 5;
+    // Parameters for phone in Situation 1 event 4
+    this.x3 = width/2;
+    this.y3 = height/2;
+    this.width3 = 640,
+    this.height3 = 480,
+    this.vy3 = 5,
+    this.image3 = phoneFallings1bg4Image;
   }
-  // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
+  // Display phone
   display() {
     push();
     fill(20);
@@ -73,5 +80,13 @@ class Phone {
      eventCounterDN1 = 2
    }
   }
-
+    display3(){
+      image(phoneFallings1bg4Image, this.x3,this.y3,this.width3,this.heigh3);
+    }
+    move3(){
+      this.y3 += this.vy3;
+      if (this.y3 >= height){
+        state = `firstDecisionIntro`
+      }
+    }
 }

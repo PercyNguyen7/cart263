@@ -6,7 +6,7 @@ class RedButton {
     this.y2 = height/2 + 80,
     this.size = 120
   }
-  // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
+  // Display the red button out of 3 red, dark red and grey circle.
   display() {
     push();
     fill(40);

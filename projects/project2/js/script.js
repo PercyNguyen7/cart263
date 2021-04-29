@@ -11,6 +11,8 @@ author, and this description to match your project!
 let currentInput = ``;
 
 let s1bg;
+let dNbg;
+let s2bg;
 // Starting state of program
 let state = `loading`; // loading, firstDecision
 // User's webcam
@@ -29,6 +31,8 @@ let redbutton;
 let cloud;
 let phone;
 let legs;
+let bird;
+let poop;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
 let phonecaught;
 
@@ -39,6 +43,8 @@ let eventCounterS1 = 0;
 let eventCounterCO = 0;
 // for Do Nothing 1
 let eventCounterDN1 = 0;
+// for Situation 2
+let eventCounterS2 = 0;
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -46,6 +52,7 @@ let situation1bgImage;
 let situation1bg2Image;
 let situation1bg3Image;
 let situation1bg4Image;
+let phoneFallings1bg4Image;
 let firstDecisionbgImage;
 let brokenphoneImage;
 let catchOutcomebgImage;
@@ -55,6 +62,11 @@ let doNothing1bg3Image;
 let phoneImage;
 let leftlegImage;
 let rightlegImage;
+let situation2bgImage;
+let situation2bg2Image;
+let birdS2Image;
+let poopImage;
+
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -70,6 +82,7 @@ function preload() {
   situation1bg2Image = loadImage(`assets/images/situation1bg2.jpg`);
   situation1bg3Image = loadImage(`assets/images/situation1bg3.jpg`);
   situation1bg4Image = loadImage(`assets/images/situation1bg4.jpg`);
+  phoneFallings1bg4Image = loadImage(`assets/images/phones1bg4.png`);
   firstDecisionbgImage = loadImage(`assets/images/firstdecisionbg.jpg`);
   brokenphoneImage = loadImage(`assets/images/brokenphone.jpg`);
   catchOutcomebgImage = loadImage(`assets/images/catchoutcomebg.jpg`);
@@ -79,6 +92,10 @@ function preload() {
   phoneImage = loadImage(`assets/images/phone.png`);
   leftlegImage = loadImage(`assets/images/leftleg.png`);
   rightlegImage = loadImage(`assets/images/rightleg.png`);
+  situation2bgImage = loadImage(`assets/images/situation2bg1.jpg`);
+  situation2bg2Image = loadImage(`assets/images/situation2bg2.jpg`);
+  birdS2Image = loadImage(`assets/images/birds2.png`);
+  poopImage = loadImage(`assets/images/poop.png`);
 }
 
 /**
@@ -90,14 +107,21 @@ function setup() {
   imageMode(CENTER);
   textFont(arrFont);
 
-  // Set first background image for situation
+  // Set first background image for situation 1
   s1bg = situation1bgImage;
+  // Set first background image for doNothing1Outcome
+  dNbg = doNothing1bgImage;
+  // Set first background image for doNothing1Outcome
+  s2bg = situation2bgImage;
   // Declare class
+
+  bird = new Bird(birdS2Image);
+  poop = new Poop(poopImage);
   firstDecisionBg = new FirstDecisionBg(firstDecisionbgImage);
   title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
-  phone = new Phone(phoneImage);
+  phone = new Phone(phoneImage, phoneFallings1bg4Image);
   legs = new Legs(leftlegImage,rightlegImage);
   // Setup annyang
   if (annyang) {
@@ -163,6 +187,12 @@ function draw() {
       break;
     case "secondSituation":
       secondSituation();
+      break;
+    case "secondDecisionIntro":
+      secondDecisionIntro();
+      break;
+    case "secondDecision":
+      secondDecision();
       break;
   }
 }
@@ -268,7 +298,7 @@ function userInput(input) {
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
-  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome`) {
+  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -303,14 +333,21 @@ function keyPressed() {
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     eventCounterCO += 1;
-  } else if (keyCode === ENTER && state === `catchOutcome`) {
-    state = `secondSituation`
   } else if (keyCode === ENTER && state === `doNothing1Outcome` && eventCounterDN1 >=2) {
     eventCounterDN1 += 1;
-  } else if (keyCode === 65 && state === `firstDecision`){
-    state = `catchOutcome`
+  } else if (keyCode === ENTER && state === `secondSituation`
+    // && eventCounterS2 != 4
+  ) {
+    eventCounterS2 += 1;
+  } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
+    state = `secondDecision`;
   }
-  else if (keyCode === 82 && state === `firstDecision`){
+
+// Shortcut
+    else if (keyCode === 65 && state === `firstDecision`){
+    state = `catchOutcome`
+  }  else if (keyCode === 82 && state === `firstDecision`){
     state = `doNothing1Outcome`
   }
+
 }
