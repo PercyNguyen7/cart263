@@ -10,10 +10,11 @@ class Poop {
     this.image = poopImage,
     this.appear = false;
 
+// Parameters for poop in second Decision state
     this.x2 = width/2,
     this.y2 = -20,
     this.vx2 = 0,
-    this.vy2 = 3,
+    this.vy2 = 0.3,
     this.width2 = 20,
     this.height2 = 60,
     this.image2 = poopImage

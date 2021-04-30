@@ -15,6 +15,8 @@ let dNbg;
 let s2bg;
 let pObg;
 let dN2bg;
+let s3bg;
+let dN3bg;
 // Starting state of program
 let state = `loading`; // loading, firstDecision
 // User's webcam
@@ -36,6 +38,7 @@ let legs;
 let bird;
 let poop;
 let michael;
+let car;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
 let phoneCaught;
 let michaelPushed;
@@ -53,6 +56,16 @@ let eventCounterS2 = 0;
 let eventCounterPO = 0;
 // for Do Nothing 2
 let eventCounterDN2 = 0;
+// for Situation 2
+let eventCounterS3 = 0;
+// for Save Outcome
+let eventCounterSO = 0;
+// for Do Nothing 2
+let eventCounterDN3 = 0;
+// for Situation 4
+let eventCounterS4 = 0;
+// Check if hand is on the left for 2nd Situation
+let handLeft = false;
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -84,6 +97,16 @@ let pushOutcomebg5Image;
 let doNothing2bgImage;
 let doNothing2bg2Image;
 let doNothing2bg3Image;
+let situation3bgHappyImage;
+let situation3bgMadImage;
+let situation3bg2Image;
+let situation3bg3Image;
+let decision3bgImage;
+let michaelMadD3Image;
+let michaelHappyD3Image;
+let carImage;
+let doNothing3bgImage;
+let doNothing3bg2Image;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -123,6 +146,16 @@ function preload() {
   doNothing2bgImage = loadImage(`assets/images/donothing2bg.jpg`);
   doNothing2bg2Image = loadImage(`assets/images/donothing2bg2.jpg`);
   doNothing2bg3Image = loadImage(`assets/images/donothing2bg3.jpg`);
+  situation3bgHappyImage = loadImage(`assets/images/situation3bghappy.jpg`);
+  situation3bgMadImage = loadImage(`assets/images/situation3bgmad.jpg`);
+  situation3bg2Image = loadImage(`assets/images/situation3bg2.jpg`);
+  situation3bg2Image = loadImage(`assets/images/situation3bg3.jpg`);
+  decision3bgImage = loadImage (`assets/images/decision3bg.jpg`);
+  michaelMadD3Image = loadImage (`assets/images/michaelMadD3.png`);
+  michaelHappyD3Image = loadImage (`assets/images/michaelHappyD3.png`);
+  carImage = loadImage (`assets/images/carD3.png`);
+  doNothing3bgImage = loadImage (`assets/images/donothing3bg.jpg`);
+  doNothing3bg2Image = loadImage (`assets/images/donothing3bg2.jpg`);
 }
 
 /**
@@ -144,9 +177,12 @@ function setup() {
   pObg = pushOutcomebgImage;
   // Set first background image for PushOutcome
   dN2bg = secondDecisionbgImage;
-  // Declare class
+  // Set first background image for PushOutcome
+  dN3bg = doNothing3bgImage;
 
-  michael = new Michael(sdmichaelImage);
+  // Declare class
+  car = new Car(carImage);
+  michael = new Michael(sdmichaelImage, michaelMadD3Image,michaelHappyD3Image);
   bird = new Bird(birdS2Image);
   poop = new Poop(poopImage);
   firstDecisionBg = new FirstDecisionBg(firstDecisionbgImage);
@@ -234,7 +270,22 @@ function draw() {
       break;
     case "thirdSituation":
       thirdSituation();
-      break;  
+      break;
+   case "thirdDecisionIntro":
+     thirdDecisionIntro();
+     break;
+   case "thirdDecision":
+     thirdDecision();
+     break;
+    case "saveOutcome":
+      saveOutcome();
+      break;
+    case "doNothing3Outcome":
+      doNothing3Outcome();
+      break;
+    case "aliveEnding":
+      aliveEnding();
+      break;
   }
 }
 /**
@@ -307,7 +358,7 @@ function highlightHand(hand) {
     redbutton.y = height / 2 + 70;
   }
 
-  // Trigger phone Smack Ending if player's tips are close enough to the phone while they yell I got you
+  // Trigger catch outcome  if player's tips are near enough to the phone while they yell I got you
   let d1 = dist(phone.x, phone.y, tipX, tipY);
   let d2 = dist(phone.x, phone.y, tip2X, tip2Y);
   let d3 = dist(phone.x, phone.y, tip3X, tip3Y);
@@ -321,12 +372,25 @@ function highlightHand(hand) {
     state = `catchOutcome`;
   }
 
+// If players put hand on the left half, make handLeft variable true.
+  if (tipX <= width/2 &&  tip2X <= width/2 && tip3X <= width/2 && tip4X <= width/2 && tip5X <= width/2 && state === `secondDecision`){
+    handLeft = true
+  }
+  if (handLeft === true && state === `secondDecision`){
+    displayText(`Now push your hand to the right and yell "Poop from the sky"!`, 25, width/2, 4.3*height / 5 , 255,255,255);
+  }
+  if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true)  {
+    state = `pushOutcome`
+  }
   // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
-  if (dp >= 240 && currentInput === `Poop from the sky`&& state === `secondDecision`){
-    state = `pushOutcome`;
+  if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
+    state = `saveOutcome`;
   }
 }
+
+
+
 
 // User voice shown up top!
 function userInput(input) {
@@ -339,8 +403,9 @@ function userInput(input) {
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
+  // Display text Align left and change font for following states
   if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`|| state === `pushOutcome`
-  || state === `doNothing2Outcome`) {
+  || state === `doNothing2Outcome` || state === `thirdSituation` || state === `doNothing3Outcome` || state === `saveOutcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -388,6 +453,12 @@ function keyPressed() {
     // && eventCounterDN2 >=1
   )
     {eventCounterDN2 +=1;
+  } else if (keyCode === ENTER && state === `thirdSituation`){
+    eventCounterS3 +=1;
+  } else if (keyCode === ENTER && state === `thirdDecisionIntro`){
+    state = `thirdDecision`;
+  } else if (keyCode === ENTER && state === `doNothing3Outcome`){
+    eventCounterDN3 +=1;
   }
 
 // Shortcut
@@ -399,6 +470,10 @@ function keyPressed() {
     state = `pushOutcome`
   }  else if (keyCode === 82 && state === `secondDecision`){
     state = `doNothing2Outcome`
+  }  else if (keyCode === 65 && state === `thirdDecision`){
+    state = `saveOutcome`
+  }  else if (keyCode === 82 && state === `thirdDecision`){
+    state = `doNothing3Outcome`
   }
 
 }

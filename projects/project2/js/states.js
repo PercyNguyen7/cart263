@@ -166,9 +166,9 @@ function doNothing1Outcome(){
     }
     else if(eventCounterDN1 === 7){
       textBox();
-      displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height /5, 70,70,70);
+      displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height /5,0,160,0);
       textStyle(BOLD);
-      displayText(`Friendship + 1`, 30, 20, 4.7*height /5, 70,70,70);
+      displayText(`FRIENDSHIP + 1`, 30, 20, 4.7*height /5, 0,160,0);
     }
     else if(eventCounterDN1 >= 8){
     state = `secondSituation`;
@@ -187,7 +187,7 @@ function catchOutcome(){
     displayText(`You almost caught it ...`, 25, 20, 4.3*height /5,0,0,0);
     }
     else if (eventCounterCO === 2){
-    displayText(`You almost caught it ... only to SMACK it to the ground, breaking it apart.`, 25, 20, 4.3*height /5,180,0,0);
+    displayText(`You almost caught it ... only to SMACK it to the ground, breaking it apart.`, 25, 20, 4.3*height /5,160,0,0);
     }
     else if (eventCounterCO === 3){
     image(brokenphoneImage,width/2,height/2,640,480);
@@ -207,15 +207,13 @@ function catchOutcome(){
     displayText(`It was an honest mistake...`, 25, 20, 4.7*height /5,70,70,70);
     }
     else if (eventCounterCO === 7){
-    textBox();
     displayText(`...`, 25, 20, 4.3*height /5,160,0,0);
     }
     else if (eventCounterCO === 8){
-    textBox();
     displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
     push();
     textStyle(BOLD);
-    displayText(`Friendship - 1`, 30, 20, 4.7*height /5,160,0,0);
+    displayText(`FRIENDSHIP - 1`, 30, 20, 4.7*height /5,160,0,0);
     pop();
     }
     else if (eventCounterCO >= 9){
@@ -263,8 +261,8 @@ function catchOutcome(){
     push();
     displayText(`Will you PUSH YOUR FRIEND or POOP YOUR FRIEND? `, 35 , width/2, height /2 - 75, 255);
     textFont(newspaperCutoutFont);
-    displayText(`To PUSH, put your hand VERY close to the screen "`, 30 , width/2, height /2, 255);
-    displayText(`And yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,0);
+    displayText(`To PUSH, put your hand on the half left of the screen "`, 30 , width/2, height /2, 255);
+    displayText(`Then Push to the right and yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,0);
     displayText(`To POOP... you... let it poop."`, 30 , width/2, height / 2+100, 255);
     pop();
   }
@@ -315,34 +313,42 @@ function catchOutcome(){
     displayText(`stopped in time to save his life`, 25, 20, 4.7*height /5,0,0,0);
     }
     else if (eventCounterPO === 6){
+    displayText(`Yet it did run over`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`His BLOODY CELLPHONE!`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 7){
+    displayText(`Yet it did run over`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`His BLOODY CELLPHONE!`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 8){
       pObg = pushOutcomebg4Image;
     displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
     }
-    else if (eventCounterPO === 7){
+    else if (eventCounterPO === 9){
       pObg = pushOutcomebg5Image;
     displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
     displayText(`Though stopped when he understood your good intention`, 25, 20, 4.7*height /5,0,0,0);
     }
-    else if(eventCounterPO === 8){
+    else if(eventCounterPO === 10){
     displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
     }
-    else if(eventCounterPO === 9){
+    else if(eventCounterPO === 11){
     displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
     displayText(`Was to save him from some bird poop...`, 25, 20, 4.7*height /5,0,0,0);
     }
-    else if(eventCounterPO === 10){
-    displayText(`You feel your sins tingling on your skin`, 25, 20, 4.3*height /5,0,0,0);
+    else if(eventCounterPO === 12){
+    displayText(`You feel your sins tingling on your skin`, 25, 20, 4.3*height /5,160,0,0);
+    displayText(`FRIENDSHIP - 1`, 30, 20, 4.7*height /5,160,0,0);
     }
-    else if(eventCounterPO >= 11){
+    else if(eventCounterPO >= 13){
     state = `thirdSituation`;
     }
   }
   function doNothing2Outcome(){
     image(dN2bg,width/2,height/2,640,480);
     textBox();
-    let michaelPushed = false;
+    michaelPushed = false;
     if (eventCounterDN2 === 0){
-
     michael.display();
     michael.move();
     displayText(`...`, 25, 20, 4.3*height / 5 , 70,70,70);
@@ -367,19 +373,172 @@ function catchOutcome(){
     displayText(`Michael looked to see how lucky he was...`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
     else if (eventCounterDN2 === 6){
-        dN2bg = doNothing2bg3Image;
+    dN2bg = doNothing2bg3Image;
     displayText(`He looks at you with a face of the blessed`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterDN2 === 7){
     displayText(`He looks at you with a face of the blessed`, 25, 20, 4.3*height / 5 , 70,70,70);
     displayText(`Your heartless decision was actually for the better good...`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
-    else if (eventCounterDN2 >= 8){
+    else if (eventCounterDN2 === 8){
+    displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height / 5 , 0,160,0);
+    displayText(`FRIENDSHIP + 1`, 30, 20, 4.7*height / 5 , 0,160,0);
+    }
+    else if (eventCounterDN2 >= 9){
     state = `thirdSituation`;
     }
     // Show poop falling
-    if (eventCounterDN2 >=3 || eventCounterDN2 === 0){
+    if (eventCounterDN2 >=3 && eventCounterDN2 <6 || eventCounterDN2 === 0 ){
       poop.display2();
       poop.move2(michael);
     }
+  }
+
+  function thirdSituation(){
+    if (michaelPushed === true && eventCounterS3 <4 ){
+      s3bg = situation3bgMadImage;
+    }
+    else if (michaelPushed === false && eventCounterS3 <4){
+      s3bg = situation3bgHappyImage;
+    }
+    image(s3bg,width/2,height/2,640,480);
+    textBox();
+    if (michaelPushed === true && eventCounterS3 === 0){
+      displayText(`Michael seems slightly pissed.`, 25, 20, 4.3*height / 5 , 160,0,0);
+    }
+    else if (michaelPushed === false && eventCounterS3 === 0){
+      displayText(`Michael looks pretty freakin' happy`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    if (michaelPushed === true && eventCounterS3 === 1){
+      displayText(`Michael seems slightly pissed.`, 25, 20, 4.3*height / 5 , 160,0,0);
+      displayText(`He's picking up the soccer ball that he dropped while falling`, 25, 20, 4.7*height / 5 , 160,0,0);
+    }
+    else if (michaelPushed === false && eventCounterS3 === 1){
+      displayText(`Michael looks pretty freakin' happy`, 25, 20, 4.3*height / 5 , 70,70,70);
+      displayText(`He's picking up the soccer ball that he dropped while tying his shoes`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+     if (eventCounterS3 ===2){
+      displayText(`Sensing something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS3 ===3){
+    displayText(`Sensing something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
+     displayText(`You look on the left to see...`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS3 ===4){
+      s3bg = situation3bg2Image;
+     displayText(`A CAR ON MICHAEL'S LANE`,  55, 20, 4.3*height /5, 70,70,70);
+    }
+    else if (eventCounterS3 ===5){
+      s3bg = situation3bg3Image;
+     displayText(`RUNNING AT FULL SPEED TOWARDS HIM!`, 55, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterS3 >=6){
+    state= `thirdDecisionIntro`;
+    }
+  }
+  function thirdDecisionIntro(){
+    background(160,0,0);
+    push();
+    displayText(`WILL YOU`, 45 , width/2, height /2 - 150, 255);
+    displayText(`SAVE MICHAEL by pushing him to the NEXT LANE? `, 30 , width/2, height /2 - 100, 255);
+    displayText(`or LET FATE DECIDE by doing nothing? `, 30 , width/2, height /2 - 50, 255);
+    textFont(newspaperCutoutFont);
+    displayText(`To PUSH, put your hand as close as you can to the screen`, 30 , width/2, height /2, 255);
+    displayText(`And yell "NOT ON MY WATCH"`, 30 , width/2, height /2+50,0);
+    displayText(`To let face decide... you...let fate decide..."`, 30 , width/2, height / 2+100, 255);
+    pop();
+  }
+  function thirdDecision(){
+    image(decision3bgImage,width/2,height/2,640,480);
+    michael.display2();
+
+    car.display();
+    car.move();
+
+    // Display user's voice input
+    displayText(currentInput, 40, width / 2, height / 8,255,255,255);
+    // Check if there are currently any predictions to display
+    if (predictions.length > 0) {
+      // Get the hand predicted
+      let hand = predictions[0];
+      // Show fingers coordinates
+      highlightHand(hand);
+    }
+  }
+  function saveOutcome(){
+    image(dN3bg, width/2,height/2,640,480);
+    textBox();
+  }
+  function doNothing3Outcome(){
+    image(dN3bg, width/2,height/2,640,480);
+    textBox();
+    if (eventCounterDN3 === 0){
+    background(0);
+    textBox();
+    displayText(`So you let fate decide...`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 1){
+    background(0);
+    textBox();
+    displayText(`So you let fate decide...`, 25, 20, 4.3*height / 5 , 255,255,255);
+    displayText(`... to not save those in need...`, 25, 20, 4.7*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 ===2){
+    background(0);
+    textBox();
+    displayText(`Couldn't you try to save him...?`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 3){
+    background(0);
+    textBox();
+    displayText(`Couldn't you try to save him...?`, 25, 20, 4.3*height / 5 , 255,255,255);
+    displayText(`...`, 25, 20, 4.7*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 4){
+    background(0);
+    textBox();
+    displayText(`...Murderer?`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 5){
+    displayText(`NAH!`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 6){
+    displayText(`NAH!`, 25, 20, 4.3*height / 5 , 255,255,255);
+    displayText(`Although at high speed,`, 25, 20, 4.7*height / 5 , 255,255,255);
+    }
+    else if (eventCounterDN3 === 7){
+    dN3bg = doNothing3bg2Image;
+    displayText(`The driver saw the danger`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 8){
+    displayText(`The driver saw the danger`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`AND SWITCH LANE!`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 8){
+    displayText(`...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 9){
+    displayText(`...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`Thank fuck you didn't shove him...`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 10){
+    displayText(`to his death...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 11){
+    background(0);
+    textBox();
+    displayText(`Michael thinks that you are his lucky charm`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN3 === 12){
+    background(0);
+    textBox();
+    displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height / 5 ,0,160,0);
+    displayText(`FRIENDSHIP + 1`, 30, 20, 4.7*height /5, 0,160,0);
+    }
+    else if (eventCounterDN3 === 13){
+    state = `aliveEnding`
+    }
+  }
+  function aliveEnding(){
+
   }
