@@ -14,6 +14,7 @@ let s1bg;
 let dNbg;
 let s2bg;
 let pObg;
+let dN2bg;
 // Starting state of program
 let state = `loading`; // loading, firstDecision
 // User's webcam
@@ -73,14 +74,16 @@ let situation2bgImage;
 let situation2bg2Image;
 let birdS2Image;
 let poopImage;
-let secondDecisionImage;
+let secondDecisionbgImage;
 let sdmichaelImage;
 let pushOutcomebgImage;
 let pushOutcomebg2Image;
 let pushOutcomebg3Image;
 let pushOutcomebg4Image;
 let pushOutcomebg5Image;
-
+let doNothing2bgImage;
+let doNothing2bg2Image;
+let doNothing2bg3Image;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -110,13 +113,16 @@ function preload() {
   situation2bg2Image = loadImage(`assets/images/situation2bg2.jpg`);
   birdS2Image = loadImage(`assets/images/birds2.png`);
   poopImage = loadImage(`assets/images/poop.png`);
-  secondDecisionImage = loadImage(`assets/images/seconddecisionbg.jpg`);
+  secondDecisionbgImage = loadImage(`assets/images/seconddecisionbg.jpg`);
   sdmichaelImage = loadImage(`assets/images/seconddecisionmichael.png`);
   pushOutcomebgImage = loadImage(`assets/images/pushoutcomebg.jpg`);
   pushOutcomebg2Image = loadImage(`assets/images/pushoutcomebg2.jpg`);
   pushOutcomebg3Image = loadImage(`assets/images/pushoutcomebg3.jpg`);
   pushOutcomebg4Image = loadImage(`assets/images/pushoutcomebg4.jpg`);
   pushOutcomebg5Image = loadImage(`assets/images/pushoutcomebg5.jpg`);
+  doNothing2bgImage = loadImage(`assets/images/donothing2bg.jpg`);
+  doNothing2bg2Image = loadImage(`assets/images/donothing2bg2.jpg`);
+  doNothing2bg3Image = loadImage(`assets/images/donothing2bg3.jpg`);
 }
 
 /**
@@ -136,6 +142,8 @@ function setup() {
   s2bg = situation2bgImage;
   // Set first background image for PushOutcome
   pObg = pushOutcomebgImage;
+  // Set first background image for PushOutcome
+  dN2bg = secondDecisionbgImage;
   // Declare class
 
   michael = new Michael(sdmichaelImage);
@@ -224,6 +232,9 @@ function draw() {
     case "doNothing2Outcome":
       doNothing2Outcome();
       break;
+    case "thirdSituation":
+      thirdSituation();
+      break;  
   }
 }
 /**
@@ -373,7 +384,9 @@ function keyPressed() {
     state = `secondDecision`;
   }  else if (keyCode === ENTER && state === `pushOutcome`)
     {eventCounterPO +=1;
-  }  else if (keyCode === ENTER && state === `doNothing2Outcome`)
+  }  else if (keyCode === ENTER && state === `doNothing2Outcome`
+    // && eventCounterDN2 >=1
+  )
     {eventCounterDN2 +=1;
   }
 

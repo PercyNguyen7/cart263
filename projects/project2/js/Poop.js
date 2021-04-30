@@ -56,9 +56,16 @@ class Poop {
     if (this.y2 + this.height2 >= michael.y - michael.height/2 + 30 && state === `secondDecision`){
       state = `doNothing2Outcome`
     }
+    // Speed up the poop once it's doNothing state to fasten the game
     if (state === `doNothing2Outcome` ){
-      this.vy2 = 10;
-      this.vx2 = 8;
+      this.vy2 = 12;
+      this.vx2 = 6;
+    }
+    // Reset coordinates of poop once it reaches bottom to appear again
+    if (state === `doNothing2Outcome`&& this.y2 - this.height/2 >= height && eventCounterDN2 ===0){
+      eventCounterDN2 = 2;
+      this.x2 = width/2;
+      this.y2 = -20;
     }
   }
 }

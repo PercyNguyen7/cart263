@@ -25,6 +25,7 @@ class Michael {
     pop();
   }
   move(){
+    // Rotate Michael's head to dodge the poop
     if (state === `doNothing2Outcome`){
     this.y+= this.vy;
   }

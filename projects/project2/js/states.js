@@ -269,11 +269,12 @@ function catchOutcome(){
     pop();
   }
   function secondDecision() {
-    image(secondDecisionImage,width/2,height/2,640,480);
+    image(secondDecisionbgImage,width/2,height/2,640,480);
     michael.display();
+    // Display and move poop
     poop.display2();
     poop.move2(michael);
-    // Display and move poop
+    // Display user's voice input
     displayText(currentInput, 40, width / 2, height / 8,255,255,255);
     // Check if there are currently any predictions to display
     if (predictions.length > 0) {
@@ -333,21 +334,52 @@ function catchOutcome(){
     displayText(`You feel your sins tingling on your skin`, 25, 20, 4.3*height /5,0,0,0);
     }
     else if(eventCounterPO >= 11){
-    state = `thirdSituation`
+    state = `thirdSituation`;
     }
   }
   function doNothing2Outcome(){
-    background(0);
+    image(dN2bg,width/2,height/2,640,480);
     textBox();
     let michaelPushed = false;
     if (eventCounterDN2 === 0){
-    displayText(`You look up and gaze at the cloud`, 25, 20, 4.3*height / 5 , 70,70,70);
-    poop.display2();
-    poop.move2(michael);
+
     michael.display();
     michael.move();
+    displayText(`...`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterDN2 === 1){
-    displayText(``, 15, width / 2, height/2,255);
+    displayText(`how did he DODGE IT !?`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 2){
+    displayText(`Oh...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 3){
+    dN2bg = doNothing2bgImage;
+    displayText(`Oh...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`He's just TYING HIS SHOES`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 4){
+      dN2bg = doNothing2bg2Image;
+    displayText(`While the gust of wind blew it away from him...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 5){
+    displayText(`While the gust of wind blew it away from him...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`Michael looked to see how lucky he was...`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 6){
+        dN2bg = doNothing2bg3Image;
+    displayText(`He looks at you with a face of the blessed`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 === 7){
+    displayText(`He looks at you with a face of the blessed`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`Your heartless decision was actually for the better good...`, 25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterDN2 >= 8){
+    state = `thirdSituation`;
+    }
+    // Show poop falling
+    if (eventCounterDN2 >=3 || eventCounterDN2 === 0){
+      poop.display2();
+      poop.move2(michael);
     }
   }
