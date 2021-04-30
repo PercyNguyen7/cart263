@@ -13,6 +13,7 @@ let currentInput = ``;
 let s1bg;
 let dNbg;
 let s2bg;
+let pObg;
 // Starting state of program
 let state = `loading`; // loading, firstDecision
 // User's webcam
@@ -33,8 +34,10 @@ let phone;
 let legs;
 let bird;
 let poop;
+let michael;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
-let phonecaught;
+let phoneCaught;
+let michaelPushed;
 
 // Event counters for each situation
 // for Situation 1
@@ -45,6 +48,10 @@ let eventCounterCO = 0;
 let eventCounterDN1 = 0;
 // for Situation 2
 let eventCounterS2 = 0;
+// for Push Outcome
+let eventCounterPO = 0;
+// for Do Nothing 2
+let eventCounterDN2 = 0;
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -66,6 +73,13 @@ let situation2bgImage;
 let situation2bg2Image;
 let birdS2Image;
 let poopImage;
+let secondDecisionImage;
+let sdmichaelImage;
+let pushOutcomebgImage;
+let pushOutcomebg2Image;
+let pushOutcomebg3Image;
+let pushOutcomebg4Image;
+let pushOutcomebg5Image;
 
 // Font
 let arrFont;
@@ -96,6 +110,13 @@ function preload() {
   situation2bg2Image = loadImage(`assets/images/situation2bg2.jpg`);
   birdS2Image = loadImage(`assets/images/birds2.png`);
   poopImage = loadImage(`assets/images/poop.png`);
+  secondDecisionImage = loadImage(`assets/images/seconddecisionbg.jpg`);
+  sdmichaelImage = loadImage(`assets/images/seconddecisionmichael.png`);
+  pushOutcomebgImage = loadImage(`assets/images/pushoutcomebg.jpg`);
+  pushOutcomebg2Image = loadImage(`assets/images/pushoutcomebg2.jpg`);
+  pushOutcomebg3Image = loadImage(`assets/images/pushoutcomebg3.jpg`);
+  pushOutcomebg4Image = loadImage(`assets/images/pushoutcomebg4.jpg`);
+  pushOutcomebg5Image = loadImage(`assets/images/pushoutcomebg5.jpg`);
 }
 
 /**
@@ -113,8 +134,11 @@ function setup() {
   dNbg = doNothing1bgImage;
   // Set first background image for doNothing1Outcome
   s2bg = situation2bgImage;
+  // Set first background image for PushOutcome
+  pObg = pushOutcomebgImage;
   // Declare class
 
+  michael = new Michael(sdmichaelImage);
   bird = new Bird(birdS2Image);
   poop = new Poop(poopImage);
   firstDecisionBg = new FirstDecisionBg(firstDecisionbgImage);
@@ -156,7 +180,7 @@ Description of draw()
 */
 function draw() {
   background(255);
-  // Switch case from Stephanie
+  // Switch case from Stephanie Dang
   switch (state) {
     case "loading":
       loading();
@@ -194,10 +218,16 @@ function draw() {
     case "secondDecision":
       secondDecision();
       break;
+    case "pushOutcome":
+      pushOutcome();
+      break;
+    case "doNothing2Outcome":
+      doNothing2Outcome();
+      break;
   }
 }
 /**
-Provided with a detected hand it highlights the skeleton of each finger
+Ddetect hand and highlights the skeleton of each finger
 */
 function highlightHand(hand) {
   push();
@@ -266,12 +296,6 @@ function highlightHand(hand) {
     redbutton.y = height / 2 + 70;
   }
 
-  // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
-  // let d = dist(base3X, base3Y, tip3X, tip3Y);
-  // if (d >= 240 && currentInput === `Haha`){
-  //   state = `phonePushedEnding`;
-  // }
-
   // Trigger phone Smack Ending if player's tips are close enough to the phone while they yell I got you
   let d1 = dist(phone.x, phone.y, tipX, tipY);
   let d2 = dist(phone.x, phone.y, tip2X, tip2Y);
@@ -284,6 +308,12 @@ function highlightHand(hand) {
     state === `firstDecision`) {
     // displayText(`TOUCHED PHONE`, 20, width / 2, 7 * height / 8, 0);
     state = `catchOutcome`;
+  }
+
+  // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
+  let dp = dist(base3X, base3Y, tip3X, tip3Y);
+  if (dp >= 240 && currentInput === `Poop from the sky`&& state === `secondDecision`){
+    state = `pushOutcome`;
   }
 }
 
@@ -298,7 +328,8 @@ function userInput(input) {
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
-  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`) {
+  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`|| state === `pushOutcome`
+  || state === `doNothing2Outcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -313,7 +344,7 @@ function displayText(string, size, x, y, r, g, b) {
 function textBox() {
   push();
   rectMode(CORNER);
-  fill(255);
+  fill(255,255,255,120);
   rect(5, 4 * height / 5, width - 10, 91);
   pop();
 }
@@ -337,10 +368,13 @@ function keyPressed() {
     eventCounterDN1 += 1;
   } else if (keyCode === ENTER && state === `secondSituation`
     // && eventCounterS2 != 4
-  ) {
-    eventCounterS2 += 1;
+  ) {eventCounterS2 += 1;
   } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
     state = `secondDecision`;
+  }  else if (keyCode === ENTER && state === `pushOutcome`)
+    {eventCounterPO +=1;
+  }  else if (keyCode === ENTER && state === `doNothing2Outcome`)
+    {eventCounterDN2 +=1;
   }
 
 // Shortcut
@@ -348,6 +382,10 @@ function keyPressed() {
     state = `catchOutcome`
   }  else if (keyCode === 82 && state === `firstDecision`){
     state = `doNothing1Outcome`
+  }  else if (keyCode === 65 && state === `secondDecision`){
+    state = `pushOutcome`
+  }  else if (keyCode === 82 && state === `secondDecision`){
+    state = `doNothing2Outcome`
   }
 
 }

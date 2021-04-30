@@ -76,7 +76,7 @@ function firstSituation(){
   }
   else if (eventCounterS1 === 4){
   s1bg = situation1bg3Image;
-  displayText(`! `, 25, 20, 4.3*height /5, 70);
+  displayText(`! `, 25, 20, 4.3*height /5, 70,70,70);
   }
   else if (eventCounterS1 === 5){
   displayText(`It's your best friend Michael from highschool!`, 25, 20, 4.3*height /5, 70,70,70);
@@ -96,6 +96,7 @@ function firstSituation(){
   }
   pop();
 }
+// Intro of first Decision
 function firstDecisionIntro(){
   background(157,52,174);
   push();
@@ -126,7 +127,7 @@ function firstDecision() {
 // Letting the phone falls.
 function doNothing1Outcome(){
     image(dNbg,width/2,height/2,640,480);
-    phonecaught = false;
+    phoneCaught = false;
     push();
     textFont(newspaperCutoutFont);
     if (eventCounterDN1 === 0){
@@ -178,7 +179,7 @@ function doNothing1Outcome(){
 function catchOutcome(){
     background(0);
     textBox();
-    phonecaught = true;
+    phoneCaught = true;
     if (eventCounterCO === 0){
     displayText(`... `, 25, 20, 4.3*height /5,0,0,0);
     }
@@ -226,10 +227,10 @@ function catchOutcome(){
     push();
     image(s2bg,width/2,height/2,640,480);
     textBox();
-    if (phonecaught === true && eventCounterS2 === 0){
+    if (phoneCaught === true && eventCounterS2 === 0){
       displayText(`Michael seems slightly annoyed.`, 25, 20, 4.3*height / 5 , 160,0,0);
     }
-    else if (phonecaught === false && eventCounterS2 === 0){
+    else if (phoneCaught === false && eventCounterS2 === 0){
       displayText(`Michael seems glad that he got to show off`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterS2 === 1){
@@ -247,7 +248,7 @@ function catchOutcome(){
       bird.display();
       bird.move();
       if (poop.appear){
-        displayText(`IT'S DROPPING TOWARDS MICHAEL!!`, 45, 20, 4.3*height /5, 70,70,70);;
+        displayText(`BIRD POOP TOWARDS MICHAEL!!`, 45, 20, 4.3*height /5, 70,70,70);;
        }
       poop.display();
       poop.move(bird);
@@ -268,7 +269,10 @@ function catchOutcome(){
     pop();
   }
   function secondDecision() {
-    background(120,0,0);
+    image(secondDecisionImage,width/2,height/2,640,480);
+    michael.display();
+    poop.display2();
+    poop.move2(michael);
     // Display and move poop
     displayText(currentInput, 40, width / 2, height / 8,255,255,255);
     // Check if there are currently any predictions to display
@@ -279,8 +283,71 @@ function catchOutcome(){
       highlightHand(hand);
     }
   }
-// Achieved by laughing Haha while having the size of your middle finger (sounds wrong) be bigger than half the height
-  function phonePushedEnding(){
-    background(20);
-    displayText(`You pushed it away...`, 15, width / 2, height/2,255);
+// Helping him!
+  function pushOutcome(){
+    image(pObg, width/2,height/2);
+    textBox();
+    michaelPushed = true;
+    if (eventCounterPO === 0){
+    background(0);
+    textBox();
+    displayText(`You pushed him away... `, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 1){
+    displayText(`You pushed him away... `, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`Forgotten that his shoes were untied... `, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 2){
+    pObg = pushOutcomebg2Image
+    displayText(`He tripped on his shoelace...`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 3){
+    displayText(`He tripped on his shoelace...`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`Then fell on the street`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 4){
+    displayText(`AN INCOMING CAR`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 5){
+    pObg = pushOutcomebg3Image;
+    displayText(`AN INCOMING CAR`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`stopped in time to save his life`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 6){
+      pObg = pushOutcomebg4Image;
+    displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if (eventCounterPO === 7){
+      pObg = pushOutcomebg5Image;
+    displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`Though stopped when he understood your good intention`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if(eventCounterPO === 8){
+    displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if(eventCounterPO === 9){
+    displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`Was to save him from some bird poop...`, 25, 20, 4.7*height /5,0,0,0);
+    }
+    else if(eventCounterPO === 10){
+    displayText(`You feel your sins tingling on your skin`, 25, 20, 4.3*height /5,0,0,0);
+    }
+    else if(eventCounterPO >= 11){
+    state = `thirdSituation`
+    }
+  }
+  function doNothing2Outcome(){
+    background(0);
+    textBox();
+    let michaelPushed = false;
+    if (eventCounterDN2 === 0){
+    displayText(`You look up and gaze at the cloud`, 25, 20, 4.3*height / 5 , 70,70,70);
+    poop.display2();
+    poop.move2(michael);
+    michael.display();
+    michael.move();
+    }
+    else if (eventCounterDN2 === 1){
+    displayText(``, 15, width / 2, height/2,255);
+    }
   }
