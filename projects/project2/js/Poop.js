@@ -1,6 +1,7 @@
 // Red button to start the game in instruction state
 class Poop {
   constructor(poopImage) {
+// Parameters for the poop in secondDecision State
     this.x = width/2,
     this.y = 100,
     this.vx = 0,
@@ -14,7 +15,7 @@ class Poop {
     this.x2 = width/2,
     this.y2 = -20,
     this.vx2 = 0,
-    this.vy2 = 0.3,
+    this.vy2 = 0.8,
     this.width2 = 20,
     this.height2 = 60,
     this.image2 = poopImage

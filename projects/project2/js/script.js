@@ -72,6 +72,7 @@ let eventCounterS4 = 0;
 let eventCounterRO = 0;
 // Check if hand is on the left for 2nd Situation
 let handLeft = false;
+
 // Image variables
 let introbgImage;
 let cloudImage;
@@ -120,6 +121,11 @@ let reportOutcomebgImage;
 let passerbyImage;
 let passerby2Image;
 let strangerPhoneImage;
+// Sound variables;
+let parkAmbienceSFX;
+let robertWmemeSFX;
+let menuSFX;
+let titleDroppedSFX;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -176,6 +182,12 @@ function preload() {
   passerbyImage = loadImage(`assets/images/stranger.png`);
   passerby2Image = loadImage(`assets/images/strangerwphone.png`);
   strangerPhoneImage = loadImage(`assets/images/strangerphone.png`);
+
+  //load SFX
+  menuSFX = loadSound(`assets/sounds/menu.mp3`);
+  parkAmbienceSFX = loadSound(`assets/sounds/cityparkambience.mp3`);
+  robertWmemeSFX = loadSound (`assets/sounds/directedweide.mp3`);
+  titleDroppedSFX = loadSound(`assets/sounds/wooddropped.mp3`);
 }
 
 /**
@@ -232,8 +244,9 @@ function setup() {
   handpose = ml5.handpose(video, {
     flipHorizontal: true
   }, function() {
-    // Switch to the firstDecision state
+    // Switch to menu state once handpose is loaded
     state = `menu`;
+    menuSFX.loop();
   });
 
   // Listen for prediction events from Handpose and store the results in our
@@ -244,11 +257,11 @@ function setup() {
 }
 
 /**
-Description of draw()
+Draw function switches case to switch state!
 */
 function draw() {
   background(255);
-  // Switch case from Stephanie Dang
+  // Switch case code format from Stephanie Dang
   switch (state) {
     case "loading":
       loading();
@@ -310,26 +323,30 @@ function draw() {
    case "reportOutcome":
      reportOutcome();
      break;
-  case "loopEnding":
-   loopEnding();
-   break;
+    case "loopEnding":
+     loopEnding();
+     break;
+     case "atonedEnding":
+      atonedEnding();
+      break;
     case "doNothing3Outcome":
       doNothing3Outcome();
       break;
-    case "aliveEnding":
-      aliveEnding();
+    case "futileEnding":
+      futileEnding();
       break;
   }
 }
 /**
-Ddetect hand and highlights the skeleton of each finger
+Detect hand and highlights the skeleton of each finger
+Code from previous exercises by Pippin Barr.
 */
 function highlightHand(hand) {
   push();
   noFill();
   strokeWeight(3);
   stroke(255);
-  // Display a circle at the tip of the index finger
+  // Positioning of the thumb tip and base
   let thumb = hand.annotations.thumb;
   let tip = thumb[3];
   let base = thumb[0];
@@ -338,7 +355,7 @@ function highlightHand(hand) {
   let baseX = base[0];
   let baseY = base[1];
   line(baseX, baseY, tipX, tipY);
-
+// Positioning of the index's tip and base
   let index = hand.annotations.indexFinger;
   let tip2 = index[3];
   let base2 = index[0];
@@ -347,7 +364,7 @@ function highlightHand(hand) {
   let base2X = base2[0];
   let base2Y = base2[1];
   line(base2X, base2Y, tip2X, tip2Y);
-
+// Positioning of the middle finger's tip and base
   let middle = hand.annotations.middleFinger;
   let tip3 = middle[3];
   let base3 = middle[0];
@@ -356,7 +373,7 @@ function highlightHand(hand) {
   let base3X = base3[0];
   let base3Y = base3[1];
   line(base3X, base3Y, tip3X, tip3Y);
-
+// Positioning of the ring finger's tip and base
   let ringFinger = hand.annotations.ringFinger;
   let tip4 = ringFinger[3];
   let base4 = ringFinger[0];
@@ -365,7 +382,7 @@ function highlightHand(hand) {
   let base4X = base4[0];
   let base4Y = base4[1];
   line(base4X, base4Y, tip4X, tip4Y);
-
+// Positioning of the pinky's tip and base
   let pinky = hand.annotations.pinky;
   let tip5 = pinky[3];
   let base5 = pinky[0];
@@ -379,19 +396,24 @@ function highlightHand(hand) {
   let dm = dist(3 * width / 4, 3 * height / 4, tip2X, tip2Y);
   if (state === `menu` && dm <= 60) {
     title.broken = true;
-  }
+    title.sfx = true;
 
+  }
+// If player puts fingertip of index finger on button and says "Let's Go" then play
   let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
   if (state === `instructions` && di <= redbutton.size / 2 && currentInput === `Let's go`) {
     redbutton.y = height / 2 + 80;
     state = `introduction`
+    parkAmbienceSFX.play();
+    menuSFX.stop();
   } else if (state === `instructions` && di <= redbutton.size / 2) {
     redbutton.y = height / 2 + 80;
   } else {
     redbutton.y = height / 2 + 70;
   }
 
-  // Trigger catch outcome  if player's tips are near enough to the phone while they yell I got you
+  // HELPING CONDITIONS
+  // Trigger catch outcome  if player's tips are near enough to the phone while they yell "I got you"
   let d1 = dist(phone.x, phone.y, tipX, tipY);
   let d2 = dist(phone.x, phone.y, tip2X, tip2Y);
   let d3 = dist(phone.x, phone.y, tip3X, tip3Y);
@@ -406,18 +428,20 @@ function highlightHand(hand) {
     helpCounter += 1;
   }
 
-// If players put hand on the left half, make handLeft variable true.
+// If players put hand on the half left, make handLeft variable true.
   if (tipX <= width/2 &&  tip2X <= width/2 && tip3X <= width/2 && tip4X <= width/2 && tip5X <= width/2 && state === `secondDecision`){
     handLeft = true
   }
+// Display further instruction
   if (handLeft === true && state === `secondDecision`){
-    displayText(`Now push your hand to the right and yell "Poop from the sky"!`, 25, width/2, 4.3*height / 5 , 255,255,255);
+    displayText(`Now move your hand to the right and yell "Poop from the sky"!`, 27, width/2, 4.3*height / 5 , 70,70,70);
   }
-  if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true)  {
+// Trigger pushOutcome state if player puts his fingertips on the right half of the canvas while saying "Poop from the sky"
+  if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true && currentInput === `Poop from the sky`)  {
     state = `pushOutcome`
     helpCounter += 1;
   }
-  // Trigger phone saveOutcome if player's middle finger is at least half the height while they laugh haha
+  // Trigger the saveOutcome state if player's middle finger is at least half the height of the canvas while they say "Not on my watch"
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
   if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
     state = `saveOutcome`;
@@ -425,14 +449,15 @@ function highlightHand(hand) {
   }
 }
 
-
-
-
 // User voice shown up top!
 function userInput(input) {
   // Code to capitalize first letter from https://www.digitalocean.com/community/tutorials/js-capitalizing-strings
   currentInput = input.replace(/^\w/, (c) => c.toUpperCase());
   console.log(currentInput);
+
+ if (state === `instructions`){
+   titleDroppedSFX.play(1);
+ }
 }
 
 // Function that allow display text to be more efficient
@@ -462,17 +487,20 @@ function textBox() {
 }
 
 
-// Keypress function to change state
+// Keypress function to change state and advance eventCounter of different states!
 function keyPressed() {
   if (keyCode === ENTER && state === `menu`) {
     state = `instructions`
   } else if (keyCode === ENTER && state === `instructions`) {
     state = `introduction`
+    parkAmbienceSFX.play();
+    menuSFX.stop();
   } else if (keyCode === ENTER && state === `introduction`) {
     state = `firstSituation`
   } else if (keyCode === ENTER && state === `firstSituation`) {
     eventCounterS1 += 1;
   }  else if (keyCode === ENTER && state === `firstDecisionIntro`) {
+    currentInput = ``;
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     eventCounterCO += 1;
@@ -482,6 +510,7 @@ function keyPressed() {
     // && eventCounterS2 != 4
   ) {eventCounterS2 += 1;
   } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
+      currentInput =``;
     state = `secondDecision`;
   }  else if (keyCode === ENTER && state === `pushOutcome`)
     {eventCounterPO +=1;
@@ -492,6 +521,7 @@ function keyPressed() {
   } else if (keyCode === ENTER && state === `thirdSituation`){
     eventCounterS3 +=1;
   } else if (keyCode === ENTER && state === `thirdDecisionIntro`){
+    currentInput =``;
     state = `thirdDecision`;
   } else if (keyCode === ENTER && state === `saveOutcome`){
     eventCounterSO += 1;
@@ -501,26 +531,26 @@ function keyPressed() {
     state = `reportOutcome`
     helpCounter += 1;
   } else if (keyCode === 66 && state === `fourthDecision`){
-    state = `runOutcome`
+    state = `atoneEnding`
   } else if (keyCode === ENTER && state === `doNothing3Outcome`){
     eventCounterDN3 +=1;
   }
 
-// Shortcut
+// Shortcut for each Decisions. A for HELP and B for Do Nothing
     else if (keyCode === 65 && state === `firstDecision`){
     state = `catchOutcome`
     helpCounter += 1;
-  }  else if (keyCode === 82 && state === `firstDecision`){
+  }  else if (keyCode === 66 && state === `firstDecision`){
     state = `doNothing1Outcome`
   }  else if (keyCode === 65 && state === `secondDecision`){
     state = `pushOutcome`
     helpCounter += 1;
-  }  else if (keyCode === 82 && state === `secondDecision`){
+  }  else if (keyCode === 66 && state === `secondDecision`){
     state = `doNothing2Outcome`
-  }  else if (keyCode === 65 && state === `thirdDecision`){
+  }  else if (keyCode === 66 && state === `thirdDecision`){
     state = `saveOutcome`
     helpCounter += 1;
-  }  else if (keyCode === 82 && state === `thirdDecision`){
+  }  else if (keyCode === 66 && state === `thirdDecision`){
     state = `doNothing3Outcome`
   }
 

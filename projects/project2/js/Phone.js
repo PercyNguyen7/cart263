@@ -105,6 +105,9 @@ class Phone {
     move4(){
       if (eventCounterRO >=8){
       this.y4 += this.vy4;
-     }
+      }
+      if (this.y4 - 100>= height){
+      state = `loopEnding`
+      }
     }
 }

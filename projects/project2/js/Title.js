@@ -8,6 +8,7 @@ class Title {
     this.r = 0,
     this.vr = 30,
     this.broken = false;
+    this.SFX = false;
   }
   // Display title
   display() {
@@ -20,6 +21,10 @@ class Title {
       rotate(1*radians(this.r));
     displayText(`The Extremely Silly Game`, 60, this.x, this.y, 255);
     pop();
+    if (this.SFX === true){
+      titleDroppedSFX.play();
+      this.SFX = false;
+    }
   }
   move(){
     if (this.broken === true){
