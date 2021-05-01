@@ -482,9 +482,6 @@ function userInput(input) {
   currentInput = input.replace(/^\w/, (c) => c.toUpperCase());
   console.log(currentInput);
 
- if (state === `instructions`){
-   titleDroppedSFX.play(1);
- }
 }
 
 // Function that allows display text to be more efficient
@@ -515,6 +512,7 @@ function textBox() {
 
 
 // Keypress function to change state and advance eventCounter of different states!
+// LIST OF SHORTCUTS FOR DECISIONS AT THE BOTTOM. A FOR HELP AND B FOR DO NOTHING.
 function keyPressed() {
   if (keyCode === ENTER && state === `menu`) {
     state = `instructions`

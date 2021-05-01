@@ -21,6 +21,7 @@ class Title {
     displayText(`The Extremely Silly Game`, 60, this.x, this.y, 255);
     pop();
   }
+  // move title
   move(){
     if (this.broken === true){
     this.y += this.vy;

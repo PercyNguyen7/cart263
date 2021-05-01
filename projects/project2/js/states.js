@@ -71,6 +71,7 @@ function firstSituation(){
   }
   else if (eventCounterS1 === 2){
   s1bg = situation1bg2Image;
+  displayText(`...`,25, 20, 4.3*height /5,70,70,70);
   }
   else if (eventCounterS1 === 3){
   displayText(`Oh hold up...That guy must be...`,25, 20, 4.3*height /5,70,70,70);
@@ -88,7 +89,7 @@ function firstSituation(){
   }
   else if (eventCounterS1 === 7){
   s1bg = situation1bg4Image;
-  displayText(`Until... ALl HELLS BROKE LOOSE`, 55, 20, 4.3*height /5, 70,70,70);
+  displayText(`Until... ALl HELLS BREAK LOOSE`, 55, 20, 4.3*height /5, 70,70,70);
   phone.display3();
   phone.move3();
   parkAmbienceSFX.pause();
