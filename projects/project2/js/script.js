@@ -17,6 +17,8 @@ let pObg;
 let dN2bg;
 let s3bg;
 let dN3bg;
+let sObg;
+let rObg;
 // Starting state of program
 let state = `loading`; // loading, firstDecision
 // User's webcam
@@ -39,10 +41,12 @@ let bird;
 let poop;
 let michael;
 let car;
+let passerby;
 // Decision One: catched variable to identify whether P catched or did not catch the phone
 let phoneCaught;
 let michaelPushed;
-
+// Help Counter for Achievement
+let helpCounter = 0;
 // Event counters for each situation
 // for Situation 1
 let eventCounterS1 = 0;
@@ -64,6 +68,8 @@ let eventCounterSO = 0;
 let eventCounterDN3 = 0;
 // for Situation 4
 let eventCounterS4 = 0;
+// for Report Outcome
+let eventCounterRO = 0;
 // Check if hand is on the left for 2nd Situation
 let handLeft = false;
 // Image variables
@@ -107,6 +113,13 @@ let michaelHappyD3Image;
 let carImage;
 let doNothing3bgImage;
 let doNothing3bg2Image;
+let saveOutcomebgImage;
+let saveOutcomebg2Image;
+let saveOutcomebg3Image;
+let reportOutcomebgImage;
+let passerbyImage;
+let passerby2Image;
+let strangerPhoneImage;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -149,13 +162,20 @@ function preload() {
   situation3bgHappyImage = loadImage(`assets/images/situation3bghappy.jpg`);
   situation3bgMadImage = loadImage(`assets/images/situation3bgmad.jpg`);
   situation3bg2Image = loadImage(`assets/images/situation3bg2.jpg`);
-  situation3bg2Image = loadImage(`assets/images/situation3bg3.jpg`);
+  situation3bg3Image = loadImage(`assets/images/situation3bg3.jpg`);
   decision3bgImage = loadImage (`assets/images/decision3bg.jpg`);
   michaelMadD3Image = loadImage (`assets/images/michaelMadD3.png`);
   michaelHappyD3Image = loadImage (`assets/images/michaelHappyD3.png`);
   carImage = loadImage (`assets/images/carD3.png`);
+  saveOutcomebgImage = loadImage (`assets/images/saveoutcomebg.jpg`);
+  saveOutcomebg2Image = loadImage (`assets/images/saveoutcomebg2.jpg`);
+  saveOutcomebg3Image = loadImage (`assets/images/saveoutcomebg3.jpg`);
   doNothing3bgImage = loadImage (`assets/images/donothing3bg.jpg`);
   doNothing3bg2Image = loadImage (`assets/images/donothing3bg2.jpg`);
+  reportOutcomebgImage = loadImage(`assets/images/trueendingbg.jpg`)
+  passerbyImage = loadImage(`assets/images/stranger.png`);
+  passerby2Image = loadImage(`assets/images/strangerwphone.png`);
+  strangerPhoneImage = loadImage(`assets/images/strangerphone.png`);
 }
 
 /**
@@ -179,8 +199,12 @@ function setup() {
   dN2bg = secondDecisionbgImage;
   // Set first background image for PushOutcome
   dN3bg = doNothing3bgImage;
-
+  // Set first background image for SaveOutcome
+  sObg = saveOutcomebgImage;
+  // Set first background image for reportOutcome
+  rObg = reportOutcomebgImage;
   // Declare class
+  passerby = new Passerby(passerbyImage, passerby2Image);
   car = new Car(carImage);
   michael = new Michael(sdmichaelImage, michaelMadD3Image,michaelHappyD3Image);
   bird = new Bird(birdS2Image);
@@ -189,7 +213,7 @@ function setup() {
   title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
-  phone = new Phone(phoneImage, phoneFallings1bg4Image);
+  phone = new Phone(phoneImage, phoneFallings1bg4Image,strangerPhoneImage);
   legs = new Legs(leftlegImage,rightlegImage);
   // Setup annyang
   if (annyang) {
@@ -280,6 +304,15 @@ function draw() {
     case "saveOutcome":
       saveOutcome();
       break;
+    case "fourthDecision":
+      fourthDecision();
+      break;
+   case "reportOutcome":
+     reportOutcome();
+     break;
+  case "loopEnding":
+   loopEnding();
+   break;
     case "doNothing3Outcome":
       doNothing3Outcome();
       break;
@@ -370,6 +403,7 @@ function highlightHand(hand) {
     state === `firstDecision`) {
     // displayText(`TOUCHED PHONE`, 20, width / 2, 7 * height / 8, 0);
     state = `catchOutcome`;
+    helpCounter += 1;
   }
 
 // If players put hand on the left half, make handLeft variable true.
@@ -381,11 +415,13 @@ function highlightHand(hand) {
   }
   if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true)  {
     state = `pushOutcome`
+    helpCounter += 1;
   }
-  // Trigger phone Pushed Ending if player's middle finger is at least half the height while they laugh haha
+  // Trigger phone saveOutcome if player's middle finger is at least half the height while they laugh haha
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
   if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
     state = `saveOutcome`;
+    helpCounter += 1;
   }
 }
 
@@ -405,7 +441,7 @@ function displayText(string, size, x, y, r, g, b) {
   fill(r, g, b)
   // Display text Align left and change font for following states
   if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`|| state === `pushOutcome`
-  || state === `doNothing2Outcome` || state === `thirdSituation` || state === `doNothing3Outcome` || state === `saveOutcome`) {
+  || state === `doNothing2Outcome` || state === `thirdSituation` || state === `doNothing3Outcome` || state === `saveOutcome` || state === `reportOutcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -420,7 +456,7 @@ function displayText(string, size, x, y, r, g, b) {
 function textBox() {
   push();
   rectMode(CORNER);
-  fill(255,255,255,120);
+  fill(255,255,255,160);
   rect(5, 4 * height / 5, width - 10, 91);
   pop();
 }
@@ -457,6 +493,15 @@ function keyPressed() {
     eventCounterS3 +=1;
   } else if (keyCode === ENTER && state === `thirdDecisionIntro`){
     state = `thirdDecision`;
+  } else if (keyCode === ENTER && state === `saveOutcome`){
+    eventCounterSO += 1;
+  } else if (keyCode === ENTER && state === `reportOutcome`){
+    eventCounterRO += 1;
+  } else if (keyCode === 65 && state === `fourthDecision`){
+    state = `reportOutcome`
+    helpCounter += 1;
+  } else if (keyCode === 66 && state === `fourthDecision`){
+    state = `runOutcome`
   } else if (keyCode === ENTER && state === `doNothing3Outcome`){
     eventCounterDN3 +=1;
   }
@@ -464,14 +509,17 @@ function keyPressed() {
 // Shortcut
     else if (keyCode === 65 && state === `firstDecision`){
     state = `catchOutcome`
+    helpCounter += 1;
   }  else if (keyCode === 82 && state === `firstDecision`){
     state = `doNothing1Outcome`
   }  else if (keyCode === 65 && state === `secondDecision`){
     state = `pushOutcome`
+    helpCounter += 1;
   }  else if (keyCode === 82 && state === `secondDecision`){
     state = `doNothing2Outcome`
   }  else if (keyCode === 65 && state === `thirdDecision`){
     state = `saveOutcome`
+    helpCounter += 1;
   }  else if (keyCode === 82 && state === `thirdDecision`){
     state = `doNothing3Outcome`
   }

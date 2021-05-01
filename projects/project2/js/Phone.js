@@ -1,5 +1,5 @@
 class Phone {
-  constructor(phoneImage,phoneFallings1bg4Image) {
+  constructor(phoneImage,phoneFallings1bg4Image,strangerPhoneImage) {
     // Parameters for the first phone in FirstDecision
     this.x = width / 2,
     this.y = height / 2 - 300,
@@ -25,6 +25,14 @@ class Phone {
     this.height3 = 480,
     this.vy3 = 5,
     this.image3 = phoneFallings1bg4Image;
+
+    // Parameters for phone in reportOutcome state
+    this.x4 = width/2,
+    this.y4 = height/2 + 30,
+    this.width4 = 640;
+    this.height4 = 480,
+    this.vy4 = 4,
+    this.image4 = strangerPhoneImage;
   }
   // Display phone
   display() {
@@ -81,12 +89,22 @@ class Phone {
    }
   }
     display3(){
-      image(phoneFallings1bg4Image, this.x3,this.y3,this.width3,this.heigh3);
+      image(this.image3, this.x3,this.y3,this.width3,this.heigh3);
     }
     move3(){
       this.y3 += this.vy3;
       if (this.y3 >= height){
         state = `firstDecisionIntro`
       }
+    }
+
+    display4(){
+      image(this.image4, this.x4,this.y4,this.width4,this.height4);
+    }
+
+    move4(){
+      if (eventCounterRO >=8){
+      this.y4 += this.vy4;
+     }
     }
 }

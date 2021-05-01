@@ -257,13 +257,13 @@ function catchOutcome(){
     pop();
   }
   function secondDecisionIntro(){
-    background(0);
+    background(87,134,145);
     push();
-    displayText(`Will you PUSH YOUR FRIEND or POOP YOUR FRIEND? `, 35 , width/2, height /2 - 75, 255);
+    displayText(`Will you PUSH YOUR FRIEND or POOP YOUR FRIEND? `, 35 , width/2, height /2 - 75, 255,255,255);
     textFont(newspaperCutoutFont);
-    displayText(`To PUSH, put your hand on the half left of the screen "`, 30 , width/2, height /2, 255);
-    displayText(`Then Push to the right and yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,0);
-    displayText(`To POOP... you... let it poop."`, 30 , width/2, height / 2+100, 255);
+    displayText(`To PUSH, put your hand on the left half of the screen "`, 30 , width/2, height /2, 255,255,255);
+    displayText(`Then move your hand to the right and yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,255,255,255);
+    displayText(`To POOP... you... let it poop."`, 30 , width/2, height / 2+100, 255,255,255);
     pop();
   }
   function secondDecision() {
@@ -430,7 +430,7 @@ function catchOutcome(){
     }
     else if (eventCounterS3 ===5){
       s3bg = situation3bg3Image;
-     displayText(`RUNNING AT FULL SPEED TOWARDS HIM!`, 55, 20, 4.3*height / 5 , 70,70,70);
+     displayText(`RUNNING TOWARDS HIM AT FULL SPEED!`, 45, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterS3 >=6){
     state= `thirdDecisionIntro`;
@@ -466,9 +466,144 @@ function catchOutcome(){
     }
   }
   function saveOutcome(){
-    image(dN3bg, width/2,height/2,640,480);
+    image(sObg, width/2,height/2,640,480);
     textBox();
+    if (eventCounterSO === 0){
+      background(0);
+      textBox();
+       displayText(`And so you pushed him...`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterSO === 1){
+      background(0);
+      textBox();
+       displayText(`And so you pushed him...`, 25, 20, 4.3*height / 5 , 255,255,255);
+      displayText(`...To the next lane`, 25, 20, 4.7*height / 5 ,255,255,255);
+    }
+    else if (eventCounterSO === 2){
+      background(0);
+      textBox();
+       displayText(`Thought you'd sacrifice yourself...`, 25, 20, 4.3*height / 5 , 255,255,255);
+    }
+    else if (eventCounterSO === 3){
+      background(0);
+      textBox();
+       displayText(`Thought you'd sacrifice yourself...`, 25, 20, 4.3*height / 5 , 255,255,255);
+       displayText(`But the driver saw the danger ahead`, 25, 20, 4.7*height / 5 , 255,255,255);
+    }
+    else if (eventCounterSO === 4){
+      displayText(`And SWITCHED LANE HIMSELF!`, 35, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterSO === 5){
+      displayText(`Your HEROIC ACT OF RESCUE AND SACRIFICE`, 40, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterSO === 6){
+      sObg = saveOutcomebg2Image;
+      displayText(`IS NOW NEGLIGENT HOMICIDE!`, 40, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterSO === 7){
+      displayText(`The driver...ran...away...`, 40, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterSO === 8){
+          sObg = saveOutcomebg3Image;
+      displayText(`What ...can you do now?`, 40, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterSO >= 9){
+      state = `fourthDecision`
+    }
   }
+
+  function fourthDecision(){
+  background(0);
+  displayText(`WILL YOU`, 45 , width/2, height /2 - 130, 180,0,0);
+  displayText(`Call the police to redeem justice? `, 30 , width/2, height /2 - 70, 180,0,0);
+  displayText(`OR Run for your sake? `, 30 , width/2, height /2 - 30, 180,0,0);
+  textFont(newspaperCutoutFont);
+  displayText(`To call 911, Press A`, 30 , width/2, height /2+ 50, 180,0,0);
+  displayText(`To leave the scene, Press B`, 30 , width/2, height /2+90,180,0,0);
+  }
+
+  function reportOutcome(){
+    image(rObg, width/2,height/2,640,480);
+    // Display passerby after the third event
+    if (eventCounterRO >=4){
+      passerby.display();
+    }
+    textBox();
+    // Display and move phone after the 7th event
+    if (eventCounterRO >= 8){
+      phone.display4();
+      phone.move4();
+    }
+    if (eventCounterRO === 0){
+      background(0);
+      textBox();
+      displayText(`So you decided to do the right thing...`, 25, 20, 4.3*height / 5 , 180,0,0);
+    }
+    else if (eventCounterRO === 1){
+      background(0);
+      textBox();
+      displayText(`So you decided to do the right thing...`, 25, 20, 4.3*height / 5 , 180,0,0);
+      displayText(`well you WANTED... to do the right thing`, 25, 20, 4.7*height / 5 , 180,0,0);
+    }
+    else if (eventCounterRO === 2){
+      background(0);
+      textBox();
+      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 255,255,255);
+  }
+    else if (eventCounterRO === 3){
+      background(0);
+      textBox();
+      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 255,255,255);
+      displayText(`And realize you didn't bring it for this walk...`, 25, 20, 4.7*height / 5 , 255,255,255);
+    }
+    else if (eventCounterRO === 4){
+      displayText(`Spotting a passerby`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterRO === 5){
+      displayText(`Spotting a passerby`, 25, 20, 4.3*height / 5 , 70,70,70);
+      displayText(`You ask to borrow their cellphone...`,25, 20, 4.7*height / 5 , 70,70,70);
+    }
+    else if (eventCounterRO === 6){
+      displayText(`Shaking from the sight of the bloody scene...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    }
+    else if (eventCounterRO === 7){
+      displayText(`Shaking from the sight of the bloody scene...`,25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`He...`, 25, 20, 4.7*height / 5 ,70,70,70);
+    }
+    else if (eventCounterRO === 8){
+    displayText(`AND ALL HELL BROKE LOOSE`, 55, 20, 4.3*height / 5 , 180,0,0);
+    }
+    // Turn into Loop Ending
+    else if (eventCounterRO >=9){
+      state = `loopEnding`
+    }
+}
+  function loopEnding(){
+    background(0);
+    displayText(`Will you CATCH IT or LET IT DROP?`, 50 , width/2, height /2 - 75, 180,0,0);
+    displayText(`Manslaughter Ending `, 40 , width/2, height /2 - 20, 180,0,0);
+    textFont(newspaperCutoutFont);
+    displayText(`Achievement Unlocked`, 30 , width/2, height /2+ 50, 255,255,255);
+    if (helpCounter === 1 ){
+    displayText(`You have a small heart, but a sharp mind…`, 30, width/2, height/2 + 100, 255,255,255);
+    }
+    else if (helpCounter === 2 ){
+    displayText(`Helping 2 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`You are a decent human being with a decent soul.`, 30, width/2, height/2 + 100, 255,255,255);
+    }
+    else if (helpCounter === 3 ){
+    displayText(`Helping 3 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`You have a big heart but an unrealistic and reckless mindset...`, 30, width/2, height/2 + 100, 255,255,255);
+    }
+    else if (helpCounter === 4 ){
+    displayText(`Helping 4 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`You stuck to your truth, but sometimes less is more.`, 30, width/2, height/2 + 140, 255,255,255);
+    }
+    else if (helpCounter === 0 ){
+    displayText(`Helping 0 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`OI Are you fucking hacking mate?`, 30, width/2, height/2 + 140, 255,255,255);
+    }
+
   function doNothing3Outcome(){
     image(dN3bg, width/2,height/2,640,480);
     textBox();
@@ -527,15 +662,16 @@ function catchOutcome(){
     else if (eventCounterDN3 === 11){
     background(0);
     textBox();
-    displayText(`Michael thinks that you are his lucky charm`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`Michael believes that you're his lucky charm`, 25, 20, 4.3*height / 5 , 255,255,255);
     }
     else if (eventCounterDN3 === 12){
     background(0);
     textBox();
-    displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height / 5 ,0,160,0);
-    displayText(`FRIENDSHIP + 1`, 30, 20, 4.7*height /5, 0,160,0);
+    displayText(`You feel your friendship strengthens`, 25, 20, 4.3*height / 5 ,0,240,0);
+    displayText(`FRIENDSHIP + 1`, 30, 20, 4.7*height /5, 0,240,0);
     }
-    else if (eventCounterDN3 === 13){
+    else if (eventCounterDN3 >= 13){
+    background(0);
     state = `aliveEnding`
     }
   }
