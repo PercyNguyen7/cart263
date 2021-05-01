@@ -126,6 +126,11 @@ let parkAmbienceSFX;
 let robertWmemeSFX;
 let menuSFX;
 let titleDroppedSFX;
+let drumSFX;
+let birdChirpingSFX;
+let heartbeatSFX;
+let dramaticHornSFX;
+let carStartupSFX;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -188,6 +193,11 @@ function preload() {
   parkAmbienceSFX = loadSound(`assets/sounds/cityparkambience.mp3`);
   robertWmemeSFX = loadSound (`assets/sounds/directedweide.mp3`);
   titleDroppedSFX = loadSound(`assets/sounds/wooddropped.mp3`);
+  drumSFX = loadSound(`assets/sounds/drum.mp3`);
+  birdChirpingSFX = loadSound(`assets/sounds/birdchirping.mp3`);
+  heartbeatSFX = loadSound(`assets/sounds/heartbeat.mp3`);
+  dramaticHornSFX = loadSound(`assets/sounds/dramatichorn.mp3`);
+  carStartupSFX = loadSound(`assets/sounds/carstartup.mp3`);  
 }
 
 /**
@@ -392,19 +402,19 @@ function highlightHand(hand) {
   let base5Y = base5[1];
   line(base5X, base5Y, tip5X, tip5Y);
 
-  // Break the sub title if User's index finger is close enough to it!
+  // MENU STATE:  Break the sub title if User's index finger is close enough to the area a point near the right side of the subtitle!
   let dm = dist(3 * width / 4, 3 * height / 4, tip2X, tip2Y);
   if (state === `menu` && dm <= 60) {
     title.broken = true;
-    title.sfx = true;
 
   }
-// If player puts fingertip of index finger on button and says "Let's Go" then play
+// INTRODUCTION STATE: If player puts fingertip of index finger on button and says "Let's Go" then play
   let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
   if (state === `instructions` && di <= redbutton.size / 2 && currentInput === `Let's go`) {
     redbutton.y = height / 2 + 80;
     state = `introduction`
-    parkAmbienceSFX.play();
+    parkAmbienceSFX.loop();
+    birdChirpingSFX.loop();
     menuSFX.stop();
   } else if (state === `instructions` && di <= redbutton.size / 2) {
     redbutton.y = height / 2 + 80;
@@ -413,7 +423,7 @@ function highlightHand(hand) {
   }
 
   // HELPING CONDITIONS
-  // Trigger catch outcome  if player's tips are near enough to the phone while they yell "I got you"
+  // FIRST SITUATION: Trigger catch outcome  if player's tips are near enough to the phone while they yell "I got you"
   let d1 = dist(phone.x, phone.y, tipX, tipY);
   let d2 = dist(phone.x, phone.y, tip2X, tip2Y);
   let d3 = dist(phone.x, phone.y, tip3X, tip3Y);
@@ -425,6 +435,9 @@ function highlightHand(hand) {
     state === `firstDecision`) {
     // displayText(`TOUCHED PHONE`, 20, width / 2, 7 * height / 8, 0);
     state = `catchOutcome`;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
     helpCounter += 1;
   }
 
@@ -439,12 +452,18 @@ function highlightHand(hand) {
 // Trigger pushOutcome state if player puts his fingertips on the right half of the canvas while saying "Poop from the sky"
   if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true && currentInput === `Poop from the sky`)  {
     state = `pushOutcome`
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
     helpCounter += 1;
   }
   // Trigger the saveOutcome state if player's middle finger is at least half the height of the canvas while they say "Not on my watch"
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
   if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
     state = `saveOutcome`;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
     helpCounter += 1;
   }
 }
@@ -493,7 +512,8 @@ function keyPressed() {
     state = `instructions`
   } else if (keyCode === ENTER && state === `instructions`) {
     state = `introduction`
-    parkAmbienceSFX.play();
+    parkAmbienceSFX.loop();
+    birdChirpingSFX.loop();
     menuSFX.stop();
   } else if (keyCode === ENTER && state === `introduction`) {
     state = `firstSituation`
@@ -501,6 +521,8 @@ function keyPressed() {
     eventCounterS1 += 1;
   }  else if (keyCode === ENTER && state === `firstDecisionIntro`) {
     currentInput = ``;
+    heartbeatSFX.loop();
+
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     eventCounterCO += 1;
@@ -511,6 +533,8 @@ function keyPressed() {
   ) {eventCounterS2 += 1;
   } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
       currentInput =``;
+      heartbeatSFX.loop();
+
     state = `secondDecision`;
   }  else if (keyCode === ENTER && state === `pushOutcome`)
     {eventCounterPO +=1;
@@ -522,6 +546,7 @@ function keyPressed() {
     eventCounterS3 +=1;
   } else if (keyCode === ENTER && state === `thirdDecisionIntro`){
     currentInput =``;
+    heartbeatSFX.loop();
     state = `thirdDecision`;
   } else if (keyCode === ENTER && state === `saveOutcome`){
     eventCounterSO += 1;
@@ -531,7 +556,8 @@ function keyPressed() {
     state = `reportOutcome`
     helpCounter += 1;
   } else if (keyCode === 66 && state === `fourthDecision`){
-    state = `atoneEnding`
+    state = `atoneEnding`;
+    robertWmemeSFX.loop();
   } else if (keyCode === ENTER && state === `doNothing3Outcome`){
     eventCounterDN3 +=1;
   }
@@ -540,18 +566,35 @@ function keyPressed() {
     else if (keyCode === 65 && state === `firstDecision`){
     state = `catchOutcome`
     helpCounter += 1;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
   }  else if (keyCode === 66 && state === `firstDecision`){
-    state = `doNothing1Outcome`
+    state = `doNothing1Outcome`;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
   }  else if (keyCode === 65 && state === `secondDecision`){
     state = `pushOutcome`
     helpCounter += 1;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
   }  else if (keyCode === 66 && state === `secondDecision`){
-    state = `doNothing2Outcome`
-  }  else if (keyCode === 66 && state === `thirdDecision`){
+    state = `doNothing2Outcome`;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
+  }  else if (keyCode === 65 && state === `thirdDecision`){
     state = `saveOutcome`
     helpCounter += 1;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
   }  else if (keyCode === 66 && state === `thirdDecision`){
-    state = `doNothing3Outcome`
+    state = `doNothing3Outcome`;
+    heartbeatSFX.stop();
+    parkAmbienceSFX.play();
+    birdChirpingSFX.play();
   }
-
 }

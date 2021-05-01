@@ -57,6 +57,9 @@ class Poop {
     this.x2 += this.vx2;
     if (this.y2 + this.height2 >= michael.y - michael.height/2 + 30 && state === `secondDecision`){
       state = `doNothing2Outcome`
+      heartbeatSFX.stop();
+      parkAmbienceSFX.play();
+      birdChirpingSFX.play();
     }
     // Speed up the poop once it's doNothing state to fasten the game
     if (state === `doNothing2Outcome` ){

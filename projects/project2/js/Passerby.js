@@ -1,4 +1,4 @@
-//Passerby for the
+//Passerby for reportOutcome state
 class Passerby {
   constructor(passerbyImage,passerby2Image) {
     this.x = width/2,
@@ -9,7 +9,7 @@ class Passerby {
 
 
   }
-  // Display the cloud image
+  // Display the passerby without phone if eventCounter is more than 8 and with phone if eventCounter is less than 8
   display() {
     if (eventCounterRO < 8){
       this.image = passerby2Image;

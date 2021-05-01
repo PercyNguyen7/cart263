@@ -92,18 +92,22 @@ function firstSituation(){
   phone.move3();
   }
   else if (eventCounterS1 >= 8){
-  state = `firstDecisionIntro`
+  state = `firstDecisionIntro`;
+  dramaticHornSFX.play();
+  parkAmbienceSFX.pause();
+  birdChirpingSFX.pause();
   }
   pop();
 }
 // Intro of first Decision
 function firstDecisionIntro(){
-  background(157,52,174);
+  background(255);
   push();
-  displayText(`Will you CATCH IT or LET IT DROP?`, 50 , width/2, height /2 - 75, 255);
+  displayText(`Will you CATCH IT or LET IT DROP?`, 50 , width/2, height /2 - 75, 70,70,70);
   textFont(newspaperCutoutFont);
-  displayText(`To catch, put your fingertips on the phone and yell "I GOT YOU!"`, 30 , width/2, height /2, 184,188,230);
-  displayText(`To let it drop... you... let it drop."`, 30 , width/2, height / 2+50, 184,188,230);
+  displayText(`To catch, put your fingertips on the phone and yell "I GOT YOU!"`, 30 , width/2, height /2, 70,70,70);
+  displayText(`To let it drop... you... let it drop."`, 30 , width/2, height / 2+50, 70,70,70);
+  displayText(`ENTER to BEGIN"`, 30 , width/2, height / 2+150, 70,70,70);
   pop();
 }
 // States functions
@@ -211,10 +215,6 @@ function catchOutcome(){
     }
     else if (eventCounterCO === 8){
     displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
-    push();
-    textStyle(BOLD);
-    displayText(`FRIENDSHIP - 1`, 30, 20, 4.7*height /5,160,0,0);
-    pop();
     }
     else if (eventCounterCO >= 9){
     state = `secondSituation`
@@ -252,7 +252,10 @@ function catchOutcome(){
       poop.move(bird);
     }
     else if (eventCounterS2 >= 5){
-      state = `secondDecisionIntro`
+      state = `secondDecisionIntro`;
+        dramaticHornSFX.play();
+      parkAmbienceSFX.pause();
+      birdChirpingSFX.pause();
     }
     pop();
   }
@@ -264,6 +267,7 @@ function catchOutcome(){
     displayText(`To PUSH, put your hand on the left half of the screen "`, 30 , width/2, height /2, 255,255,255);
     displayText(`Then move your hand to the right and yell "POOP FROM THE SKY"`, 30 , width/2, height /2+50,255,255,255);
     displayText(`To POOP... you... let it poop."`, 30 , width/2, height / 2+100, 255,255,255);
+      displayText(`ENTER to BEGIN"`, 30 , width/2, height / 2+150, 255,255,255);
     pop();
   }
   function secondDecision() {
@@ -317,30 +321,25 @@ function catchOutcome(){
     displayText(`His BLOODY CELLPHONE!`, 25, 20, 4.7*height /5,0,0,0);
     }
     else if (eventCounterPO === 7){
-    displayText(`Yet it did run over`, 25, 20, 4.3*height /5,0,0,0);
-    displayText(`His BLOODY CELLPHONE!`, 25, 20, 4.7*height /5,0,0,0);
-    }
-    else if (eventCounterPO === 8){
       pObg = pushOutcomebg4Image;
     displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
     }
-    else if (eventCounterPO === 9){
+    else if (eventCounterPO === 8){
       pObg = pushOutcomebg5Image;
     displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
     displayText(`Though stopped when he understood your good intention`, 25, 20, 4.7*height /5,0,0,0);
     }
-    else if(eventCounterPO === 10){
+    else if(eventCounterPO === 9){
     displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
     }
-    else if(eventCounterPO === 11){
+    else if(eventCounterPO === 10){
     displayText(`BUT...all you ever wanted...`, 25, 20, 4.3*height /5,0,0,0);
     displayText(`Was to save him from some bird poop...`, 25, 20, 4.7*height /5,0,0,0);
     }
-    else if(eventCounterPO === 12){
+    else if(eventCounterPO === 11){
     displayText(`You feel your sins tingling on your skin`, 25, 20, 4.3*height /5,160,0,0);
-    displayText(`FRIENDSHIP - 1`, 30, 20, 4.7*height /5,160,0,0);
     }
-    else if(eventCounterPO >= 13){
+    else if(eventCounterPO >= 12){
     state = `thirdSituation`;
     }
   }
@@ -434,6 +433,9 @@ function catchOutcome(){
     }
     else if (eventCounterS3 >=6){
     state= `thirdDecisionIntro`;
+      dramaticHornSFX.play();
+    parkAmbienceSFX.pause();
+    birdChirpingSFX.pause();
     }
   }
   function thirdDecisionIntro(){
@@ -446,6 +448,7 @@ function catchOutcome(){
     displayText(`To PUSH, put your hand as close as you can to the screen`, 30 , width/2, height /2, 255);
     displayText(`And yell "NOT ON MY WATCH"`, 30 , width/2, height /2+50,0);
     displayText(`To let face decide... you...let fate decide..."`, 30 , width/2, height / 2+100, 255);
+    displayText(`ENTER to BEGIN"`, 30 , width/2, height / 2+150, 255);
     pop();
   }
   function thirdDecision(){
@@ -508,7 +511,10 @@ function catchOutcome(){
       displayText(`What ...can you do now?`, 40, 20, 4.3*height / 5 , 180,0,0);
     }
     else if (eventCounterSO >= 9){
-      state = `fourthDecision`
+      state = `fourthDecision`;
+      dramaticHornSFX.play();
+      parkAmbienceSFX.pause();
+      birdChirpingSFX.pause();
     }
   }
 
@@ -713,14 +719,15 @@ function catchOutcome(){
     }
     else if (eventCounterDN3 >= 15){
     background(0);
-    state = `aliveEnding`
+    state = `futileEnding`
+    robertWmemeSFX.loop();
     }
   }
   function futileEnding(){
     background(0);
     displayText(`You gave him a ride home`, 35 , width/2, height /2 - 125, 180,0,0);
     displayText(`Contemplating if it was a good decision...`, 40 , width/2, height /2 - 75, 180,0,0);
-    displayText(`All for Nothing Ending`, 50 , width/2, height /2 - 20, 180,0,0);
+    displayText(`"All That for Nothing" Ending`, 50 , width/2, height /2 - 20, 180,0,0);
     textFont(newspaperCutoutFont);
     displayText(`Achievement Unlocked`, 30 , width/2, height /2+ 50, 255,255,255);
     if (helpCounter === 1 ){

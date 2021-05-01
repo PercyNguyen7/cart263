@@ -49,6 +49,9 @@ class Phone {
     this.y += this.vy
     if (this.y - this.height/2 >= height){
       state =`doNothing1Outcome`
+      heartbeatSFX.stop();
+      parkAmbienceSFX.play();
+      birdChirpingSFX.play();
     }
   }
   // Display phone image
