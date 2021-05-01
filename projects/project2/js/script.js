@@ -197,13 +197,14 @@ function preload() {
   birdChirpingSFX = loadSound(`assets/sounds/birdchirping.mp3`);
   heartbeatSFX = loadSound(`assets/sounds/heartbeat.mp3`);
   dramaticHornSFX = loadSound(`assets/sounds/dramatichorn.mp3`);
-  carStartupSFX = loadSound(`assets/sounds/carstartup.mp3`);  
+  carStartupSFX = loadSound(`assets/sounds/carstartup.mp3`);
 }
 
 /**
 Setup function to setup Annyang and Handpose!
 */
 function setup() {
+// Set Canvas small
   createCanvas(640, 480);
   rectMode(CENTER);
   imageMode(CENTER);
@@ -441,7 +442,7 @@ function highlightHand(hand) {
     helpCounter += 1;
   }
 
-// If players put hand on the half left, make handLeft variable true.
+// SECOND SITUATION: If players put hand on the half left, make handLeft variable true.
   if (tipX <= width/2 &&  tip2X <= width/2 && tip3X <= width/2 && tip4X <= width/2 && tip5X <= width/2 && state === `secondDecision`){
     handLeft = true
   }
@@ -457,7 +458,7 @@ function highlightHand(hand) {
     birdChirpingSFX.play();
     helpCounter += 1;
   }
-  // Trigger the saveOutcome state if player's middle finger is at least half the height of the canvas while they say "Not on my watch"
+  // THIRD SITUATION: Trigger the saveOutcome state if player's middle finger is at least half the height of the canvas while they say "Not on my watch"
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
   if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
     state = `saveOutcome`;
@@ -479,7 +480,7 @@ function userInput(input) {
  }
 }
 
-// Function that allow display text to be more efficient
+// Function that allows display text to be more efficient
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
@@ -496,7 +497,7 @@ function displayText(string, size, x, y, r, g, b) {
   pop();
 }
 
-// Text box to contain
+// Text box for aesthetic purposes
 function textBox() {
   push();
   rectMode(CORNER);
@@ -522,7 +523,6 @@ function keyPressed() {
   }  else if (keyCode === ENTER && state === `firstDecisionIntro`) {
     currentInput = ``;
     heartbeatSFX.loop();
-
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     eventCounterCO += 1;
@@ -556,8 +556,10 @@ function keyPressed() {
     state = `reportOutcome`
     helpCounter += 1;
   } else if (keyCode === 66 && state === `fourthDecision`){
-    state = `atoneEnding`;
+    state = `atonedEnding`;
     robertWmemeSFX.loop();
+    parkAmbienceSFX.stop();
+    birdChirpingSFX.stop();
   } else if (keyCode === ENTER && state === `doNothing3Outcome`){
     eventCounterDN3 +=1;
   }

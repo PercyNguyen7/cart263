@@ -709,18 +709,21 @@ function catchOutcome(){
     else if (eventCounterDN3 === 13){
     background(0);
     textBox();
-    displayText(`Then he asks you for a ride home`, 25, 20, 4.3*height / 5 ,0,240,0);
+    displayText(`Then he asks you for a ride home...`, 25, 20, 4.3*height / 5 ,0,240,0);
     }
     else if (eventCounterDN3 === 14){
     background(0);
     textBox();
-    displayText(`Then he asks you for a ride home`, 25, 20, 4.3*height / 5 ,0,240,0);
-    displayText(`You relunctantly agreed...`, 25, 20, 4.7*height / 5 ,0,240,0);
+    displayText(`Then he asks you for a ride home`, 25, 20, 4.3*height / 5 ,180,0,0);
+    displayText(`You... relunctantly agreed...`, 25, 20, 4.7*height / 5 ,180,0,0);
     }
     else if (eventCounterDN3 >= 15){
     background(0);
-    state = `futileEnding`
-    robertWmemeSFX.loop();
+    state = `futileEnding`;
+    parkAmbienceSFX.stop();
+    birdChirpingSFX.stop();
+    carStartupSFX.play();
+    robertWmemeSFX.loop(7);
     }
   }
   function futileEnding(){
