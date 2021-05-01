@@ -1,4 +1,5 @@
-# Artistic Statement
+# Project name
+***
 This is an unusual game where players are punished if they choose to help (without looking further into the situation themselves!). The argument of this project is not to discourage players from helping others, but rather pushing them to consider whether or not the help is actually needed or if their action will actually better the situation. To demonstrate this concept, the game is broken down into 4 decisions and a long story plot. The game's seemingless funny tone is not only an asset but also a distraction. Only the most meticulous, attentive (and heartless) players will be able to decode the hidden hints and deduct the right choice. This game was partially inspired by the clues and puzzles from Questionable Logic: The Cube by Yichen Wang. Instead of a set of clear and transparent puzzles to players, I love the idea of absolutely punishing them for what seems like the most humane thing to do while simultaneously throwing them off with the most ambiguous and bizarre of clues. My only regret was making the plot way too long, requiring too many illustrations to keep the story thriving while not having enoug time to explore other coding options or finish in time.
 
 Clues for situation 1: Soccer ball, soccer Jersey.
