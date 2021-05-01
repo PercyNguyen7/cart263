@@ -25,7 +25,7 @@ class Title {
     if (this.broken === true){
     this.y += this.vy;
     }
-    if (this.y >= height && this.y <= height +5){
+    if (this.y >= height && this.y <= height +5  && state === `menu`){
       if (!titleDroppedSFX.isPlaying()){
         titleDroppedSFX.play();
         drumSFX.play(1);

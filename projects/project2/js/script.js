@@ -131,6 +131,9 @@ let birdChirpingSFX;
 let heartbeatSFX;
 let dramaticHornSFX;
 let carStartupSFX;
+let windySFX;
+let neonDreamSFX;
+let bassBoomSFX;
 // Font
 let arrFont;
 let newspaperCutoutFont;
@@ -188,6 +191,7 @@ function preload() {
   passerby2Image = loadImage(`assets/images/strangerwphone.png`);
   strangerPhoneImage = loadImage(`assets/images/strangerphone.png`);
 
+
   //load SFX
   menuSFX = loadSound(`assets/sounds/menu.mp3`);
   parkAmbienceSFX = loadSound(`assets/sounds/cityparkambience.mp3`);
@@ -198,6 +202,9 @@ function preload() {
   heartbeatSFX = loadSound(`assets/sounds/heartbeat.mp3`);
   dramaticHornSFX = loadSound(`assets/sounds/dramatichorn.mp3`);
   carStartupSFX = loadSound(`assets/sounds/carstartup.mp3`);
+  windySFX = loadSound(`assets/sounds/windy.mp3`);
+  neonDreamSFX = loadSound(`assets/sounds/neondream.mp3`);
+  bassBoomSFX = loadSound(`assets/sounds/bassboom.mp3`);
 }
 
 /**
@@ -407,7 +414,6 @@ function highlightHand(hand) {
   let dm = dist(3 * width / 4, 3 * height / 4, tip2X, tip2Y);
   if (state === `menu` && dm <= 60) {
     title.broken = true;
-
   }
 // INTRODUCTION STATE: If player puts fingertip of index finger on button and says "Let's Go" then play
   let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
@@ -416,6 +422,7 @@ function highlightHand(hand) {
     state = `introduction`
     parkAmbienceSFX.loop();
     birdChirpingSFX.loop();
+    bassBoomSFX.play();
     menuSFX.stop();
   } else if (state === `instructions` && di <= redbutton.size / 2) {
     redbutton.y = height / 2 + 80;
@@ -512,7 +519,8 @@ function keyPressed() {
   if (keyCode === ENTER && state === `menu`) {
     state = `instructions`
   } else if (keyCode === ENTER && state === `instructions`) {
-    state = `introduction`
+    state = `introduction`;
+    bassBoomSFX.play();
     parkAmbienceSFX.loop();
     birdChirpingSFX.loop();
     menuSFX.stop();
@@ -534,7 +542,6 @@ function keyPressed() {
   } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
       currentInput =``;
       heartbeatSFX.loop();
-
     state = `secondDecision`;
   }  else if (keyCode === ENTER && state === `pushOutcome`)
     {eventCounterPO +=1;
@@ -588,7 +595,7 @@ function keyPressed() {
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
   }  else if (keyCode === 65 && state === `thirdDecision`){
-    state = `saveOutcome`
+    state = `saveOutcome`;
     helpCounter += 1;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();

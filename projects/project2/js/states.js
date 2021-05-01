@@ -30,10 +30,11 @@ function menu(){
 
 function instructions(){
   background(0,0,70);
-  displayText(`Instructions`, 70, width / 2, height / 6, 255);
-  displayText(`Enter to Proceed with the story`, 25, width/2, height/3.6, 255);
-  displayText(`To Begin, put your index finger on the red button`, 25, width / 2, height / 2.8, 255);
-  displayText(`And say "Let's Go!" `, 25, width / 2, height / 2.3, 255);
+  displayText(`Instructions`, 50, width / 2, height /2 - 160, 255);
+  displayText(`Fullscreen with F11`, 25, width/2, height/2 -110, 255);
+  displayText(`Enter to Proceed with the story`, 25, width/2, height/2-80, 255);
+  displayText(`To Begin, put your index finger on the red button`, 25, width / 2, height /2 -50, 255);
+  displayText(`And say "Let's Go!" `, 25, width / 2, height / 2 -20, 255);
 
   //Display Start Button
   redbutton.display();
@@ -90,12 +91,12 @@ function firstSituation(){
   displayText(`Until... ALl HELLS BROKE LOOSE`, 55, 20, 4.3*height /5, 70,70,70);
   phone.display3();
   phone.move3();
+  parkAmbienceSFX.pause();
+  birdChirpingSFX.pause();
   }
   else if (eventCounterS1 >= 8){
   state = `firstDecisionIntro`;
   dramaticHornSFX.play();
-  parkAmbienceSFX.pause();
-  birdChirpingSFX.pause();
   }
   pop();
 }
@@ -176,6 +177,7 @@ function doNothing1Outcome(){
     }
     else if(eventCounterDN1 >= 8){
     state = `secondSituation`;
+    windySFX.play();
     }
     pop();
   }
@@ -217,7 +219,8 @@ function catchOutcome(){
     displayText(`You feel your guilt crawling on your back...`, 25, 20, 4.3*height /5,160,0,0);
     }
     else if (eventCounterCO >= 9){
-    state = `secondSituation`
+    state = `secondSituation`;
+    windySFX.play();
     }
    }
    // Second situation
@@ -235,7 +238,7 @@ function catchOutcome(){
       displayText(`You two continue to chat while walking...`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterS2 === 2){
-      displayText(`You chat while walking...`, 25, 20, 4.3*height / 5 , 70,70,70);
+      displayText(`You two continue to chat while walking...`, 25, 20, 4.3*height / 5 , 70,70,70);
       displayText(`Quite windy, but still a lovely day!`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
     else if (eventCounterS2 === 3){
@@ -253,7 +256,8 @@ function catchOutcome(){
     }
     else if (eventCounterS2 >= 5){
       state = `secondDecisionIntro`;
-        dramaticHornSFX.play();
+      windySFX.stop();
+      dramaticHornSFX.play();
       parkAmbienceSFX.pause();
       birdChirpingSFX.pause();
     }
@@ -286,7 +290,7 @@ function catchOutcome(){
       highlightHand(hand);
     }
   }
-// Helping him!
+// pushOutcome function if player pushed Michael in secondDecision
   function pushOutcome(){
     image(pObg, width/2,height/2);
     textBox();
@@ -322,11 +326,11 @@ function catchOutcome(){
     }
     else if (eventCounterPO === 7){
       pObg = pushOutcomebg4Image;
-    displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`He stares at you with the eyes of a murderer`, 25, 20, 4.3*height /5,0,0,0);
     }
     else if (eventCounterPO === 8){
       pObg = pushOutcomebg5Image;
-    displayText(`He glazes at you with eyes of a mad man`, 25, 20, 4.3*height /5,0,0,0);
+    displayText(`He stares at you with the eyes of a murderer`, 25, 20, 4.3*height /5,0,0,0);
     displayText(`Though stopped when he understood your good intention`, 25, 20, 4.7*height /5,0,0,0);
     }
     else if(eventCounterPO === 9){
@@ -417,10 +421,10 @@ function catchOutcome(){
       displayText(`He's picking up the soccer ball that he dropped while tying his shoes`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
      if (eventCounterS3 ===2){
-      displayText(`Sensing something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
+      displayText(`Feeling something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
     }
     else if (eventCounterS3 ===3){
-    displayText(`Sensing something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
+    displayText(`Feeling something wrong...`, 25, 20, 4.3*height / 5 , 70,70,70);
      displayText(`You look on the left to see...`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
     else if (eventCounterS3 ===4){
@@ -442,12 +446,12 @@ function catchOutcome(){
     background(160,0,0);
     push();
     displayText(`WILL YOU`, 45 , width/2, height /2 - 150, 255);
-    displayText(`SAVE MICHAEL by pushing him to the NEXT LANE? `, 30 , width/2, height /2 - 100, 255);
-    displayText(`or LET FATE DECIDE by doing nothing? `, 30 , width/2, height /2 - 50, 255);
+    displayText(`SAVE MICHAEL by pushing him to the NEXT LANE? `, 35 , width/2, height /2 - 100, 255);
+    displayText(`or LET FATE DECIDE by doing nothing? `, 35 , width/2, height /2 - 50, 255);
     textFont(newspaperCutoutFont);
     displayText(`To PUSH, put your hand as close as you can to the screen`, 30 , width/2, height /2, 255);
     displayText(`And yell "NOT ON MY WATCH"`, 30 , width/2, height /2+50,0);
-    displayText(`To let face decide... you...let fate decide..."`, 30 , width/2, height / 2+100, 255);
+    displayText(`To let fate decide... you...let fate decide..."`, 30 , width/2, height / 2+100, 255);
     displayText(`ENTER to BEGIN"`, 30 , width/2, height / 2+150, 255);
     pop();
   }
@@ -517,17 +521,20 @@ function catchOutcome(){
       birdChirpingSFX.pause();
     }
   }
-
+// FINAL DECISION
   function fourthDecision(){
   background(0);
+  push();
+    textFont(arrFont);
   displayText(`WILL YOU`, 45 , width/2, height /2 - 130, 180,0,0);
   displayText(`Call the police to redeem justice? `, 30 , width/2, height /2 - 70, 180,0,0);
   displayText(`OR Run for your sake? `, 30 , width/2, height /2 - 30, 180,0,0);
   textFont(newspaperCutoutFont);
   displayText(`To call 911, Press A`, 30 , width/2, height /2+ 50, 180,0,0);
   displayText(`To leave the scene, Press B`, 30 , width/2, height /2+90,180,0,0);
+  pop();
   }
-
+// reportOutcome function for events after player REPORTS THE INCIDENT
   function reportOutcome(){
     image(rObg, width/2,height/2,640,480);
     // Display passerby after the third event
@@ -550,13 +557,13 @@ function catchOutcome(){
     else if (eventCounterRO === 2){
       background(0);
       textBox();
-      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 255,255,255);
+      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 180,0,0);
   }
     else if (eventCounterRO === 3){
       background(0);
       textBox();
-      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 255,255,255);
-      displayText(`And realize you didn't bring it for this walk...`, 25, 20, 4.7*height / 5 , 255,255,255);
+      displayText(`You search for your cellphone`, 25, 20, 4.3*height / 5 , 180,0,0);
+      displayText(`And realize you didn't bring it for this walk...`, 25, 20, 4.7*height / 5 , 180,0,0);
     }
     else if (eventCounterRO === 4){
       displayText(`Spotting a passerby`, 25, 20, 4.3*height / 5 , 70,70,70);
@@ -573,11 +580,14 @@ function catchOutcome(){
     displayText(`He...`, 25, 20, 4.7*height / 5 ,70,70,70);
     }
     else if (eventCounterRO === 8){
-    displayText(`AND ALL HELL BROKE LOOSE`, 55, 20, 4.3*height / 5 , 180,0,0);
+    displayText(`AND ALL HELL BREAK LOOSE`, 55, 20, 4.3*height / 5 , 180,0,0);
+    parkAmbienceSFX.pause();
+    birdChirpingSFX.pause();
     }
-    // Turn into Loop Ending
+    // Switch state to loop ending
     else if (eventCounterRO >=9){
       state = `loopEnding`
+      neonDreamSFX.loop();
     }
     // Display and move phone after the 7th event
     if (eventCounterRO >= 8){
@@ -585,61 +595,67 @@ function catchOutcome(){
       phone.move4();
     }
 }
+
+// Loop Ending if player chose to REPORT THE INCIDENT
   function loopEnding(){
     background(0);
+        textFont(arrFont);
     displayText(`Will you CATCH IT or LET IT DROP?`, 40 , width/2, height /2 - 75, 180,0,0);
-    displayText(`Manslaughter Ending `, 50 , width/2, height /2 - 20, 180,0,0);
+    displayText(`Manslaughter Loop Ending `, 50 , width/2, height /2 - 20, 180,0,0);
     textFont(newspaperCutoutFont);
     displayText(`Achievement Unlocked`, 30 , width/2, height /2+ 50, 255,255,255);
     if (helpCounter === 1 ){
-    displayText(`Helping 1 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 1 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a small heart, but a sharp mind…`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 2 ){
-    displayText(`Helping 2 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 2 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You are a decent human being with a decent soul.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 3 ){
-    displayText(`Helping 3 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 3 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a big heart but an unrealistic and reckless mindset...`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 4 ){
-    displayText(`Helping 4 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 4 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You stuck to your truth, but sometimes less is more.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 0 ){
-    displayText(`Helping 0 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 0 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`OI stop bloody hacking mate!`, 30, width/2, height/2 + 140, 255,255,255);
     }
 }
+// Atoned Ending if player chooses to leave the scene
   function atonedEnding(){
     background(0);
-    displayText(`You ran away, living the rest of your life in the jungle`, 35 , width/2, height /2 - 125, 180,0,0);
+        textFont(arrFont);
+    displayText(`You ran away, living the rest of your life in the jungle`, 32 , width/2, height /2 - 125, 180,0,0);
     displayText(`To protect society from your...HELP`, 40 , width/2, height /2 - 75, 180,0,0);
     displayText(`Atoned and Changed `, 50 , width/2, height /2 - 20, 180,0,0);
     textFont(newspaperCutoutFont);
     displayText(`Achievement Unlocked`, 30 , width/2, height /2+ 50, 255,255,255);
     if (helpCounter === 1 ){
-    displayText(`Helping 1 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 1 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a small heart, but a sharp mind…`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 2 ){
-    displayText(`Helping 2 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 2 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You are a decent human being with a decent soul.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 3 ){
-    displayText(`Helping 3 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 3 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a big heart but an unrealistic and reckless mindset...`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 4 ){
-    displayText(`Helping 4 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 4 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You stuck to your truth, but sometimes less is more.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 0 ){
-    displayText(`Helping 0 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 0 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`OI stop bloody hacking mate!`, 30, width/2, height/2 + 140, 255,255,255);
     }
   }
+// Do Nothing 3 function achieved by letting the car hits Michael
   function doNothing3Outcome(){
     image(dN3bg, width/2,height/2,640,480);
     textBox();
@@ -683,7 +699,7 @@ function catchOutcome(){
     }
     else if (eventCounterDN3 === 8){
     displayText(`The driver saw the danger`, 25, 20, 4.3*height / 5 , 70,70,70);
-    displayText(`AND SWITCH LANE!`, 25, 20, 4.7*height / 5 , 70,70,70);
+    displayText(`AND SWITCHED LANE!`, 25, 20, 4.7*height / 5 , 70,70,70);
     }
     else if (eventCounterDN3 === 8){
     displayText(`...`, 25, 20, 4.3*height / 5 , 70,70,70);
@@ -709,7 +725,7 @@ function catchOutcome(){
     else if (eventCounterDN3 === 13){
     background(0);
     textBox();
-    displayText(`Then he asks you for a ride home...`, 25, 20, 4.3*height / 5 ,0,240,0);
+    displayText(`Then he asks you for a ride home...`, 25, 20, 4.3*height / 5 ,180,0,0);
     }
     else if (eventCounterDN3 === 14){
     background(0);
@@ -717,6 +733,7 @@ function catchOutcome(){
     displayText(`Then he asks you for a ride home`, 25, 20, 4.3*height / 5 ,180,0,0);
     displayText(`You... relunctantly agreed...`, 25, 20, 4.7*height / 5 ,180,0,0);
     }
+    // switch to futile Ending
     else if (eventCounterDN3 >= 15){
     background(0);
     state = `futileEnding`;
@@ -726,31 +743,33 @@ function catchOutcome(){
     robertWmemeSFX.loop(7);
     }
   }
+  // Futile Ending achieved if player chose to NOT to save Michael from the incoming car
   function futileEnding(){
     background(0);
+    textFont(arrFont);
     displayText(`You gave him a ride home`, 35 , width/2, height /2 - 125, 180,0,0);
     displayText(`Contemplating if it was a good decision...`, 40 , width/2, height /2 - 75, 180,0,0);
     displayText(`"All That for Nothing" Ending`, 50 , width/2, height /2 - 20, 180,0,0);
     textFont(newspaperCutoutFont);
     displayText(`Achievement Unlocked`, 30 , width/2, height /2+ 50, 255,255,255);
     if (helpCounter === 1 ){
-    displayText(`Helping 1 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 1 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a small heart, but a sharp mind…`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 2 ){
-    displayText(`Helping 2 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 2 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You are a decent human being with a decent soul.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 3 ){
-    displayText(`Helping 3 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 3 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You have a big heart but an unrealistic and reckless mindset...`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 4 ){
-    displayText(`Helping 4 times`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 4 times`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`You stuck to your truth, but sometimes less is more.`, 30, width/2, height/2 + 140, 255,255,255);
     }
     else if (helpCounter === 0 ){
-    displayText(`Helping 0 time`, 30, width/2, height/2 + 100, 255,255,255);
+    displayText(`Helped 0 time`, 30, width/2, height/2 + 100, 255,255,255);
     displayText(`What a bastard...well a smart one at that...`, 30, width/2, height/2 + 140, 255,255,255);
     }
   }

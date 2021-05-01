@@ -97,7 +97,7 @@ class Phone {
     move3(){
       this.y3 += this.vy3;
       if (this.y3 >= height){
-        state = `firstDecisionIntro`
+        eventCounterS1 = 8;
       }
     }
 
@@ -110,7 +110,7 @@ class Phone {
       this.y4 += this.vy4;
       }
       if (this.y4 - 100>= height){
-      state = `loopEnding`
+      eventCounterRO = 9
       }
     }
 }
