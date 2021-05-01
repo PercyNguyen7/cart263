@@ -8,6 +8,7 @@ Clues for situation 3: Logic - cliche & unrealistic
 Clues for situation 4: Negative outcome for helping from situations 1,2 and 3. A subtle hint was the description of the player in the introduction: "Enough with the black screen" which implies that he does not carry a cellphone with him. 
 
 ## Attribution
+***
 This project wouldd have not come to fruition without other resources online. My deepest thanks to the authors of the resources I have used.
 Here is the credit list:
 Images:
