@@ -446,7 +446,7 @@ function catchOutcome(){
     background(160,0,0);
     push();
     displayText(`WILL YOU`, 45 , width/2, height /2 - 150, 255);
-    displayText(`SAVE MICHAEL by pushing him to the NEXT LANE? `, 35 , width/2, height /2 - 100, 255);
+    displayText(`SAVE MICHAEL by pushing him to the NEXT LANE? (CLICHE)`, 33 , width/2, height /2 - 100, 255);
     displayText(`or LET FATE DECIDE by doing nothing? `, 35 , width/2, height /2 - 50, 255);
     textFont(newspaperCutoutFont);
     displayText(`To PUSH, put your hand as close as you can to the screen`, 30 , width/2, height /2, 255);
