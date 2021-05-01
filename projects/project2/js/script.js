@@ -1,15 +1,14 @@
 /**
-Project 2 Prototype
+Project 2 - GIBE (Good Intention, Bad Execution)
 Percy (Vinh Tuan Dat Nguyen)
-
-There
-author, and this description to match your project!
+Artistic Statement can be found on the ReadMe file of this project's folder
+TLDR: Just a really silly game that convinces people to think critically before helping.
 */
 "use strict";
 
 // Current input for Annyang
 let currentInput = ``;
-
+// Default Background
 let s1bg;
 let dNbg;
 let s2bg;
@@ -29,7 +28,6 @@ let modelName = `Handpose`;
 let handpose;
 // The current set of predictions made by Handpose once it's firstDecision
 let predictions = [];
-
 // Declare classes
 let title;
 let firstDecisionBg;
@@ -138,11 +136,12 @@ let bassBoomSFX;
 let arrFont;
 let newspaperCutoutFont;
 
+// Preload function for Fonts, Images and Sounds
 function preload() {
-  // FONT load
+  // Fonts load
   arrFont = loadFont(`assets/fonts/arr.ttf`);
   newspaperCutoutFont = loadFont(`assets/fonts/newspapercutout.ttf`)
-  //Image load
+  //Images load
   introbgImage = loadImage(`assets/images/introbg.png`);
   cloudImage = loadImage(`assets/images/introclouds.png`);
   situation1bgImage = loadImage('assets/images/situation1bg.jpg');
@@ -177,25 +176,24 @@ function preload() {
   situation3bgMadImage = loadImage(`assets/images/situation3bgmad.jpg`);
   situation3bg2Image = loadImage(`assets/images/situation3bg2.jpg`);
   situation3bg3Image = loadImage(`assets/images/situation3bg3.jpg`);
-  decision3bgImage = loadImage (`assets/images/decision3bg.jpg`);
-  michaelMadD3Image = loadImage (`assets/images/michaelMadD3.png`);
-  michaelHappyD3Image = loadImage (`assets/images/michaelHappyD3.png`);
-  carImage = loadImage (`assets/images/carD3.png`);
-  saveOutcomebgImage = loadImage (`assets/images/saveoutcomebg.jpg`);
-  saveOutcomebg2Image = loadImage (`assets/images/saveoutcomebg2.jpg`);
-  saveOutcomebg3Image = loadImage (`assets/images/saveoutcomebg3.jpg`);
-  doNothing3bgImage = loadImage (`assets/images/donothing3bg.jpg`);
-  doNothing3bg2Image = loadImage (`assets/images/donothing3bg2.jpg`);
+  decision3bgImage = loadImage(`assets/images/decision3bg.jpg`);
+  michaelMadD3Image = loadImage(`assets/images/michaelMadD3.png`);
+  michaelHappyD3Image = loadImage(`assets/images/michaelHappyD3.png`);
+  carImage = loadImage(`assets/images/carD3.png`);
+  saveOutcomebgImage = loadImage(`assets/images/saveoutcomebg.jpg`);
+  saveOutcomebg2Image = loadImage(`assets/images/saveoutcomebg2.jpg`);
+  saveOutcomebg3Image = loadImage(`assets/images/saveoutcomebg3.jpg`);
+  doNothing3bgImage = loadImage(`assets/images/donothing3bg.jpg`);
+  doNothing3bg2Image = loadImage(`assets/images/donothing3bg2.jpg`);
   reportOutcomebgImage = loadImage(`assets/images/trueendingbg.jpg`)
   passerbyImage = loadImage(`assets/images/stranger.png`);
   passerby2Image = loadImage(`assets/images/strangerwphone.png`);
   strangerPhoneImage = loadImage(`assets/images/strangerphone.png`);
 
-
-  //load SFX
+  //Sounds load
   menuSFX = loadSound(`assets/sounds/menu.mp3`);
   parkAmbienceSFX = loadSound(`assets/sounds/cityparkambience.mp3`);
-  robertWmemeSFX = loadSound (`assets/sounds/directedweide.mp3`);
+  robertWmemeSFX = loadSound(`assets/sounds/directedweide.mp3`);
   titleDroppedSFX = loadSound(`assets/sounds/wooddropped.mp3`);
   drumSFX = loadSound(`assets/sounds/drum.mp3`);
   birdChirpingSFX = loadSound(`assets/sounds/birdchirping.mp3`);
@@ -208,13 +206,14 @@ function preload() {
 }
 
 /**
-Setup function to setup Annyang and Handpose!
+Setup function to setup Annyang, Handpose, classes, canvas, default backgrounds, default font, rectangle mode.
 */
 function setup() {
-// Set Canvas small
+  // Set Canvas small (to match Handpose video size)
   createCanvas(640, 480);
   rectMode(CENTER);
   imageMode(CENTER);
+  // Default text font
   textFont(arrFont);
 
   // Set first background image for situation 1
@@ -236,15 +235,15 @@ function setup() {
   // Declare class
   passerby = new Passerby(passerbyImage, passerby2Image);
   car = new Car(carImage);
-  michael = new Michael(sdmichaelImage, michaelMadD3Image,michaelHappyD3Image);
+  michael = new Michael(sdmichaelImage, michaelMadD3Image, michaelHappyD3Image);
   bird = new Bird(birdS2Image);
   poop = new Poop(poopImage);
   firstDecisionBg = new FirstDecisionBg(firstDecisionbgImage);
   title = new Title;
   redbutton = new RedButton;
   cloud = new Cloud(cloudImage);
-  phone = new Phone(phoneImage, phoneFallings1bg4Image,strangerPhoneImage);
-  legs = new Legs(leftlegImage,rightlegImage);
+  phone = new Phone(phoneImage, phoneFallings1bg4Image, strangerPhoneImage);
+  legs = new Legs(leftlegImage, rightlegImage);
   // Setup annyang
   if (annyang) {
     let commands = {
@@ -326,25 +325,25 @@ function draw() {
     case "thirdSituation":
       thirdSituation();
       break;
-   case "thirdDecisionIntro":
-     thirdDecisionIntro();
-     break;
-   case "thirdDecision":
-     thirdDecision();
-     break;
+    case "thirdDecisionIntro":
+      thirdDecisionIntro();
+      break;
+    case "thirdDecision":
+      thirdDecision();
+      break;
     case "saveOutcome":
       saveOutcome();
       break;
     case "fourthDecision":
       fourthDecision();
       break;
-   case "reportOutcome":
-     reportOutcome();
-     break;
+    case "reportOutcome":
+      reportOutcome();
+      break;
     case "loopEnding":
-     loopEnding();
-     break;
-     case "atonedEnding":
+      loopEnding();
+      break;
+    case "atonedEnding":
       atonedEnding();
       break;
     case "doNothing3Outcome":
@@ -373,7 +372,7 @@ function highlightHand(hand) {
   let baseX = base[0];
   let baseY = base[1];
   line(baseX, baseY, tipX, tipY);
-// Positioning of the index's tip and base
+  // Positioning of the index's tip and base
   let index = hand.annotations.indexFinger;
   let tip2 = index[3];
   let base2 = index[0];
@@ -382,7 +381,7 @@ function highlightHand(hand) {
   let base2X = base2[0];
   let base2Y = base2[1];
   line(base2X, base2Y, tip2X, tip2Y);
-// Positioning of the middle finger's tip and base
+  // Positioning of the middle finger's tip and base
   let middle = hand.annotations.middleFinger;
   let tip3 = middle[3];
   let base3 = middle[0];
@@ -391,7 +390,7 @@ function highlightHand(hand) {
   let base3X = base3[0];
   let base3Y = base3[1];
   line(base3X, base3Y, tip3X, tip3Y);
-// Positioning of the ring finger's tip and base
+  // Positioning of the ring finger's tip and base
   let ringFinger = hand.annotations.ringFinger;
   let tip4 = ringFinger[3];
   let base4 = ringFinger[0];
@@ -400,7 +399,7 @@ function highlightHand(hand) {
   let base4X = base4[0];
   let base4Y = base4[1];
   line(base4X, base4Y, tip4X, tip4Y);
-// Positioning of the pinky's tip and base
+  // Positioning of the pinky's tip and base
   let pinky = hand.annotations.pinky;
   let tip5 = pinky[3];
   let base5 = pinky[0];
@@ -415,7 +414,7 @@ function highlightHand(hand) {
   if (state === `menu` && dm <= 60) {
     title.broken = true;
   }
-// INTRODUCTION STATE: If player puts fingertip of index finger on button and says "Let's Go" then play
+  // INTRODUCTION STATE: If player puts fingertip of index finger on button and says "Let's Go" then play
   let di = dist(redbutton.x, redbutton.y, tip2X, tip2Y);
   if (state === `instructions` && di <= redbutton.size / 2 && currentInput === `Let's go`) {
     redbutton.y = height / 2 + 80;
@@ -449,16 +448,16 @@ function highlightHand(hand) {
     helpCounter += 1;
   }
 
-// SECOND SITUATION: If players put hand on the half left, make handLeft variable true.
-  if (tipX <= width/2 &&  tip2X <= width/2 && tip3X <= width/2 && tip4X <= width/2 && tip5X <= width/2 && state === `secondDecision`){
+  // SECOND SITUATION: If players put hand on the half left, make handLeft variable true.
+  if (tipX <= width / 2 && tip2X <= width / 2 && tip3X <= width / 2 && tip4X <= width / 2 && tip5X <= width / 2 && state === `secondDecision`) {
     handLeft = true
   }
-// Display further instruction
-  if (handLeft === true && state === `secondDecision`){
-    displayText(`Now move your hand to the right and yell "Poop from the sky"!`, 27, width/2, 4.3*height / 5 , 70,70,70);
+  // Display further instruction
+  if (handLeft === true && state === `secondDecision`) {
+    displayText(`Now move your hand to the right and yell "Poop from the sky"!`, 27, width / 2, 4.3 * height / 5, 70, 70, 70);
   }
-// Trigger pushOutcome state if player puts his fingertips on the right half of the canvas while saying "Poop from the sky"
-  if (tipX >= width/2 &&  tip2X >= width/2 && tip3X >= width/2 && tip4X >= width/2 && tip5X >= width/2 && state === `secondDecision` && handLeft === true && currentInput === `Poop from the sky`)  {
+  // Trigger pushOutcome state if player puts his fingertips on the right half of the canvas while saying "Poop from the sky"
+  if (tipX >= width / 2 && tip2X >= width / 2 && tip3X >= width / 2 && tip4X >= width / 2 && tip5X >= width / 2 && state === `secondDecision` && handLeft === true && currentInput === `Poop from the sky`) {
     state = `pushOutcome`
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
@@ -467,7 +466,7 @@ function highlightHand(hand) {
   }
   // THIRD SITUATION: Trigger the saveOutcome state if player's middle finger is at least half the height of the canvas while they say "Not on my watch"
   let dp = dist(base3X, base3Y, tip3X, tip3Y);
-  if (dp >= 240 && currentInput === `Not on my watch`&& state === `thirdDecision`){
+  if (dp >= 240 && currentInput === `Not on my watch` && state === `thirdDecision`) {
     state = `saveOutcome`;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
@@ -475,22 +474,19 @@ function highlightHand(hand) {
     helpCounter += 1;
   }
 }
-
 // User voice shown up top!
 function userInput(input) {
   // Code to capitalize first letter from https://www.digitalocean.com/community/tutorials/js-capitalizing-strings
   currentInput = input.replace(/^\w/, (c) => c.toUpperCase());
   console.log(currentInput);
-
 }
-
 // Function that allows display text to be more efficient
 function displayText(string, size, x, y, r, g, b) {
   push();
   fill(r, g, b)
   // Display text Align left and change font for following states
-  if (state === `firstSituation`|| state === `catchOutcome`|| state === `doNothing1Outcome` || state === `secondSituation`|| state === `pushOutcome`
-  || state === `doNothing2Outcome` || state === `thirdSituation` || state === `doNothing3Outcome` || state === `saveOutcome` || state === `reportOutcome`) {
+  if (state === `firstSituation` || state === `catchOutcome` || state === `doNothing1Outcome` || state === `secondSituation` || state === `pushOutcome` ||
+    state === `doNothing2Outcome` || state === `thirdSituation` || state === `doNothing3Outcome` || state === `saveOutcome` || state === `reportOutcome`) {
     textAlign(LEFT);
     textFont(newspaperCutoutFont);
   } else {
@@ -505,12 +501,10 @@ function displayText(string, size, x, y, r, g, b) {
 function textBox() {
   push();
   rectMode(CORNER);
-  fill(255,255,255,160);
+  fill(255, 255, 255, 160);
   rect(5, 4 * height / 5, width - 10, 91);
   pop();
 }
-
-
 // Keypress function to change state and advance eventCounter of different states!
 // LIST OF SHORTCUTS FOR DECISIONS AT THE BOTTOM. A FOR HELP AND B FOR DO NOTHING.
 function keyPressed() {
@@ -526,79 +520,81 @@ function keyPressed() {
     state = `firstSituation`
   } else if (keyCode === ENTER && state === `firstSituation`) {
     eventCounterS1 += 1;
-  }  else if (keyCode === ENTER && state === `firstDecisionIntro`) {
+  } else if (keyCode === ENTER && state === `firstDecisionIntro`) {
     currentInput = ``;
     heartbeatSFX.loop();
     state = `firstDecision`
   } else if (keyCode === ENTER && state === `catchOutcome`) {
     eventCounterCO += 1;
-  } else if (keyCode === ENTER && state === `doNothing1Outcome` && eventCounterDN1 >=2) {
+  } else if (keyCode === ENTER && state === `doNothing1Outcome` && eventCounterDN1 >= 2) {
     eventCounterDN1 += 1;
   } else if (keyCode === ENTER && state === `secondSituation`
+    // Force player to watch bird poop dropping to below the height
     // && eventCounterS2 != 4
-  ) {eventCounterS2 += 1;
+  ) {
+    eventCounterS2 += 1;
   } else if (keyCode === ENTER && state === `secondDecisionIntro`) {
-      currentInput =``;
-      heartbeatSFX.loop();
+    currentInput = ``;
+    heartbeatSFX.loop();
     state = `secondDecision`;
-  }  else if (keyCode === ENTER && state === `pushOutcome`)
-    {eventCounterPO +=1;
-  }  else if (keyCode === ENTER && state === `doNothing2Outcome`
+  } else if (keyCode === ENTER && state === `pushOutcome`) {
+    eventCounterPO += 1;
+  } else if (keyCode === ENTER && state === `doNothing2Outcome`
+    // Force player to watch poop missing Michael's head
     // && eventCounterDN2 >=1
-  )
-    {eventCounterDN2 +=1;
-  } else if (keyCode === ENTER && state === `thirdSituation`){
-    eventCounterS3 +=1;
-  } else if (keyCode === ENTER && state === `thirdDecisionIntro`){
-    currentInput =``;
+  ) {
+    eventCounterDN2 += 1;
+  } else if (keyCode === ENTER && state === `thirdSituation`) {
+    eventCounterS3 += 1;
+  } else if (keyCode === ENTER && state === `thirdDecisionIntro`) {
+    currentInput = ``;
     heartbeatSFX.loop();
     state = `thirdDecision`;
-  } else if (keyCode === ENTER && state === `saveOutcome`){
+  } else if (keyCode === ENTER && state === `saveOutcome`) {
     eventCounterSO += 1;
-  } else if (keyCode === ENTER && state === `reportOutcome`){
+  } else if (keyCode === ENTER && state === `reportOutcome`) {
     eventCounterRO += 1;
-  } else if (keyCode === 65 && state === `fourthDecision`){
+  } else if (keyCode === 65 && state === `fourthDecision`) {
     state = `reportOutcome`
     helpCounter += 1;
-  } else if (keyCode === 66 && state === `fourthDecision`){
+  } else if (keyCode === 66 && state === `fourthDecision`) {
     state = `atonedEnding`;
     robertWmemeSFX.loop();
     parkAmbienceSFX.stop();
     birdChirpingSFX.stop();
-  } else if (keyCode === ENTER && state === `doNothing3Outcome`){
-    eventCounterDN3 +=1;
+  } else if (keyCode === ENTER && state === `doNothing3Outcome`) {
+    eventCounterDN3 += 1;
   }
-
-// Shortcut for each Decisions. A for HELP and B for Do Nothing
-    else if (keyCode === 65 && state === `firstDecision`){
+  // Shortcut for each Decisions STATES. A for HELP and B for Do Nothing
+  else if (keyCode === 65 && state === `firstDecision`) {
     state = `catchOutcome`
     helpCounter += 1;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
-  }  else if (keyCode === 66 && state === `firstDecision`){
+  } else if (keyCode === 66 && state === `firstDecision`) {
     state = `doNothing1Outcome`;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
-  }  else if (keyCode === 65 && state === `secondDecision`){
+  } else if (keyCode === 65 && state === `secondDecision`) {
     state = `pushOutcome`
     helpCounter += 1;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
-  }  else if (keyCode === 66 && state === `secondDecision`){
+  } else if (keyCode === 66 && state === `secondDecision`) {
     state = `doNothing2Outcome`;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
-  }  else if (keyCode === 65 && state === `thirdDecision`){
+  } else if (keyCode === 65 && state === `thirdDecision`) {
     state = `saveOutcome`;
     helpCounter += 1;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();
     birdChirpingSFX.play();
-  }  else if (keyCode === 66 && state === `thirdDecision`){
+  } else if (keyCode === 66 && state === `thirdDecision`) {
     state = `doNothing3Outcome`;
     heartbeatSFX.stop();
     parkAmbienceSFX.play();

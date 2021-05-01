@@ -1,21 +1,21 @@
-// Display and move the background for the FirstDecision state up
+// Display and move the background for the FirstDecision state down to give illusion of phone dropping
 class FirstDecisionBg {
   constructor() {
-    this.x = width / 2,
-    this.y = height / 2 + 50 ,
-    this.width = 960,
-    this.height = 720,
-    this.vy = 0.7,
-    this.image = firstDecisionbgImage
+    this.x = width / 2;
+    this.y = height / 2 + 50;
+    this.width = 960;
+    this.height = 720;
+    this.vy = 0.7;
+    this.image = firstDecisionbgImage;
   }
-  // Display black rectangle. Slightly transparent if player casts Lumos and completely transparent if player casts Lumos Maxima.
+  // Display background
   display() {
     push();
-    image(firstDecisionbgImage,this.x,this.y,this.width,this.height)
+    image(firstDecisionbgImage, this.x, this.y, this.width, this.height)
     pop();
   }
-  // Move
-  move(){
+  // Move the background down
+  move() {
     this.y -= this.vy
   }
 }
